@@ -1,0 +1,302 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-03-04 18:34+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/preferences.py:58 src/indicator.py:146
+msgid "Preferences"
+msgstr ""
+
+#: src/preferences.py:64
+msgid "Theme light:"
+msgstr ""
+
+#: src/preferences.py:67
+msgid "Start actived:"
+msgstr ""
+
+#: src/preferences.py:70
+msgid "Autostart:"
+msgstr ""
+
+#: src/preferences.py:76
+msgid "Main currency"
+msgstr ""
+
+#: src/preferences.py:96
+msgid "Currency"
+msgstr ""
+
+#: src/currencies.py:29
+msgid "UAE dirham"
+msgstr ""
+
+#: src/currencies.py:30
+msgid "Argentine peso"
+msgstr ""
+
+#: src/currencies.py:31
+msgid "Australian dollar"
+msgstr ""
+
+#: src/currencies.py:32
+msgid "Bulgarian lev"
+msgstr ""
+
+#: src/currencies.py:33
+msgid "Brazilian real"
+msgstr ""
+
+#: src/currencies.py:34
+msgid "Bahamian dollar"
+msgstr ""
+
+#: src/currencies.py:35
+msgid "Canadian dollar"
+msgstr ""
+
+#: src/currencies.py:36
+msgid "Swiss franc"
+msgstr ""
+
+#: src/currencies.py:37
+msgid "Chilean peso"
+msgstr ""
+
+#: src/currencies.py:38
+msgid "Chinese Yuan Renminbi"
+msgstr ""
+
+#: src/currencies.py:39
+msgid "Colombian peso"
+msgstr ""
+
+#: src/currencies.py:40
+msgid "Czech koruna"
+msgstr ""
+
+#: src/currencies.py:41
+msgid "Danish krone"
+msgstr ""
+
+#: src/currencies.py:42
+msgid "Dominican peso"
+msgstr ""
+
+#: src/currencies.py:43
+msgid "Egyptian pound"
+msgstr ""
+
+#: src/currencies.py:44
+msgid "European euro"
+msgstr ""
+
+#: src/currencies.py:45
+msgid "Fijian dollar"
+msgstr ""
+
+#: src/currencies.py:46
+msgid "Pound sterling"
+msgstr ""
+
+#: src/currencies.py:47
+msgid "Guatemalan quetzal"
+msgstr ""
+
+#: src/currencies.py:48
+msgid "Hong Kong dollar"
+msgstr ""
+
+#: src/currencies.py:49
+msgid "Croatian kuna"
+msgstr ""
+
+#: src/currencies.py:50
+msgid "Hungarian forint"
+msgstr ""
+
+#: src/currencies.py:51
+msgid "Indonesian rupiah"
+msgstr ""
+
+#: src/currencies.py:52
+msgid "Israeli new shekel"
+msgstr ""
+
+#: src/currencies.py:53
+msgid "Indian rupee"
+msgstr ""
+
+#: src/currencies.py:54
+msgid "Icelandic krona"
+msgstr ""
+
+#: src/currencies.py:55
+msgid "Japanese yen"
+msgstr ""
+
+#: src/currencies.py:56
+msgid "South Korean won"
+msgstr ""
+
+#: src/currencies.py:57
+msgid "Kazakhstani tenge"
+msgstr ""
+
+#: src/currencies.py:58
+msgid "Mexican peso"
+msgstr ""
+
+#: src/currencies.py:59
+msgid "Malaysian ringgit"
+msgstr ""
+
+#: src/currencies.py:60
+msgid "Norwegian krone"
+msgstr ""
+
+#: src/currencies.py:61
+msgid "New Zealand dollar"
+msgstr ""
+
+#: src/currencies.py:62
+msgid "Panamanian dollar"
+msgstr ""
+
+#: src/currencies.py:63
+msgid "Peruvian sol"
+msgstr ""
+
+#: src/currencies.py:64
+msgid "Philippine peso"
+msgstr ""
+
+#: src/currencies.py:65
+msgid "Pakistani rupee"
+msgstr ""
+
+#: src/currencies.py:66
+msgid "Polish zloty"
+msgstr ""
+
+#: src/currencies.py:67
+msgid "Paraguayan guarani"
+msgstr ""
+
+#: src/currencies.py:68
+msgid "Romanian leu"
+msgstr ""
+
+#: src/currencies.py:69
+msgid "Russian ruble"
+msgstr ""
+
+#: src/currencies.py:70
+msgid "Saudi Arabian riyal"
+msgstr ""
+
+#: src/currencies.py:71
+msgid "Swedish krona"
+msgstr ""
+
+#: src/currencies.py:72
+msgid "Singapore dollar"
+msgstr ""
+
+#: src/currencies.py:73
+msgid "Thai baht"
+msgstr ""
+
+#: src/currencies.py:74
+msgid "Turkish lira"
+msgstr ""
+
+#: src/currencies.py:75
+msgid "New Taiwan dollar"
+msgstr ""
+
+#: src/currencies.py:76
+msgid "Ukrainian hryvnia"
+msgstr ""
+
+#: src/currencies.py:77
+msgid "United States dollar"
+msgstr ""
+
+#: src/currencies.py:78
+msgid "Uruguayan peso"
+msgstr ""
+
+#: src/currencies.py:79
+msgid "South African rand"
+msgstr ""
+
+#: src/indicator.py:140
+msgid "Statistics"
+msgstr ""
+
+#: src/indicator.py:150
+msgid "Help"
+msgstr ""
+
+#: src/indicator.py:156
+msgid "Quit"
+msgstr ""
+
+#: src/indicator.py:176
+msgid "Currency indicator"
+msgstr ""
+
+#: src/indicator.py:177
+msgid "Rates"
+msgstr ""
+
+#: src/indicator.py:209
+msgid "Homepage"
+msgstr ""
+
+#: src/indicator.py:215
+msgid "Get help online..."
+msgstr ""
+
+#: src/indicator.py:222
+msgid "Translate this application..."
+msgstr ""
+
+#: src/indicator.py:228
+msgid "Report a bug..."
+msgstr ""
+
+#: src/indicator.py:237
+msgid "Found me in Twitter"
+msgstr ""
+
+#: src/indicator.py:243
+msgid "Found me in GitHub"
+msgstr ""
+
+#: src/indicator.py:249
+msgid "Found me in Mastodon"
+msgstr ""
+
+#: src/indicator.py:255
+msgid "About"
+msgstr ""
+
+#: src/indicator.py:269
+msgid "Habits"
+msgstr ""

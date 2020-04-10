@@ -1,0 +1,16 @@
+Source: todotxt-indicator
+Section: utils
+Priority: extra
+Maintainer: Lorenzo Carbonell Cerezo <lorenzo.carbonell.cerezo@gmail.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.6
+Homepage: http://www.atareao.es
+
+Package: todotxt-indicator
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends},
+    gir1.2-gtk-3.0,
+    gir1.2-glib-2.0,
+    gir1.2-gdkpixbuf-2.0,
+    gir1.2-appindicator3-0.1
+Description: Work with tasks with Todo.txt

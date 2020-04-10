@@ -1,0 +1,19 @@
+
+bin /opt/extras.ubuntu.com/todotxt-indicator
+debian/changelog /opt/extras.ubuntu.com/todotxt-indicator/share/todotxt-indicator
+src/*.py /opt/extras.ubuntu.com/todotxt-indicator/share/todotxt-indicator
+src/graph /opt/extras.ubuntu.com/todotxt-indicator/share/todotxt-indicator
+data/icons /opt/extras.ubuntu.com/todotxt-indicator/share
+data/autostart /opt/extras.ubuntu.com/todotxt-indicator/share
+data/todotxt-indicator.desktop /usr/share/applications
+data/icons/scalable/*.svg /usr/share/icons/hicolor/scalable/apps
+data/icons/8x8/*.png /usr/share/icons/hicolor/8x8/apps
+data/icons/16x16/*.png /usr/share/icons/hicolor/16x16/apps
+data/icons/32x32/*.png /usr/share/icons/hicolor/32x32/apps
+data/icons/48x48/*.png /usr/share/icons/hicolor/48x48/apps
+data/icons/96x96/*.png /usr/share/icons/hicolor/96x96/apps
+data/icons/128x128/*.png /usr/share/icons/hicolor/128x128/apps
+data/icons/192x192/*.png /usr/share/icons/hicolor/192x192/apps
+data/icons/256x256/*.png /usr/share/icons/hicolor/256x256/apps
+data/icons/512x512/*.png /usr/share/icons/hicolor/512x512/apps
+data/icons/1024x1024/*.png /usr/share/icons/hicolor/1024x1024/apps

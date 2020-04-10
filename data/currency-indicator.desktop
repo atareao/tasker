@@ -1,0 +1,17 @@
+[Desktop Entry]
+Name = Todotxt Indicator
+GenericName = Todotxt Indicator
+Comment = Todotxt Indicator
+Exec = /opt/extras.ubuntu.com/todotxt-indicator/bin/todotxt-indicator
+Icon = todotxt-indicator
+Type = Application
+Terminal = false
+StartupNotify = true
+Encoding = utf-8
+Categories = Utility;
+Name[en_GB] = Todotxt Indicator
+Name[es] = Indicador del cambio
+:enericName[en_GB] = Todotxt Indicator
+GenericName[es] = Indicador del cambio
+Comment[en_GB] = Currency exchange
+Comment[es] = Cambio
