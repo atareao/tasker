@@ -39,7 +39,11 @@ import shutil
 from config import _
 from configurator import Configuration
 from basedialog import BaseDialog
-
+from add_project import AddProjectDialog
+from add_context import AddContextDialog
+from add_tag import AddTagDialog
+from list_box_string import ListBoxString
+from list_box_string_type import ListBoxStringType
 
 def select_value_in_combo(combo, value):
     model = combo.get_model()
@@ -63,43 +67,50 @@ class Preferences(BaseDialog):
 
     def init_ui(self):
         BaseDialog.init_ui(self)
+
+        notebook = Gtk.Notebook.new()
+        self.grid.attach(notebook, 0, 0, 1, 1)
+
+        page01 = Gtk.Grid.new()
+        page01.set_row_spacing(10)
+        page01.set_column_spacing(10)
+        page01.set_margin_bottom(10)
+        page01.set_margin_start(10)
+        page01.set_margin_end(10)
+        page01.set_margin_top(10)
+        notebook.append_page(page01, Gtk.Label.new(_('General')))
+        
         label = Gtk.Label.new(_('Theme light:'))
         label.set_property('halign', Gtk.Align.START)
-        self.grid.attach(label, 0, 0, 1, 1)
+        page01.attach(label, 0, 0, 1, 1)
         
         self.theme_light = Gtk.Switch.new()
         self.theme_light.set_property('halign', Gtk.Align.CENTER)
-        self.grid.attach(self.theme_light, 1, 0, 1, 1)
+        page01.attach(self.theme_light, 1, 0, 1, 1)
         
         label = Gtk.Label.new(_('Autostart'))
         label.set_property('halign', Gtk.Align.START)
-        self.grid.attach(label, 0, 1, 1, 1)
+        page01.attach(label, 0, 1, 1, 1)
 
         self.autostart = Gtk.Switch.new()
         self.autostart.set_property('halign', Gtk.Align.CENTER)
-        self.grid.attach(self.autostart, 1, 1, 1, 1)
+        page01.attach(self.autostart, 1, 1, 1, 1)
 
-        self.grid.attach(Gtk.Separator(), 0, 2, 2, 1)
+        page01.attach(Gtk.Separator(), 0, 2, 2, 1)
 
         label = Gtk.Label.new(_('Number of todos:'))
         label.set_property('halign', Gtk.Align.START)
-        self.grid.attach(label, 0, 3, 1, 1)
+        page01.attach(label, 0, 3, 1, 1)
 
+        
         self.todos = Gtk.SpinButton.new_with_range(1, 20, 1)
-        self.grid.attach(self.todos, 1, 3, 1, 1)
+        page01.attach(self.todos, 1, 3, 1, 1)
        
-        label = Gtk.Label.new(_('Number of dones:'))
-        label.set_property('halign', Gtk.Align.START)
-        self.grid.attach(label, 0, 4, 1, 1)
-
-        self.dones = Gtk.SpinButton.new_with_range(1, 10, 1)
-        self.grid.attach(self.dones, 1, 4, 1, 1)
-
-        self.grid.attach(Gtk.Separator(), 0, 5, 2, 1)
+        page01.attach(Gtk.Separator(), 0, 4, 2, 1)
 
         label = Gtk.Label.new(_('Todo file:'))
         label.set_property('halign', Gtk.Align.START)
-        self.grid.attach(label, 0, 6, 1, 1)
+        page01.attach(label, 0, 5, 1, 1)
 
         todofilter = Gtk.FileFilter.new()
         todofilter.add_pattern('*.txt')
@@ -107,16 +118,74 @@ class Preferences(BaseDialog):
 
         self.todo_file = Gtk.FileChooserButton.new(_('Todo file'), Gtk.FileChooserAction.OPEN)
         self.todo_file.add_filter(todofilter)
-        self.grid.attach(self.todo_file, 1, 6, 1, 1)
-        
-        label = Gtk.Label.new(_('Done file:'))
-        label.set_property('halign', Gtk.Align.START)
-        self.grid.attach(label, 0, 7, 1, 1)
+        page01.attach(self.todo_file, 1, 5, 1, 1)
 
-        self.done_file = Gtk.FileChooserButton.new(_('Done file'), Gtk.FileChooserAction.OPEN)
-        self.done_file.add_filter(todofilter)
-        self.grid.attach(self.done_file, 1, 7, 1, 1)
+        page02 = Gtk.Grid.new()
+        page02.set_row_spacing(10)
+        page02.set_column_spacing(10)
+        page02.set_margin_bottom(10)
+        page02.set_margin_start(10)
+        page02.set_margin_end(10)
+        page02.set_margin_top(10)
+        notebook.append_page(page02, Gtk.Label.new(_('Projects')))
+        self.projects = ListBoxString()
+        self.projects.set_size_request(250, 250)
+        page02.attach(self.projects, 0, 0, 3, 3)
 
+        box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
+        page02.attach(box, 3, 0, 1, 2)
+
+        button_add_project = Gtk.Button.new_with_label(_('Add'))
+        button_add_project.connect('clicked', self.on_button_add_project_clicked)
+        box.add(button_add_project)
+
+        button_remove_project = Gtk.Button.new_with_label(_('Remove'))
+        button_remove_project.connect('clicked', self.on_button_remove_projet_clicked)
+        box.add(button_remove_project)
+
+        page03 = Gtk.Grid.new()
+        page03.set_row_spacing(10)
+        page03.set_column_spacing(10)
+        page03.set_margin_bottom(10)
+        page03.set_margin_start(10)
+        page03.set_margin_end(10)
+        page03.set_margin_top(10)
+        notebook.append_page(page03, Gtk.Label.new(_('Contexts')))
+        self.contexts = ListBoxString()
+        self.contexts.set_size_request(250, 250)
+        page03.attach(self.contexts, 0, 0, 3, 3)
+
+        box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
+        page03.attach(box, 3, 0, 1, 2)
+        button_add_context = Gtk.Button.new_with_label(_('Add'))
+        button_add_context.connect('clicked', self.on_button_add_context_clicked)
+        box.add(button_add_context)
+
+        button_remove_context = Gtk.Button.new_with_label(_('Remove'))
+        button_remove_context.connect('clicked', self.on_button_remove_context_clicked)
+        box.add(button_remove_context)
+
+        page04 = Gtk.Grid.new()
+        page04.set_row_spacing(10)
+        page04.set_column_spacing(10)
+        page04.set_margin_bottom(10)
+        page04.set_margin_start(10)
+        page04.set_margin_end(10)
+        page04.set_margin_top(10)
+        notebook.append_page(page04, Gtk.Label.new(_('Tags')))
+        self.tags = ListBoxStringType()
+        self.tags.set_size_request(250, 250)
+        page04.attach(self.tags, 0, 0, 3, 3)
+
+        box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
+        page04.attach(box, 3, 0, 1, 2)
+        button_add_tag = Gtk.Button.new_with_label(_('Add'))
+        button_add_tag.connect('clicked', self.on_button_add_tag_clicked)
+        box.add(button_add_tag)
+
+        button_remove_tag = Gtk.Button.new_with_label(_('Remove'))
+        button_remove_tag.connect('clicked', self.on_button_remove_tag_clicked)
+        box.add(button_remove_tag)
 
     def load(self):
         configuration = Configuration()
@@ -129,29 +198,27 @@ class Preferences(BaseDialog):
         else:
             self.autostart.set_active(False)
         self.todos.set_value(preferences['todos'])
-        self.dones.set_value(preferences['dones'])
+
+        self.projects.add_all(preferences['projects'])
+        self.contexts.add_all(preferences['contexts'])
+        self.tags.add_all(preferences['tags'])
+        
         todo_file = Path(os.path.expanduser(preferences['todo-file']))
         if not todo_file.exists():
             if not todo_file.parent.exists():
                 os.makedirs(todo_file.parent)
             todo_file.touch()
         self.todo_file.set_file(Gio.File.new_for_path(todo_file.as_posix()))
-        done_file = Path(os.path.expanduser(preferences['done-file']))
-        if not done_file.exists():
-            if not done_file.parent.exists():
-                on.makedirs(todo_file.parent)
-            done_file.touch()
-        self.done_file.set_file(Gio.File.new_for_path(done_file.as_posix()))
-
 
     def save(self):
         configuration = Configuration()
         preferences = configuration.get('preferences')
         preferences['theme-light'] = self.theme_light.get_active()
         preferences['todos'] = int(self.todos.get_value())
-        preferences['dones'] = int(self.dones.get_value())
         preferences['todo-file'] = self.todo_file.get_file().get_path()
-        preferences['done-file'] = self.done_file.get_file().get_path()
+        preferences['projects'] = self.projects.get_items()
+        preferences['contexts'] = self.contexts.get_items()
+        preferences['tags'] = self.tags.get_items()
         configuration.set('preferences', preferences)
         configuration.save()
         autostart_file = 'todotxt-indicator-autostart.desktop'
@@ -165,7 +232,47 @@ class Preferences(BaseDialog):
             if os.path.exists(autostart_file):
                 os.remove(autostart_file)
 
+    def on_button_add_project_clicked(self, widget):
+        addProjectDialog = AddProjectDialog()
+        if addProjectDialog.run() == Gtk.ResponseType.ACCEPT:
+            project_name = addProjectDialog.get_name()
+            self.projects.add_item(project_name)
+            self.projects.show()
+        addProjectDialog.destroy()
 
+    def on_button_remove_projet_clicked(self, widget):
+        selected_row = self.projects.get_selected_row()
+        if selected_row:
+            self.projects.remove_item(selected_row.get_name())
+
+    def on_button_add_context_clicked(self, widget):
+        addContextDialog = AddContextDialog()
+        if addContextDialog.run() == Gtk.ResponseType.ACCEPT:
+            context_name = addContextDialog.get_name()
+            self.contexts.add_item(context_name)
+            self.contexts.show()
+        addContextDialog.destroy()
+    
+    def on_button_remove_context_clicked(self, widget):
+        selected_row = self.contexts.get_selected_row()
+        if selected_row:
+            self.contexts.remove_item(selected_row.get_name())
+            self.contexts.show_all()
+
+    def on_button_add_tag_clicked(self, widget):
+        addTagDialog = AddTagDialog()
+        if addTagDialog.run() == Gtk.ResponseType.ACCEPT:
+            tag_name = addTagDialog.get_name()
+            tag_type = addTagDialog.get_type()
+            self.tags.add_item({'name': tag_name, 'type': tag_type})
+            self.tags.show()
+        addTagDialog.destroy()
+
+    def on_button_remove_tag_clicked(self, widget):
+        selected_row = self.tags.get_selected_row()
+        if selected_row:
+            self.tags.remove_item(selected_row.get_name())
+            self.tags.show_all()
 
 if __name__ == '__main__':
     preferences = Preferences()

@@ -46,10 +46,8 @@ from graph import Graph
 from preferences import Preferences
 import config
 from configurator import Configuration
-
-def round(value):
-    return int(value * 10000) / 10000.0
-
+from add_todo import AddTodoDialog
+import todotxtio.todotxtio as todotxtio
 
 class Indicator(object):
 
@@ -64,6 +62,7 @@ class Indicator(object):
         self.indicator.set_label('', '')
         self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
         self.set_icon(True)
+        self.load_todos()
         Gtk.main()
 
     def set_icon(self, active=True):
@@ -84,23 +83,25 @@ class Indicator(object):
         preferences = self.configuration.get('preferences')
         self.theme_light = preferences['theme-light']
         self.todos = preferences['todos']
-        self.dones = preferences['dones']
         todo_file = Path(os.path.expanduser(preferences['todo-file']))
         if not todo_file.exists():
             if not todo_file.parent.exists():
                 os.makedirs(todo_file.parent)
             todo_file.touch()
         self.todo_file = todo_file.as_posix()
-        done_file = Path(os.path.expanduser(preferences['done-file']))
-        if not done_file.exists():
-            if not done_file.parent.exists():
-                os.makedirs(done_file.parent)
-            done_file.touch()
-        self.done_file = done_file.as_posix()
         self.set_icon(True)
 
     def on_popped(self, widget, display):
         pass
+
+    def load_todos(self):
+        list_of_todos = todotxtio.from_file(self.todo_file)
+        for i in range(0, min(len(list_of_todos), self.todos)):
+            self.menu_todos[i].set_label(list_of_todos.text)
+            self.menu_todos[i].show()
+        if len(list_of_todos) < self.todos:
+            for i in range(len(list_of_todos) - 1, self.todos):
+                self.menu_todos[i].hide()
 
     def build_menu(self):
         menu = Gtk.Menu()
@@ -108,20 +109,19 @@ class Indicator(object):
 
         self.menu_todos = []
         for i in range(0, self.todos):
-            self.menu_todos.append(Gtk.MenuItem.new_with_label(''))
+            self.menu_todos.append(Gtk.CheckMenuItem.new_with_label(''))
             menu.append(self.menu_todos[i])
 
         menu.append(Gtk.SeparatorMenuItem())
 
-        self.menu_dones = []
-        for i in range(0, self.dones):
-            self.menu_dones.append(Gtk.MenuItem.new_with_label(''))
-            menu.append(self.menu_dones[i])
+        menu_add_todo = Gtk.MenuItem.new_with_label(_('Add todo'))
+        menu_add_todo.connect('activate', self.on_menu_add_todo_activate)
+        menu.append(menu_add_todo)
 
         menu.append(Gtk.SeparatorMenuItem())
 
-        menu_add_todo = Gtk.MenuItem.new_with_label(_('Add todo'))
-        menu.append(menu_add_todo)
+        menu_list_todos = Gtk.MenuItem.new_with_label(_('Todos'))
+        menu.append(menu_list_todos)
 
         menu.append(Gtk.SeparatorMenuItem())
         menu_show_statistics = Gtk.MenuItem.new_with_label(
@@ -146,6 +146,12 @@ class Indicator(object):
         menu.append(menu_quit)
         menu.show_all()
         return menu
+
+    def on_menu_add_todo_activate(self, widget):
+        addTodoDialog = AddTodoDialog()
+        if addTodoDialog.run() == Gtk.ResponseType.ACCEPT:
+            todo = addTodoDialog.get_task()
+        addTodoDialog.destroy()
 
     def show_change(self, widget):
         change = Change()

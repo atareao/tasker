@@ -31,10 +31,11 @@ import gettext
 PARAMS = {'stats': {},
           'preferences': {'theme-light': True,
                           'start-actived': True,
-                          'todos': 7,
-                          'dones': 3,
+                          'todos': 10,
                           'todo-file': '~/.config/todotxt-indicator/todo.txt',
-                          'done-file': '~/.config/todotxt-indicator/done.txt'
+                          'projects': [],
+                          'contexts': [],
+                          'tags': []
                           }
           }
 
