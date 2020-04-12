@@ -47,6 +47,7 @@ from preferences import Preferences
 import config
 from configurator import Configuration
 from add_todo import AddTodoDialog
+from list_todos import ListTodos
 import todotxtio.todotxtio as todotxtio
 
 class Indicator(object):
@@ -97,10 +98,10 @@ class Indicator(object):
     def load_todos(self):
         list_of_todos = todotxtio.from_file(self.todo_file)
         for i in range(0, min(len(list_of_todos), self.todos)):
-            self.menu_todos[i].set_label(list_of_todos.text)
+            self.menu_todos[i].set_label(list_of_todos[i].text)
             self.menu_todos[i].show()
         if len(list_of_todos) < self.todos:
-            for i in range(len(list_of_todos) - 1, self.todos):
+            for i in range(len(list_of_todos), self.todos):
                 self.menu_todos[i].hide()
 
     def build_menu(self):
@@ -118,16 +119,15 @@ class Indicator(object):
         menu_add_todo.connect('activate', self.on_menu_add_todo_activate)
         menu.append(menu_add_todo)
 
-        menu.append(Gtk.SeparatorMenuItem())
-
         menu_list_todos = Gtk.MenuItem.new_with_label(_('Todos'))
+        menu_list_todos.connect('activate', self.on_menu_list_todos_activate)
         menu.append(menu_list_todos)
 
-        menu.append(Gtk.SeparatorMenuItem())
-        menu_show_statistics = Gtk.MenuItem.new_with_label(
-            _('Statistics'))
-        menu_show_statistics.connect('activate', self.show_statistics)
-        menu.append(menu_show_statistics)
+        # menu.append(Gtk.SeparatorMenuItem())
+        # menu_show_statistics = Gtk.MenuItem.new_with_label(
+        #     _('Statistics'))
+        # menu_show_statistics.connect('activate', self.show_statistics)
+        # menu.append(menu_show_statistics)
 
         menu.append(Gtk.SeparatorMenuItem())
 
@@ -146,6 +146,12 @@ class Indicator(object):
         menu.append(menu_quit)
         menu.show_all()
         return menu
+
+    def on_menu_list_todos_activate(self, widget):
+        listTodos = ListTodos()
+        if listTodos.run() == Gtk.ResponseType.ACCEPT:
+            listTodos.save()
+        listTodos.destroy()
 
     def on_menu_add_todo_activate(self, widget):
         addTodoDialog = AddTodoDialog()

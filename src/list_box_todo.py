@@ -33,50 +33,56 @@ except Exception as e:
 from gi.repository import Gtk
 from gi.repository import GObject
 
-class ListBoxRowCheck(Gtk.ListBoxRow):
+class ListBoxRowTodo(Gtk.ListBoxRow):
     """Docstring for ListBoxRowCheck. """
     __gsignals__ = {
         'toggled': (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, ()),
     }
 
-    def __init__(self, text):
+    def __init__(self, todo):
         """TODO: to be defined. """
         Gtk.ListBoxRow.__init__(self)
         box = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
         self.add(box)
 
-        self.switch = Gtk.CheckButton.new()
-        self.switch.connect('toggled', self.on_toggled)
-        box.add(self.switch)
+        self.todo = todo
 
-        self.label = Gtk.Label.new(text)
+        self.switch = Gtk.CheckButton.new()
+        self.switch.set_active(self.todo.completed)
+        box.add(self.switch)
+        self.switch.connect('toggled', self.on_toggled)
+
+        self.label = Gtk.Label.new(self.todo.text)
         self.label.set_halign(Gtk.Align.START)
         self.label.set_margin_bottom(5)
         box.add(self.label)
 
-    def on_toggled(self, widget):
-        self.emit('toggled')
+    def get_todo(self):
+        self.todo.completed = self.switch.get_active()
+        return self.todo
 
-    def get_name(self):
-        return self.label.get_text()
+    def set_todo(self, todo):
+        self.todo = todo
+        self.label.set_text(todo.text)
+        self.label.show_all()
+        self.switch.set_active(todo.completed)
 
-    def set_name(self, text):
-        self.label.set_text(text)
+    def set_completed(self, completed):
+        self.todo.completed = completed
+        self.switch.set_active(completed)
 
-    def set_active(self, active):
-        self.switch.set_active(active)
-
-    def get_active(self):
+    def get_completed(self):
         return self.switch.get_active()
 
+    def on_toggled(self, widget, status):
+        self.emit('toggled')
 
-class ListBoxCheck(Gtk.ScrolledWindow):
+
+class ListBoxTodo(Gtk.ScrolledWindow):
     """Docstring for ListBoxCheck. """
     __gsignals__ = {
         'toggled': (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, ()),
     }
-
-
     def __init__(self, items=[]):
         """TODO: to be defined. """
         Gtk.ScrolledWindow.__init__(self)
@@ -89,48 +95,49 @@ class ListBoxCheck(Gtk.ScrolledWindow):
         for item in items:
             self.add_item(item)
             
-    def add_item(self, text):
-        for item in self.get_children():
-            if item.get_name() == text:
+    def add_item(self, todo):
+        for item in self.listBox.get_children():
+            if item.get_todo().text == todo.text and \
+                    item.get_todo().projects == todo.projects and \
+                    item.get_todo().contexts == todo.contexts:
                 return
-        newListBoxRowCheck = ListBoxRowCheck(text)
-        newListBoxRowCheck.show_all()
-        newListBoxRowCheck.connect('toggled', self.on_toggled)
-        self.listBox.add(newListBoxRowCheck)
+        newListBoxRowTodo = ListBoxRowTodo(todo)
+        newListBoxRowTodo.show_all()
+        newListBoxRowTodo.connect('toggled', self.on_toggled)
+        self.listBox.add(newListBoxRowTodo)
 
     def on_toggled(self, widget):
         self.emit('toggled')
 
-    def remove_item(self, text):
+    def remove_item(self, todo):
         for index, item in enumerate(self.listBox.get_children()):
-            if self.listBox.get_children()[index].get_name() == text:
-                self.remove(self.listBox.get_children()[index])
+            if item.get_todo().text == todo.text and \
+                    item.get_todo().projects == todo.projects and \
+                    item.get_todo().contexts == todo.contexts:
+                self.listBox.remove(self.listBox.get_children()[index])
                 return
 
     def clear(self):
-        for index in range(len(self.listBox.get_children()) -1, -1):
-            self.remove(self.listBox.get_children()[index])
+        for index in range(len(self.listBox.get_children()) -1, -1, -1):
+            self.listBox.remove(self.listBox.get_children()[index])
 
     def get_items(self):
         items = []
         for child in self.listBox.get_children():
-            items.append(child.get_name())
+            items.append(child.get_todo())
         return items
-                
 
-    def get_active_items(self):
+    def get_completed_items(self):
         items = []
         for child in self.listBox.get_children():
-            if child.get_active():
-                items.append(child.get_name())
+            if child.get_completed():
+                items.append(child.get_todo())
         return items
 
-    def set_active_items(self, items):
-        """TODO: Docstring for set_active_items.
+    def get_selected(self):
+        return self.listBox.get_selected_row()
 
-        :items: TODO
-        :returns: TODO
-
-        """
-        for child in self.listBox.get_children():
-            child.set_active(child.get_name() in items)
+    def set_selected(self, todo):
+        selected_row = self.listBox.get_selected_row()
+        if selected_row:
+            selected_row.set_todo(todo)
