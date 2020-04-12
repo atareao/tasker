@@ -34,10 +34,10 @@ install: build
 	dh_installdirs
 	dh_install
 	# Create languages directories
-	mkdir -p ${CURDIR}/debian/currency-indicator/usr/share/locale-langpack/es/LC_MESSAGES
+	mkdir -p ${CURDIR}/debian/todotxt-indicator/usr/share/locale-langpack/es/LC_MESSAGES
 	# End create languages directories
 	# Compile languages
-	msgfmt po/es.po -o ${CURDIR}/debian/currency-indicator/usr/share/locale-langpack/es/LC_MESSAGES/currency-indicator.mo
+	msgfmt po/es.po -o ${CURDIR}/debian/todotxt-indicator/usr/share/locale-langpack/es/LC_MESSAGES/todotxt-indicator.mo
 	# End comile languages
 	# Add here commands to install the package into debian/<packagename>.
 	#$(MAKE) prefix=`pwd`/debian/`dh_listpackages`/usr install

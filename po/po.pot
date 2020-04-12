@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-04 18:34+0100\n"
+"POT-Creation-Date: 2020-04-12 13:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,286 +17,184 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/preferences.py:58 src/indicator.py:146
+#: src/preferences.py:64 src/indicator.py:141
 msgid "Preferences"
 msgstr ""
 
-#: src/preferences.py:64
+#: src/preferences.py:81
+msgid "General"
+msgstr ""
+
+#: src/preferences.py:83
 msgid "Theme light:"
 msgstr ""
 
-#: src/preferences.py:67
-msgid "Start actived:"
+#: src/preferences.py:91
+msgid "Autostart"
 msgstr ""
 
-#: src/preferences.py:70
-msgid "Autostart:"
+#: src/preferences.py:101
+msgid "Number of todos:"
 msgstr ""
 
-#: src/preferences.py:76
-msgid "Main currency"
+#: src/preferences.py:111
+msgid "Todo file:"
 msgstr ""
 
-#: src/preferences.py:96
-msgid "Currency"
+#: src/preferences.py:119
+msgid "Todo file"
 msgstr ""
 
-#: src/currencies.py:29
-msgid "UAE dirham"
+#: src/preferences.py:130
+msgid "Projects"
 msgstr ""
 
-#: src/currencies.py:30
-msgid "Argentine peso"
+#: src/preferences.py:138 src/preferences.py:160 src/preferences.py:182
+#: src/list_todos.py:93
+msgid "Add"
 msgstr ""
 
-#: src/currencies.py:31
-msgid "Australian dollar"
+#: src/preferences.py:142 src/preferences.py:164 src/preferences.py:186
+#: src/list_todos.py:101
+msgid "Remove"
 msgstr ""
 
-#: src/currencies.py:32
-msgid "Bulgarian lev"
+#: src/preferences.py:153
+msgid "Contexts"
 msgstr ""
 
-#: src/currencies.py:33
-msgid "Brazilian real"
+#: src/preferences.py:175
+msgid "Tags"
 msgstr ""
 
-#: src/currencies.py:34
-msgid "Bahamian dollar"
+#: src/list_todos.py:48
+msgid "List of todos"
 msgstr ""
 
-#: src/currencies.py:35
-msgid "Canadian dollar"
+#: src/list_todos.py:59
+msgid "Filter by project(s) and context(s)"
 msgstr ""
 
-#: src/currencies.py:36
-msgid "Swiss franc"
+#: src/list_todos.py:70
+msgid "Select project(s)"
 msgstr ""
 
-#: src/currencies.py:37
-msgid "Chilean peso"
+#: src/list_todos.py:83
+msgid "Select context(s)"
 msgstr ""
 
-#: src/currencies.py:38
-msgid "Chinese Yuan Renminbi"
+#: src/list_todos.py:97
+msgid "Edit"
 msgstr ""
 
-#: src/currencies.py:39
-msgid "Colombian peso"
+#: src/list_todos.py:105
+msgid "Clear"
 msgstr ""
 
-#: src/currencies.py:40
-msgid "Czech koruna"
+#: src/indicator.py:125
+msgid "Add todo"
 msgstr ""
 
-#: src/currencies.py:41
-msgid "Danish krone"
+#: src/indicator.py:129
+msgid "Todos"
 msgstr ""
 
-#: src/currencies.py:42
-msgid "Dominican peso"
-msgstr ""
-
-#: src/currencies.py:43
-msgid "Egyptian pound"
-msgstr ""
-
-#: src/currencies.py:44
-msgid "European euro"
-msgstr ""
-
-#: src/currencies.py:45
-msgid "Fijian dollar"
-msgstr ""
-
-#: src/currencies.py:46
-msgid "Pound sterling"
-msgstr ""
-
-#: src/currencies.py:47
-msgid "Guatemalan quetzal"
-msgstr ""
-
-#: src/currencies.py:48
-msgid "Hong Kong dollar"
-msgstr ""
-
-#: src/currencies.py:49
-msgid "Croatian kuna"
-msgstr ""
-
-#: src/currencies.py:50
-msgid "Hungarian forint"
-msgstr ""
-
-#: src/currencies.py:51
-msgid "Indonesian rupiah"
-msgstr ""
-
-#: src/currencies.py:52
-msgid "Israeli new shekel"
-msgstr ""
-
-#: src/currencies.py:53
-msgid "Indian rupee"
-msgstr ""
-
-#: src/currencies.py:54
-msgid "Icelandic krona"
-msgstr ""
-
-#: src/currencies.py:55
-msgid "Japanese yen"
-msgstr ""
-
-#: src/currencies.py:56
-msgid "South Korean won"
-msgstr ""
-
-#: src/currencies.py:57
-msgid "Kazakhstani tenge"
-msgstr ""
-
-#: src/currencies.py:58
-msgid "Mexican peso"
-msgstr ""
-
-#: src/currencies.py:59
-msgid "Malaysian ringgit"
-msgstr ""
-
-#: src/currencies.py:60
-msgid "Norwegian krone"
-msgstr ""
-
-#: src/currencies.py:61
-msgid "New Zealand dollar"
-msgstr ""
-
-#: src/currencies.py:62
-msgid "Panamanian dollar"
-msgstr ""
-
-#: src/currencies.py:63
-msgid "Peruvian sol"
-msgstr ""
-
-#: src/currencies.py:64
-msgid "Philippine peso"
-msgstr ""
-
-#: src/currencies.py:65
-msgid "Pakistani rupee"
-msgstr ""
-
-#: src/currencies.py:66
-msgid "Polish zloty"
-msgstr ""
-
-#: src/currencies.py:67
-msgid "Paraguayan guarani"
-msgstr ""
-
-#: src/currencies.py:68
-msgid "Romanian leu"
-msgstr ""
-
-#: src/currencies.py:69
-msgid "Russian ruble"
-msgstr ""
-
-#: src/currencies.py:70
-msgid "Saudi Arabian riyal"
-msgstr ""
-
-#: src/currencies.py:71
-msgid "Swedish krona"
-msgstr ""
-
-#: src/currencies.py:72
-msgid "Singapore dollar"
-msgstr ""
-
-#: src/currencies.py:73
-msgid "Thai baht"
-msgstr ""
-
-#: src/currencies.py:74
-msgid "Turkish lira"
-msgstr ""
-
-#: src/currencies.py:75
-msgid "New Taiwan dollar"
-msgstr ""
-
-#: src/currencies.py:76
-msgid "Ukrainian hryvnia"
-msgstr ""
-
-#: src/currencies.py:77
-msgid "United States dollar"
-msgstr ""
-
-#: src/currencies.py:78
-msgid "Uruguayan peso"
-msgstr ""
-
-#: src/currencies.py:79
-msgid "South African rand"
-msgstr ""
-
-#: src/indicator.py:140
-msgid "Statistics"
-msgstr ""
-
-#: src/indicator.py:150
+#: src/indicator.py:145
 msgid "Help"
 msgstr ""
 
-#: src/indicator.py:156
+#: src/indicator.py:151
 msgid "Quit"
 msgstr ""
 
-#: src/indicator.py:176
+#: src/indicator.py:198
 msgid "Currency indicator"
 msgstr ""
 
-#: src/indicator.py:177
+#: src/indicator.py:199
 msgid "Rates"
 msgstr ""
 
-#: src/indicator.py:209
+#: src/indicator.py:231
 msgid "Homepage"
 msgstr ""
 
-#: src/indicator.py:215
+#: src/indicator.py:238
 msgid "Get help online..."
 msgstr ""
 
-#: src/indicator.py:222
+#: src/indicator.py:246
 msgid "Translate this application..."
 msgstr ""
 
-#: src/indicator.py:228
+#: src/indicator.py:253
 msgid "Report a bug..."
 msgstr ""
 
-#: src/indicator.py:237
+#: src/indicator.py:262
 msgid "Found me in Twitter"
 msgstr ""
 
-#: src/indicator.py:243
+#: src/indicator.py:268
 msgid "Found me in GitHub"
 msgstr ""
 
-#: src/indicator.py:249
+#: src/indicator.py:274
 msgid "Found me in Mastodon"
 msgstr ""
 
-#: src/indicator.py:255
+#: src/indicator.py:280
 msgid "About"
 msgstr ""
 
-#: src/indicator.py:269
-msgid "Habits"
+#: src/indicator.py:294
+msgid "Currency Indicator"
+msgstr ""
+
+#: src/add_project.py:41
+msgid "Add Project"
+msgstr ""
+
+#: src/add_project.py:47
+msgid "Project name:"
+msgstr ""
+
+#: src/add_context.py:41
+msgid "Add Context"
+msgstr ""
+
+#: src/add_context.py:47
+msgid "Context name:"
+msgstr ""
+
+#: src/add_tag.py:56
+msgid "Add Tag"
+msgstr ""
+
+#: src/add_tag.py:63
+msgid "Tag name:"
+msgstr ""
+
+#: src/add_tag.py:70
+msgid "Type:"
+msgstr ""
+
+#: src/add_todo.py:61
+msgid "Add Todo"
+msgstr ""
+
+#: src/add_todo.py:88
+msgid "Text:"
+msgstr ""
+
+#: src/add_todo.py:95
+msgid "Priority"
+msgstr ""
+
+#: src/add_todo.py:122
+msgid "Select project(s):"
+msgstr ""
+
+#: src/add_todo.py:132
+msgid "Select context(s):"
 msgstr ""
