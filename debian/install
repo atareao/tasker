@@ -2,6 +2,7 @@
 bin /opt/extras.ubuntu.com/todotxt-indicator
 debian/changelog /opt/extras.ubuntu.com/todotxt-indicator/share/todotxt-indicator
 src/*.py /opt/extras.ubuntu.com/todotxt-indicator/share/todotxt-indicator
+src/todotxtio/*.py /opt/extras.ubuntu.com/todotxt-indicator/share/todotxt-indicatr/todotxtio
 src/graph /opt/extras.ubuntu.com/todotxt-indicator/share/todotxt-indicator
 data/icons /opt/extras.ubuntu.com/todotxt-indicator/share
 data/autostart /opt/extras.ubuntu.com/todotxt-indicator/share

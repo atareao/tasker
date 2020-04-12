@@ -95,10 +95,17 @@ class Indicator(object):
     def on_popped(self, widget, display):
         pass
 
+    def on_menu_todo_toggled(self, widget, i):
+        list_of_todos = todotxtio.from_file(self.todo_file)
+        list_of_todos[i].completed = widget.get_active()
+        todotxtio.to_file(self.todo_file, list_of_todos)
+
     def load_todos(self):
         list_of_todos = todotxtio.from_file(self.todo_file)
         for i in range(0, min(len(list_of_todos), self.todos)):
             self.menu_todos[i].set_label(list_of_todos[i].text)
+            self.menu_todos[i].set_active(list_of_todos[i].completed)
+            self.menu_todos[i].connect('toggled', self.on_menu_todo_toggled, i)
             self.menu_todos[i].show()
         if len(list_of_todos) < self.todos:
             for i in range(len(list_of_todos), self.todos):
@@ -151,12 +158,22 @@ class Indicator(object):
         listTodos = ListTodos()
         if listTodos.run() == Gtk.ResponseType.ACCEPT:
             listTodos.save()
+            self.load_todos()
         listTodos.destroy()
 
     def on_menu_add_todo_activate(self, widget):
         addTodoDialog = AddTodoDialog()
         if addTodoDialog.run() == Gtk.ResponseType.ACCEPT:
             todo = addTodoDialog.get_task()
+            list_of_todos = todotxtio.from_file(self.todo_file)
+            for atodo in list_of_todos:
+                if todo.text == atodo.text and \
+                        todo.projects == atodo.projects and \
+                        todo.contexts == atodo.context:
+                            return
+            list_of_todos.append(todo)
+            todotxtio.to_file(self.todo_file, list_of_todos)
+            self.load_todos()
         addTodoDialog.destroy()
 
     def show_change(self, widget):
