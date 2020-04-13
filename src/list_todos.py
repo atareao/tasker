@@ -42,6 +42,20 @@ from config import _
 from configurator import Configuration
 
 
+def select_value_in_combo(combo, value):
+    model = combo.get_model()
+    for i, item in enumerate(model):
+        if value == item[1]:
+            combo.set_active(i)
+            return
+    combo.set_active(0)
+
+
+def get_selected_value_in_combo(combo):
+    model = combo.get_model()
+    return model.get_value(combo.get_active_iter(), 1)
+
+
 class ListTodos(BaseDialog):
     """docstring for ListTodos"""
     def __init__(self):
@@ -56,36 +70,66 @@ class ListTodos(BaseDialog):
         self.todos.set_size_request(300, 500)
         self.grid.attach(self.todos, 0, 0, 1, 1)
 
-        expander = Gtk.Expander.new(_('Filter by project(s) and context(s)'))
-        notebook = Gtk.Notebook.new()
-        expander.add(notebook)
-        # self.grid.attach(expander, 0, 1, 1, 1)
+        expander = Gtk.Expander.new(_('Filter todos'))
 
-        page01 = Gtk.Grid.new()
-        page01.set_row_spacing(10)
-        page01.set_margin_bottom(10)
-        page01.set_margin_start(10)
-        page01.set_margin_end(10)
-        page01.set_margin_top(10)
-        notebook.append_page(page01, Gtk.Label.new(_('Select project(s)')))
+        expander_grid = Gtk.Grid.new()
+        expander_grid.set_row_spacing(10)
+        expander_grid.set_margin_bottom(10)
+        expander_grid.set_margin_start(10)
+        expander_grid.set_margin_end(10)
+        expander_grid.set_margin_top(10)
 
-        self.projects = ListBoxCheck()
-        self.projects.connect('toggled', self.on_toggled)
-        self.projects.set_size_request(300, 80)
-        page01.attach(self.projects, 0, 0, 1, 1)
+        expander.add(expander_grid)
+        self.grid.attach(expander, 0, 1, 1, 1)
 
-        page02 = Gtk.Grid.new()
-        page02.set_row_spacing(10)
-        page02.set_margin_bottom(10)
-        page02.set_margin_start(10)
-        page02.set_margin_end(10)
-        page02.set_margin_top(10)
-        notebook.append_page(page02, Gtk.Label.new(_('Select context(s)')))
+        label = Gtk.Label.new(_('Priority:'))
+        label.set_halign(Gtk.Align.START)
+        label.set_valign(Gtk.Align.CENTER)
+        label.set_margin_end(10)
+        expander_grid.attach(label, 0, 0, 1, 1)
 
-        self.contexts = ListBoxCheck()
-        self.contexts.connect('toggled', self.on_toggled)
-        self.contexts.set_size_request(300, 80)
-        page02.attach(self.contexts, 0, 0, 1, 1)
+        priority_store = Gtk.ListStore(str, int)
+        priority_store.append(['-', -1])
+        for i in range(0, 26):
+            priority_store.append([chr(i + 65), i])
+        self.priority = Gtk.ComboBox.new()
+        self.priority.set_model(priority_store)
+        cell1 = Gtk.CellRendererText()
+        self.priority.pack_start(cell1, True)
+        self.priority.add_attribute(cell1, 'text', 0)
+        expander_grid.attach(self.priority, 1, 0, 1, 1)
+
+        self.project = None
+        self.context = None
+        self.tags = []
+
+        label = Gtk.Label.new(_('Select project:'))
+        label.set_halign(Gtk.Align.START)
+        label.set_valign(Gtk.Align.CENTER)
+        label.set_margin_end(10)
+        expander_grid.attach(label, 0, 1, 1, 1)
+
+        project_store = Gtk.ListStore(str, str)
+        self.project = Gtk.ComboBox.new()
+        self.project.set_model(project_store)
+        cell1 = Gtk.CellRendererText()
+        self.project.pack_start(cell1, True)
+        self.project.add_attribute(cell1, 'text', 0)
+        expander_grid.attach(self.project, 1, 1, 1, 1)
+
+        label = Gtk.Label.new(_('Select context:'))
+        label.set_halign(Gtk.Align.START)
+        label.set_valign(Gtk.Align.CENTER)
+        label.set_margin_end(10)
+        expander_grid.attach(label, 0, 2, 1, 1)
+
+        context_store = Gtk.ListStore(str, str)
+        self.context = Gtk.ComboBox.new()
+        self.context.set_model(project_store)
+        cell1 = Gtk.CellRendererText()
+        self.context.pack_start(cell1, True)
+        self.context.add_attribute(cell1, 'text', 0)
+        expander_grid.attach(self.context, 1, 2, 1, 1)
 
         box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
         self.grid.attach(box, 1, 0, 1, 2)
@@ -140,11 +184,22 @@ class ListTodos(BaseDialog):
         configuration = Configuration()
         preferences = configuration.get('preferences')
         projects = preferences['projects']
-        self.projects.add_all(projects)
-        self.projects.set_active_items(projects)
         contexts = preferences['contexts']
-        self.contexts.add_all(contexts)
-        self.contexts.set_active_items(contexts)
+        if projects:
+            project_store = self.project.get_model()
+            project_store.clear()
+            project_store.append(['-', '-'])
+            for project in projects:
+                project_store.append([project, project])
+        if contexts:
+            context_store = self.context.get_model()
+            context_store.clear()
+            context_store.append(['-', '-'])
+            for context in contexts:
+                context_store.append([project, project])
+        select_value_in_combo(self.priority, -1)
+        select_value_in_combo(self.project, '-')
+        select_value_in_combo(self.context, '-')
 
         todo_file = Path(os.path.expanduser(preferences['todo-file']))
         if not todo_file.exists():

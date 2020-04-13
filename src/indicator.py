@@ -167,10 +167,8 @@ class Indicator(object):
             todo = addTodoDialog.get_task()
             list_of_todos = todotxtio.from_file(self.todo_file)
             for atodo in list_of_todos:
-                if todo.text == atodo.text and \
-                        todo.projects == atodo.projects and \
-                        todo.contexts == atodo.context:
-                            return
+                if todo.text == atodo.text:
+                    return
             list_of_todos.append(todo)
             todotxtio.to_file(self.todo_file, list_of_todos)
             self.load_todos()
@@ -195,7 +193,7 @@ class Indicator(object):
     def show_statistics(self, widget):
         widget.set_sensitive(False)
 
-        title = _('Currency indicator')
+        title = _('TodoTxt Indicator')
         subtitle = _('Rates')
         configuration = Configuration()
         preferences = self.configuration.get('preferences')
@@ -291,7 +289,7 @@ class Indicator(object):
         ad.set_name(config.APPNAME)
         ad.set_version(config.VERSION)
         ad.set_copyright('Copyrignt (c) 2020\nLorenzo Carbonell')
-        ad.set_comments(_('Currency Indicator'))
+        ad.set_comments(_('TodoTxt Indicator'))
         ad.set_license('''
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

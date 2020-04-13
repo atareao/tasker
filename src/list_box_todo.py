@@ -9,7 +9,7 @@
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
+# copies of the Software, nd to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 #
 # The above copyright notice and this permission notice shall be included in
@@ -97,9 +97,7 @@ class ListBoxTodo(Gtk.ScrolledWindow):
             
     def add_item(self, todo):
         for item in self.listBox.get_children():
-            if item.get_todo().text == todo.text and \
-                    item.get_todo().projects == todo.projects and \
-                    item.get_todo().contexts == todo.contexts:
+            if item.get_todo().text == todo.text: 
                 return
         newListBoxRowTodo = ListBoxRowTodo(todo)
         newListBoxRowTodo.show_all()
@@ -111,9 +109,7 @@ class ListBoxTodo(Gtk.ScrolledWindow):
 
     def remove_item(self, todo):
         for index, item in enumerate(self.listBox.get_children()):
-            if item.get_todo().text == todo.text and \
-                    item.get_todo().projects == todo.projects and \
-                    item.get_todo().contexts == todo.contexts:
+            if item.get_todo().text == todo.text:
                 self.listBox.remove(self.listBox.get_children()[index])
                 return
 
