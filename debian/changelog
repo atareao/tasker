@@ -1,8 +1,8 @@
-todotxt-indicator (0.2.0-0extras20.04.0) focal; urgency=medium
+todotxt-indicator (0.2.0-0extras20.04.1) focal; urgency=medium
 
   * Add filter in Todo List Window 
 
- -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Mon, 13 Apr 2020 21:26:17 +0200
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Mon, 13 Apr 2020 21:33:27 +0200
 
 todotxt-indicator (0.1.0-0extras20.04.03) focal; urgency=medium
 
