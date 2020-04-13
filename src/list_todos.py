@@ -52,8 +52,10 @@ def select_value_in_combo(combo, value):
 
 
 def get_selected_value_in_combo(combo):
-    model = combo.get_model()
-    return model.get_value(combo.get_active_iter(), 1)
+    aniter = combo.get_active_iter()
+    if aniter:
+        model = combo.get_model()
+        return model.get_value(combo.get_active_iter(), 1)
 
 
 class ListTodos(BaseDialog):
@@ -93,6 +95,7 @@ class ListTodos(BaseDialog):
         for i in range(0, 26):
             priority_store.append([chr(i + 65), i])
         self.priority = Gtk.ComboBox.new()
+        self.priority.connect('changed', self.on_priority_project_context_changed)
         self.priority.set_model(priority_store)
         cell1 = Gtk.CellRendererText()
         self.priority.pack_start(cell1, True)
@@ -111,6 +114,7 @@ class ListTodos(BaseDialog):
 
         project_store = Gtk.ListStore(str, str)
         self.project = Gtk.ComboBox.new()
+        self.project.connect('changed', self.on_priority_project_context_changed)
         self.project.set_model(project_store)
         cell1 = Gtk.CellRendererText()
         self.project.pack_start(cell1, True)
@@ -125,7 +129,8 @@ class ListTodos(BaseDialog):
 
         context_store = Gtk.ListStore(str, str)
         self.context = Gtk.ComboBox.new()
-        self.context.set_model(project_store)
+        self.context.connect('changed', self.on_priority_project_context_changed)
+        self.context.set_model(context_store)
         cell1 = Gtk.CellRendererText()
         self.context.pack_start(cell1, True)
         self.context.add_attribute(cell1, 'text', 0)
@@ -149,6 +154,20 @@ class ListTodos(BaseDialog):
         button_clear = Gtk.Button.new_with_label(_('Clear'))
         button_clear.connect('clicked', self.on_button_clear_clicked)
         box.add(button_clear)
+
+    def on_priority_project_context_changed(self, widget):
+        priority = get_selected_value_in_combo(self.priority)
+        if priority == -1 or priority is None:
+            priority = None
+        else:
+            priority = chr(priority + 65)
+        project = get_selected_value_in_combo(self.project)
+        if project == '-' or project is None:
+            project = None
+        context = get_selected_value_in_combo(self.context)
+        if context == '-' or context is None:
+            context = None
+        self.todos.filter(priority, project, context)
 
     def on_toggled(self, widget):
         list_of_todos = self.todos.get_items()
@@ -185,18 +204,20 @@ class ListTodos(BaseDialog):
         preferences = configuration.get('preferences')
         projects = preferences['projects']
         contexts = preferences['contexts']
+        project_store = self.project.get_model()
+        project_store.clear()
+        project_store.append(['-', '-'])
         if projects:
-            project_store = self.project.get_model()
-            project_store.clear()
-            project_store.append(['-', '-'])
             for project in projects:
                 project_store.append([project, project])
+        self.project.set_model(project_store)
+        context_store = self.context.get_model()
+        context_store.clear()
+        context_store.append(['-', '-'])
         if contexts:
-            context_store = self.context.get_model()
-            context_store.clear()
-            context_store.append(['-', '-'])
             for context in contexts:
-                context_store.append([project, project])
+                context_store.append([context, context])
+        self.context.set_model(context_store)
         select_value_in_combo(self.priority, -1)
         select_value_in_combo(self.project, '-')
         select_value_in_combo(self.context, '-')

@@ -36,26 +36,27 @@ from gi.repository import GObject
 class ListBoxRowTodo(Gtk.ListBoxRow):
     """Docstring for ListBoxRowCheck. """
     __gsignals__ = {
-        'toggled': (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, ()),
+        'toggled': (GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE, ()),
     }
 
     def __init__(self, todo):
         """TODO: to be defined. """
         Gtk.ListBoxRow.__init__(self)
-        box = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
-        self.add(box)
+        self.box = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
+        self.add(self.box)
 
         self.todo = todo
+        self.visible = True
 
         self.switch = Gtk.CheckButton.new()
         self.switch.set_active(self.todo.completed)
-        box.add(self.switch)
+        self.box.add(self.switch)
         self.switch.connect('toggled', self.on_toggled)
 
         self.label = Gtk.Label.new(self.todo.text)
         self.label.set_halign(Gtk.Align.START)
         self.label.set_margin_bottom(5)
-        box.add(self.label)
+        self.box.add(self.label)
 
     def get_todo(self):
         self.todo.completed = self.switch.get_active()
@@ -77,11 +78,22 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
     def on_toggled(self, widget, status):
         self.emit('toggled')
 
+    def hide(self):
+        self.visible = False
+        self.box.hide()
+
+    def show(self):
+        self.visible = True
+        self.box.show()
+
+    def is_visible(self):
+        return self.visible
+
 
 class ListBoxTodo(Gtk.ScrolledWindow):
     """Docstring for ListBoxCheck. """
     __gsignals__ = {
-        'toggled': (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, ()),
+        'toggled': (GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE, ()),
     }
     def __init__(self, items=[]):
         """TODO: to be defined. """
@@ -130,6 +142,9 @@ class ListBoxTodo(Gtk.ScrolledWindow):
                 items.append(child.get_todo())
         return items
 
+    def unselect(self):
+        return self.listBox.select_row(None)
+
     def get_selected(self):
         return self.listBox.get_selected_row()
 
@@ -137,3 +152,16 @@ class ListBoxTodo(Gtk.ScrolledWindow):
         selected_row = self.listBox.get_selected_row()
         if selected_row:
             selected_row.set_todo(todo)
+
+    def filter(self, priority, project, context):
+        selected_row = self.listBox.get_selected_row()
+        for child in self.listBox.get_children():
+            if (priority is None or child.todo.priority == priority) and \
+                    (project is None or project in child.todo.projects) and \
+                    (context is None or context in child.todo.contexts):
+                child.show()
+            else:
+                child.hide()
+        if selected_row and not selected_row.is_visible():
+            self.listBox.select_row(None)
+
