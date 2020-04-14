@@ -52,13 +52,6 @@ from list_todos import ListTodos
 import todotxtio.todotxtio as todotxtio
 
 
-def is_tag_in_array_of_tags(tag, tags):
-    for atag in tags:
-        if atag['name'] == tag:
-            return True
-    return False
-
-
 class Indicator(object):
 
     def __init__(self):
@@ -111,7 +104,6 @@ class Indicator(object):
             for acontext in todo.contexts:
                 if acontext not in contexts:
                     contexts.append(acontext)
-            print([tag['name'] for tag in tags])
             for atag in todo.tags:
                 if atag not in [tag['name'] for tag in tags]:
                     if re.search(pattern, todo.tags[atag]):
