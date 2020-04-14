@@ -42,7 +42,7 @@ sudo apt install todotxt-indicator
 
 When you start **TodoTxt Indicator** it goes to Indicator Area, as you can see in the next screenshot,
 
-![todotxt-indicator](./screenshots/todotxt-indicator_01.png)
+![todotxt-indicator](./screenshots/screenshot_01.png)
 
 You can set some options in order to start *TodoTxt Indicator* when you start your Operative System.
 
@@ -51,17 +51,21 @@ You can set some options in order to start *TodoTxt Indicator* when you start yo
 
 Besides you can set the colors of the graphics
 
-![Configuration](./screenshots/todotxt-indicator_02.png)
+![Configuration](./screenshots/screenshot_02.png)
 
 In the next screenshot you can see the about
 
-![About](./screenshots/todotxt-indicator_03.png)
+![About](./screenshots/screenshot_03.png)
 
 In the next screenshots you can see some samples of my use of *todotxt-indicator*,
 
-![Example 1](./screenshots/todotxt-indicator_04.png)
+![Example 1](./screenshots/screenshot_04.png)
 
-![Example 2](./screenshots/todotxt-indicator_05.png)
+![Example 2](./screenshots/screenshot_05.png)
+![Example 2](./screenshots/screenshot_06.png)
+![Example 2](./screenshots/screenshot_07.png)
+![Example 2](./screenshots/screenshot_08.png)
+![Example 2](./screenshots/screenshot_09.png)
 
 ## Contributing to TodoTxt Indicator
 
