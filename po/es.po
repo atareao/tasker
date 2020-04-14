@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: currency-indicator - 0.1.0-0extras19.10.11\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-12 13:33+0200\n"
+"POT-Creation-Date: 2020-04-14 06:28+0200\n"
 "PO-Revision-Date: 2020-03-04 18:31+0100\n"
 "Last-Translator: Lorenzo <lorenzo.carbonell.cerezo@gmail.com>\n"
 "Language-Team: Language *\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/preferences.py:64 src/indicator.py:141
+#: src/preferences.py:64 src/indicator.py:142
 msgid "Preferences"
 msgstr "Preferencias"
 
@@ -49,12 +49,12 @@ msgid "Projects"
 msgstr "Proyectos"
 
 #: src/preferences.py:138 src/preferences.py:160 src/preferences.py:182
-#: src/list_todos.py:93
+#: src/list_todos.py:142
 msgid "Add"
 msgstr "Añadir"
 
 #: src/preferences.py:142 src/preferences.py:164 src/preferences.py:186
-#: src/list_todos.py:101
+#: src/list_todos.py:150
 msgid "Remove"
 msgstr "Eliminar"
 
@@ -66,90 +66,89 @@ msgstr "Contextos"
 msgid "Tags"
 msgstr "Etiquetas"
 
-#: src/list_todos.py:48
+#: src/list_todos.py:64
 msgid "List of todos"
 msgstr "Lista de todos"
 
-#: src/list_todos.py:59
-msgid "Filter by project(s) and context(s)"
-msgstr "Filtrar por proyecto(s) y contexto(s)"
+#: src/list_todos.py:75
+msgid "Filter todos"
+msgstr "Filtrar todos"
 
-#: src/list_todos.py:70
-msgid "Select project(s)"
-msgstr "Selecciona proyecto(s)"
+#: src/list_todos.py:87
+msgid "Priority:"
+msgstr "Prioridad:"
 
-#: src/list_todos.py:83
-msgid "Select context(s)"
-msgstr "Selecciona contexto(s)"
+#: src/list_todos.py:109
+msgid "Select project:"
+msgstr "Selecciona proyecto:"
 
-#: src/list_todos.py:97
+#: src/list_todos.py:124
+msgid "Select context:"
+msgstr "Selecciona contexto:"
+
+#: src/list_todos.py:146
 msgid "Edit"
 msgstr "Editar"
 
-#: src/list_todos.py:105
+#: src/list_todos.py:154
 msgid "Clear"
 msgstr "Limpiar"
 
-#: src/indicator.py:125
+#: src/indicator.py:126
 msgid "Add todo"
 msgstr "Añadir todo"
 
-#: src/indicator.py:129
+#: src/indicator.py:130
 msgid "Todos"
 msgstr "Todos"
 
-#: src/indicator.py:145
+#: src/indicator.py:146
 msgid "Help"
 msgstr "Ayuda"
 
-#: src/indicator.py:151
+#: src/indicator.py:152
 msgid "Quit"
 msgstr "Salir"
 
-#: src/indicator.py:198
-msgid "Currency indicator"
-msgstr "Currency indicator"
+#: src/indicator.py:197 src/indicator.py:293
+msgid "TodoTxt Indicator"
+msgstr "TodoTxt Indicator"
 
-#: src/indicator.py:199
+#: src/indicator.py:198
 msgid "Rates"
 msgstr ""
 
-#: src/indicator.py:231
+#: src/indicator.py:230
 msgid "Homepage"
 msgstr "Homepage"
 
-#: src/indicator.py:238
+#: src/indicator.py:237
 msgid "Get help online..."
 msgstr "Consigue ayuda en línea..."
 
-#: src/indicator.py:246
+#: src/indicator.py:245
 msgid "Translate this application..."
 msgstr "Tradule la aplicación..."
 
-#: src/indicator.py:253
+#: src/indicator.py:252
 msgid "Report a bug..."
 msgstr "Informa de un error..."
 
-#: src/indicator.py:262
+#: src/indicator.py:261
 msgid "Found me in Twitter"
 msgstr "En Twitter"
 
-#: src/indicator.py:268
+#: src/indicator.py:267
 msgid "Found me in GitHub"
 msgstr "En GitHub"
 
-#: src/indicator.py:274
+#: src/indicator.py:273
 msgid "Found me in Mastodon"
 msgstr "En Mastodon"
 
-#: src/indicator.py:280
+#: src/indicator.py:279
 msgid "About"
 msgstr "Acerca de..."
-
-#: src/indicator.py:294
-#, fuzzy
-msgid "Currency Indicator"
-msgstr "Currency indicator"
 
 #: src/add_project.py:41
 msgid "Add Project"

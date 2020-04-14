@@ -1,3 +1,11 @@
+todotxt-indicator (0.2.0-0extras20.04.2) focal; urgency=medium
+
+  * Change icon color
+  * Change autostart desktop launcher
+  * Update spanish translation
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Tue, 14 Apr 2020 06:30:48 +0200
+
 todotxt-indicator (0.2.0-0extras20.04.1) focal; urgency=medium
 
   * Add filter in Todo List Window 

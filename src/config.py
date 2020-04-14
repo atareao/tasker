@@ -73,8 +73,8 @@ else:
         os.path.join(ROOTDIR, '../data/autostart/'))
 AUTOSTART = os.path.join(AUTOSTARTDIR, 'todotxt-indicator-autostart.desktop')
 ICON = os.path.join(ICONDIR, 'todotxt-indicator.svg')
-ICON_ACTIVED_LIGHT = os.path.join(ICONDIR, 'todotxt-indicator-active.svg')
-ICON_PAUSED_LIGHT = os.path.join(ICONDIR, 'todotxt-indicator-paused.svg')
+ICON_ACTIVED_LIGHT = os.path.join(ICONDIR, 'todotxt-indicator-active-light.svg')
+ICON_PAUSED_LIGHT = os.path.join(ICONDIR, 'todotxt-indicator-paused-light.svg')
 ICON_ACTIVED_DARK = os.path.join(ICONDIR, 'todotxt-indicator-active-dark.svg')
 ICON_PAUSED_DARK = os.path.join(ICONDIR, 'todotxt-indicator-paused-dark.svg')
 

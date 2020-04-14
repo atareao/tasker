@@ -77,6 +77,7 @@ class Indicator(object):
                 icon = config.ICON_PAUSED_LIGHT
             else:
                 icon = config.ICON_PAUSED_DARK
+        print(icon)
         self.indicator.set_icon(icon)
 
     def load_preferences(self):

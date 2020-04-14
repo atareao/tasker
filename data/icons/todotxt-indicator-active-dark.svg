@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="20"
-   height="20"
-   viewBox="0 0 5.8208332 5.8208335"
+   width="22"
+   height="22"
+   viewBox="0 0 5.8208333 5.8208333"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    sodipodi:docname="todotxt-indicator-dark.svg">
   <defs
      id="defs2" />
@@ -25,18 +25,19 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="26.939394"
-     inkscape:cx="11.810461"
-     inkscape:cy="7.1456693"
+     inkscape:zoom="17.959596"
+     inkscape:cx="18.801462"
+     inkscape:cy="14.161417"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1880"
-     inkscape:window-height="1055"
-     inkscape:window-x="40"
-     inkscape:window-y="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
-     units="px" />
+     units="px"
+     scale-x="1" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -53,10 +54,10 @@
      inkscape:label="Capa 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-291.17915)">
+     transform="translate(0,-290.59707)">
     <g
        id="g6068"
-       transform="matrix(0.03555473,0,0,0.03555473,-8.9399994,288.63223)">
+       transform="matrix(0.03555473,0,0,0.03555473,-8.9399994,288.05015)">
       <path
          style="opacity:1;fill:#3c3c3c;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
          d="m 274.37948,86.34127 h 99.84843 c 5.7062,0 10.3,4.593801 10.3,10.300001 V 204.80517 c 0,5.7062 -4.5938,10.3 -10.3,10.3 h -99.84843 c -5.70621,0 -10.30001,-4.5938 -10.30001,-10.3 V 96.641271 c 0,-5.7062 4.5938,-10.300001 10.30001,-10.300001 z"
