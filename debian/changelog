@@ -1,10 +1,17 @@
-todotxt-indicator (0.2.0-0extras20.04.2) focal; urgency=medium
+todotxt-indicator (0.2.1-0extras20.04.0) focal; urgency=medium
+
+  * Change import todo.txt file
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Tue, 14 Apr 2020 21:13:15 +0200
+
+todotxt-indicator (0.2.0-0extras20.04.3) focal; urgency=medium
 
   * Change icon color
   * Change autostart desktop launcher
   * Update spanish translation
+  * Fix a bug on empty configuration
 
- -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Tue, 14 Apr 2020 06:30:48 +0200
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Tue, 14 Apr 2020 20:04:19 +0200
 
 todotxt-indicator (0.2.0-0extras20.04.1) focal; urgency=medium
 

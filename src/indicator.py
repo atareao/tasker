@@ -39,6 +39,7 @@ from gi.repository import AppIndicator3
 from gi.repository import GdkPixbuf
 import sys
 import os
+import re
 import webbrowser
 from pathlib import Path
 from config import _
@@ -49,6 +50,14 @@ from configurator import Configuration
 from add_todo import AddTodoDialog
 from list_todos import ListTodos
 import todotxtio.todotxtio as todotxtio
+
+
+def is_tag_in_array_of_tags(tag, tags):
+    for atag in tags:
+        if atag['name'] == tag:
+            return True
+    return False
+
 
 class Indicator(object):
 
@@ -77,7 +86,6 @@ class Indicator(object):
                 icon = config.ICON_PAUSED_LIGHT
             else:
                 icon = config.ICON_PAUSED_DARK
-        print(icon)
         self.indicator.set_icon(icon)
 
     def load_preferences(self):
@@ -91,6 +99,30 @@ class Indicator(object):
                 os.makedirs(todo_file.parent)
             todo_file.touch()
         self.todo_file = todo_file.as_posix()
+        projects = preferences['projects']
+        contexts = preferences['contexts']
+        tags = preferences['tags']
+        list_of_todos = todotxtio.from_file(self.todo_file)
+        pattern = r'^\d{4}-\d{2}-\d{2}$'
+        for todo in list_of_todos:
+            for aproject in todo.projects:
+                if aproject not in projects:
+                    projects.append(aproject)
+            for acontext in todo.contexts:
+                if acontext not in contexts:
+                    contexts.append(acontext)
+            print([tag['name'] for tag in tags])
+            for atag in todo.tags:
+                if atag not in [tag['name'] for tag in tags]:
+                    if re.search(pattern, todo.tags[atag]):
+                        tags.append({'name': atag, 'type': 'date'})
+                    else:
+                        tags.append({'name': atag, 'type': 'string'})
+        preferences['projects'] = projects
+        preferences['contexts'] = contexts
+        preferences['tags'] = tags
+        self.configuration.set('preferences', preferences)
+        self.configuration.save()
         self.set_icon(True)
 
     def on_popped(self, widget, display):
@@ -202,7 +234,6 @@ class Indicator(object):
         mc = CURRENCIES[self.main_currency]
         currencies = []
         for i in range(0, 5):
-            print(self.currencies[i])
             currencies.append(CURRENCIES[self.currencies[i]])
         days = []
         c0 = []

@@ -114,8 +114,8 @@ class AddTodoDialog(BaseDialog):
         tags = preferences['tags']
 
         posv = 1
-        self.project = None
-        self.context = None
+        self.projects = None
+        self.contexts = None
         self.tags = []
         if projects:
             posv += 1
@@ -167,8 +167,10 @@ class AddTodoDialog(BaseDialog):
             priority = get_selected_value_in_combo(self.priority)
             if priority > -1:
                 self.todo_item.priority = chr(priority + 65)
-            self.todo_item.projects = self.projects.get_active_items()
-            self.todo_item.contexts = self.contexts.get_active_items()
+            if self.projects:
+                self.todo_item.projects = self.projects.get_active_items()
+            if self.contexts:
+                self.todo_item.contexts = self.contexts.get_active_items()
             if self.tags:
                 tags = {}
                 for tag in self.tags:

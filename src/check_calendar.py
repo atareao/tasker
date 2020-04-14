@@ -52,7 +52,7 @@ class CheckCalendar(Gtk.Grid):
 
     def set_date(self, date):
         self.expander.set_expanded(True)
-        self.calendar.select_month(int(date[5:7]), int(date[0:4]))
+        self.calendar.select_month(int(date[5:7]) - 1, int(date[0:4]))
         self.calendar.select_day(int(date[-2:]))
 
     def get_date(self):
