@@ -12,5 +12,6 @@ Depends: ${misc:Depends}, ${python:Depends},
     gir1.2-gtk-3.0,
     gir1.2-glib-2.0,
     gir1.2-gdkpixbuf-2.0,
-    gir1.2-appindicator3-0.1
+    gir1.2-appindicator3-0.1,
+    gir1.2-keybinder-3.0
 Description: Work with tasks with Todo.txt

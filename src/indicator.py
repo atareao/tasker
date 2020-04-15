@@ -29,9 +29,11 @@ try:
     gi.require_version('Gdk', '3.0')
     gi.require_version('AppIndicator3', '0.1')
     gi.require_version('GdkPixbuf', '2.0')
+    gi.require_version('Keybinder', '3.0')
 except Exception as e:
     print(e)
     exit(-1)
+from gi.repository import Keybinder
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GLib
@@ -55,7 +57,6 @@ import todotxtio.todotxtio as todotxtio
 class Indicator(object):
 
     def __init__(self):
-
         self.indicator = AppIndicator3.Indicator.new(
             'todotxt-indicator',
             'todotxt-indicator',
@@ -66,7 +67,22 @@ class Indicator(object):
         self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
         self.set_icon(True)
         self.load_todos()
+        Keybinder.init()
+        Keybinder.bind('<Super><Ctrl>T', self.callback)
         Gtk.main()
+
+    def callback(self, widget):
+        addTodoDialog = AddTodoDialog()
+        if addTodoDialog.run() == Gtk.ResponseType.ACCEPT:
+            todo = addTodoDialog.get_task()
+            list_of_todos = todotxtio.from_file(self.todo_file)
+            for atodo in list_of_todos:
+                if todo.text == atodo.text:
+                    return
+            list_of_todos.append(todo)
+            todotxtio.to_file(self.todo_file, list_of_todos)
+            self.load_todos()
+        addTodoDialog.destroy()
 
     def set_icon(self, active=True):
         if active:
