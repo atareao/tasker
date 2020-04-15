@@ -72,9 +72,8 @@ class AddTagDialog(BaseDialog):
         self.grid.attach(label, 0, 1, 1, 1)
 
         type_store = Gtk.ListStore(str, str)
-        type_store.append(['Date', 'date'])
-        type_store.append(['Number', 'number'])
-        type_store.append(['String', 'string'])
+        type_store.append([_('Date'), 'date'])
+        type_store.append([_('String'), 'string'])
 
         self.type = Gtk.ComboBox.new()
         self.type.set_model(type_store)

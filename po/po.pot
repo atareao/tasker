@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-14 06:30+0200\n"
+"POT-Creation-Date: 2020-04-15 07:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/preferences.py:64 src/indicator.py:142
+#: src/preferences.py:64 src/indicator.py:171
 msgid "Preferences"
 msgstr ""
 
@@ -95,59 +95,59 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: src/indicator.py:126
+#: src/indicator.py:155
 msgid "Add todo"
 msgstr ""
 
-#: src/indicator.py:130
+#: src/indicator.py:159
 msgid "Todos"
 msgstr ""
 
-#: src/indicator.py:146
+#: src/indicator.py:175
 msgid "Help"
 msgstr ""
 
-#: src/indicator.py:152
+#: src/indicator.py:181
 msgid "Quit"
 msgstr ""
 
-#: src/indicator.py:197 src/indicator.py:293
+#: src/indicator.py:226 src/indicator.py:321
 msgid "TodoTxt Indicator"
 msgstr ""
 
-#: src/indicator.py:198
+#: src/indicator.py:227
 msgid "Rates"
 msgstr ""
 
-#: src/indicator.py:230
+#: src/indicator.py:258
 msgid "Homepage"
 msgstr ""
 
-#: src/indicator.py:237
+#: src/indicator.py:265
 msgid "Get help online..."
 msgstr ""
 
-#: src/indicator.py:245
+#: src/indicator.py:273
 msgid "Translate this application..."
 msgstr ""
 
-#: src/indicator.py:252
+#: src/indicator.py:280
 msgid "Report a bug..."
 msgstr ""
 
-#: src/indicator.py:261
+#: src/indicator.py:289
 msgid "Found me in Twitter"
 msgstr ""
 
-#: src/indicator.py:267
+#: src/indicator.py:295
 msgid "Found me in GitHub"
 msgstr ""
 
-#: src/indicator.py:273
+#: src/indicator.py:301
 msgid "Found me in Mastodon"
 msgstr ""
 
-#: src/indicator.py:279
+#: src/indicator.py:307
 msgid "About"
 msgstr ""
 
@@ -177,6 +177,14 @@ msgstr ""
 
 #: src/add_tag.py:70
 msgid "Type:"
+msgstr ""
+
+#: src/add_tag.py:75
+msgid "Date"
+msgstr ""
+
+#: src/add_tag.py:76
+msgid "String"
 msgstr ""
 
 #: src/add_todo.py:61

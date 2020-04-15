@@ -33,6 +33,16 @@ except Exception as e:
 from gi.repository import Gtk
 from gi.repository import GObject
 
+
+def listBoxFilterFunc(row, *user_data):
+    return row.is_visible()
+
+def listBoxSortFunc(row1, row2, *user_data):
+    if row1.is_visible() and row2.is_visible():
+        return row1.get_priority() > row2.get_priority()
+    return row1.is_visible() > row2.is_visible()
+
+
 class ListBoxRowTodo(Gtk.ListBoxRow):
     """Docstring for ListBoxRowCheck. """
     __gsignals__ = {
@@ -53,10 +63,20 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
         self.box.add(self.switch)
         self.switch.connect('toggled', self.on_toggled)
 
-        self.label = Gtk.Label.new(self.todo.text)
+        if self.todo.priority:
+            text = '({}) {}'.format(self.todo.priority, self.todo.text)
+        else:
+            text = self.todo.text
+        self.label = Gtk.Label.new(text)
         self.label.set_halign(Gtk.Align.START)
         self.label.set_margin_bottom(5)
         self.box.add(self.label)
+
+    def get_priority(self):
+        if self.todo.priority is None:
+            return 1000
+        return ord(self.todo.priority)
+
 
     def get_todo(self):
         self.todo.completed = self.switch.get_active()
@@ -64,9 +84,14 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
 
     def set_todo(self, todo):
         self.todo = todo
-        self.label.set_text(todo.text)
+        if self.todo.priority:
+            text = '({}) {}'.format(self.todo.priority, self.todo.text)
+        else:
+            text = self.todo.text
+        self.label.set_text(text)
         self.label.show_all()
         self.switch.set_active(todo.completed)
+        self.changed()
 
     def set_completed(self, completed):
         self.todo.completed = completed
@@ -80,11 +105,11 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
 
     def hide(self):
         self.visible = False
-        self.box.hide()
+        self.changed()
 
     def show(self):
         self.visible = True
-        self.box.show()
+        self.changed()
 
     def is_visible(self):
         return self.visible
@@ -99,10 +124,11 @@ class ListBoxTodo(Gtk.ScrolledWindow):
         """TODO: to be defined. """
         Gtk.ScrolledWindow.__init__(self)
         self.listBox = Gtk.ListBox.new()
+        self.listBox.set_filter_func(listBoxFilterFunc)
+        self.listBox.set_sort_func(listBoxSortFunc)
         self.add(self.listBox)
         if len(items) > 0:
             self.add_all(items)
-    
     def add_all(self, items):
         for item in items:
             self.add_item(item)
@@ -162,6 +188,5 @@ class ListBoxTodo(Gtk.ScrolledWindow):
                 child.show()
             else:
                 child.hide()
-        if selected_row and not selected_row.is_visible():
-            self.listBox.select_row(None)
+        self.listBox.invalidate_sort()
 

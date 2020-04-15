@@ -1,3 +1,12 @@
+todotxt-indicator (0.2.1-0extras20.04.1ubuntu1) focal; urgency=medium
+
+  * Improve filter function
+  * Sort tasks for todo dialog
+  * Sort tasks in indicator menu 
+  * Update spanish translation
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Wed, 15 Apr 2020 07:16:27 +0200
+
 todotxt-indicator (0.2.1-0extras20.04.1) focal; urgency=medium
 
   * Change import todo.txt file

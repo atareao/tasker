@@ -127,8 +127,13 @@ class Indicator(object):
 
     def load_todos(self):
         list_of_todos = todotxtio.from_file(self.todo_file)
+        list_of_todos.sort(key=lambda x:ord(x.priority) if x.priority else 1000, reverse=False)
         for i in range(0, min(len(list_of_todos), self.todos)):
-            self.menu_todos[i].set_label(list_of_todos[i].text)
+            if list_of_todos[i].priority:
+                text = '({}) {}'.format(list_of_todos[i].priority, list_of_todos[i].text)
+            else:
+                text = list_of_todos[i].text
+            self.menu_todos[i].set_label(text)
             self.menu_todos[i].set_active(list_of_todos[i].completed)
             self.menu_todos[i].connect('toggled', self.on_menu_todo_toggled, i)
             self.menu_todos[i].show()
