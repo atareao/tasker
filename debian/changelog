@@ -1,11 +1,12 @@
-todotxt-indicator (0.2.1-0extras20.04.1ubuntu1) focal; urgency=medium
+todotxt-indicator (0.2.1-0extras20.04.2) focal; urgency=medium
 
   * Improve filter function
   * Sort tasks for todo dialog
   * Sort tasks in indicator menu 
   * Update spanish translation
+  * Fix a bug with empty Gtk.Expander.new()
 
- -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Wed, 15 Apr 2020 07:16:27 +0200
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Wed, 15 Apr 2020 18:51:46 +0200
 
 todotxt-indicator (0.2.1-0extras20.04.1) focal; urgency=medium
 

@@ -39,7 +39,7 @@ class CheckCalendar(Gtk.Grid):
         """TODO: to be defined. """
         Gtk.Grid.__init__(self)
 
-        self.expander = Gtk.Expander.new()
+        self.expander = Gtk.Expander.new(None)
         self.calendar = Gtk.Calendar()
         self.expander.add(self.calendar)
         self.attach(self.expander, 0, 0, 1, 1)
