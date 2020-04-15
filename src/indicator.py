@@ -43,6 +43,7 @@ import sys
 import os
 import re
 import webbrowser
+import datetime
 from pathlib import Path
 from config import _
 from graph import Graph
@@ -124,6 +125,10 @@ class Indicator(object):
                 if atag not in [tag['name'] for tag in tags]:
                     if re.search(pattern, todo.tags[atag]):
                         tags.append({'name': atag, 'type': 'date'})
+                    elif todo.tags[atag].lower() in [ 'true', 'false']:
+                        tags.append({'name': atag, 'type': 'boolean'})
+                    elif todo.tags[atag].lower() in [ 'true', 'false']:
+                        tags.append({'name': atag, 'type': 'boolean'})
                     else:
                         tags.append({'name': atag, 'type': 'string'})
         preferences['projects'] = projects
@@ -139,6 +144,10 @@ class Indicator(object):
     def on_menu_todo_toggled(self, widget, i):
         list_of_todos = todotxtio.from_file(self.todo_file)
         list_of_todos[i].completed = widget.get_active()
+        if widget.get_active():
+            list_of_todos[i].completion_date = creation_date = datetime.datetime.now().strftime('%Y-%m-%d')
+        else:
+            list_of_todos[i].completion_date = None
         todotxtio.to_file(self.todo_file, list_of_todos)
 
     def load_todos(self):

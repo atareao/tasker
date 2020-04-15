@@ -32,6 +32,7 @@ except Exception as e:
     exit(-1)
 from gi.repository import Gtk
 from gi.repository import GObject
+import datetime
 
 
 def listBoxFilterFunc(row, *user_data):
@@ -95,6 +96,10 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
 
     def set_completed(self, completed):
         self.todo.completed = completed
+        if completed:
+            self.todo.completion_date = datetime.datetime.now().strftime('%Y-%m-%d')
+        else:
+            self.todo.completion_date = None
         self.switch.set_active(completed)
 
     def get_completed(self):

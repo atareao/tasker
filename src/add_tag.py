@@ -72,6 +72,7 @@ class AddTagDialog(BaseDialog):
         self.grid.attach(label, 0, 1, 1, 1)
 
         type_store = Gtk.ListStore(str, str)
+        type_store.append([_('Boolean'), 'boolean'])
         type_store.append([_('Date'), 'date'])
         type_store.append([_('String'), 'string'])
 

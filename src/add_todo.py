@@ -76,6 +76,8 @@ class AddTodoDialog(BaseDialog):
                     if tag_widget.name == key:
                         if type(tag_widget) == CheckCalendar:
                             tag_widget.set_date(todo_item.tags[key])
+                        elif type(tag_widget) == Gtk.CheckButton:
+                            tag_widget.set_active(todo_item.tags[key])
                         else:
                             tag_widget.set_text(todo_item.tags[key])
                         break
@@ -146,6 +148,8 @@ class AddTodoDialog(BaseDialog):
             if tag['type'] == 'date':
                 label.set_valign(Gtk.Align.START)
                 tag_widget = CheckCalendar()
+            elif tag['type'] == 'boolean':
+                tag_widget = Gtk.CheckButton.new()
             else:
                 tag_widget = Gtk.Entry.new()
             tag_widget.name = tag['name']
@@ -177,6 +181,8 @@ class AddTodoDialog(BaseDialog):
                     name = tag.name
                     if type(tag) == CheckCalendar:
                         value = tag.get_date()
+                    elif type(tag) == Gtk.CheckButton:
+                        value = str(tag.get_active())
                     else:
                         value = tag.get_text()
                     if value:
