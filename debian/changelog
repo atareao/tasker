@@ -1,9 +1,10 @@
-tasker (0.2.2-0extras20.04.1) focal; urgency=medium
+tasker (0.2.2-0extras20.04.2) focal; urgency=medium
 
   * Add completion date on completed task 
+  * Fix a bug with add task
   * Update spanish translation
 
- -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Thu, 16 Apr 2020 07:15:11 +0200
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Thu, 16 Apr 2020 07:49:07 +0200
 
 tasker (0.2.1-0extras20.04.3) focal; urgency=medium
 
