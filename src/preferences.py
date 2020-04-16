@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# This file is part of todotxt-indicator
+# This file is part of tasker
 #
 # Copyright (c) 2020 Lorenzo Carbonell Cerezo <a.k.a. atareao>
 #
@@ -98,7 +98,7 @@ class Preferences(BaseDialog):
 
         page01.attach(Gtk.Separator(), 0, 2, 2, 1)
 
-        label = Gtk.Label.new(_('Number of todos:'))
+        label = Gtk.Label.new(_('Number of tasks in menu:'))
         label.set_property('halign', Gtk.Align.START)
         page01.attach(label, 0, 3, 1, 1)
 
@@ -135,11 +135,11 @@ class Preferences(BaseDialog):
         box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
         page02.attach(box, 3, 0, 1, 2)
 
-        button_add_project = Gtk.Button.new_with_label(_('Add'))
+        button_add_project = Gtk.Button.new_with_label(_('Add project'))
         button_add_project.connect('clicked', self.on_button_add_project_clicked)
         box.add(button_add_project)
 
-        button_remove_project = Gtk.Button.new_with_label(_('Remove'))
+        button_remove_project = Gtk.Button.new_with_label(_('Remove project'))
         button_remove_project.connect('clicked', self.on_button_remove_projet_clicked)
         box.add(button_remove_project)
 
@@ -157,11 +157,11 @@ class Preferences(BaseDialog):
 
         box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
         page03.attach(box, 3, 0, 1, 2)
-        button_add_context = Gtk.Button.new_with_label(_('Add'))
+        button_add_context = Gtk.Button.new_with_label(_('Add context'))
         button_add_context.connect('clicked', self.on_button_add_context_clicked)
         box.add(button_add_context)
 
-        button_remove_context = Gtk.Button.new_with_label(_('Remove'))
+        button_remove_context = Gtk.Button.new_with_label(_('Remove context'))
         button_remove_context.connect('clicked', self.on_button_remove_context_clicked)
         box.add(button_remove_context)
 
@@ -179,11 +179,11 @@ class Preferences(BaseDialog):
 
         box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
         page04.attach(box, 3, 0, 1, 2)
-        button_add_tag = Gtk.Button.new_with_label(_('Add'))
+        button_add_tag = Gtk.Button.new_with_label(_('Add tag'))
         button_add_tag.connect('clicked', self.on_button_add_tag_clicked)
         box.add(button_add_tag)
 
-        button_remove_tag = Gtk.Button.new_with_label(_('Remove'))
+        button_remove_tag = Gtk.Button.new_with_label(_('Remove tag'))
         button_remove_tag.connect('clicked', self.on_button_remove_tag_clicked)
         box.add(button_remove_tag)
 

@@ -7,13 +7,11 @@ do
     for i in 8 16 20 22 24 28 32 36 40 48 64 72 96 128 192 256 480 512 1024
     do
         directory="$i"x"$i"
-        if [ ! -d "$directory" ]
+        if [ -d "$directory" ]
         then
-            mkdir $directory
-        elif [ -f "$directory"/"$filename" ]
-        then
-            rm "$directory"/"$filename" 
+            rm -rf $directory
         fi
+        mkdir $directory
         inkscape -z -e "$directory"/"$filename" -w $i -h $i $afile
     done
 done

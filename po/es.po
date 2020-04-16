@@ -1,13 +1,13 @@
-# Language * translations for currency-indicator package.
+# Language * translations for tasker package.
 # Copyright (C) 2020 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the currency-indicator package.
+# This file is distributed under the same license as the tasker package.
 # Lorenzo <lorenzo.carbonell.cerezo@gmail.com>, 2020.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: currency-indicator - 0.1.0-0extras19.10.11\n"
+"Project-Id-Version: tasker - 0.1.0-0extras19.10.11\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 07:15+0200\n"
+"POT-Creation-Date: 2020-04-16 06:34+0200\n"
 "PO-Revision-Date: 2020-03-04 18:31+0100\n"
 "Last-Translator: Lorenzo <lorenzo.carbonell.cerezo@gmail.com>\n"
 "Language-Team: Language *\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/preferences.py:64 src/indicator.py:171
+#: src/preferences.py:64 src/indicator.py:196
 msgid "Preferences"
 msgstr "Preferencias"
 
@@ -33,7 +33,8 @@ msgid "Autostart"
 msgstr "Autoinicio"
 
 #: src/preferences.py:101
-msgid "Number of todos:"
+#, fuzzy
+msgid "Number of tasks in menu:"
 msgstr "Número de todos:"
 
 #: src/preferences.py:111
@@ -48,30 +49,52 @@ msgstr "Archivo Todo"
 msgid "Projects"
 msgstr "Proyectos"
 
-#: src/preferences.py:138 src/preferences.py:160 src/preferences.py:182
-#: src/list_todos.py:142
-msgid "Add"
-msgstr "Añadir"
+#: src/preferences.py:138
+#, fuzzy
+msgid "Add project"
+msgstr "Añadir Proyecto"
 
-#: src/preferences.py:142 src/preferences.py:164 src/preferences.py:186
-#: src/list_todos.py:150
-msgid "Remove"
-msgstr "Eliminar"
+#: src/preferences.py:142
+#, fuzzy
+msgid "Remove project"
+msgstr "Selecciona proyecto:"
 
 #: src/preferences.py:153
 msgid "Contexts"
 msgstr "Contextos"
 
+#: src/preferences.py:160
+#, fuzzy
+msgid "Add context"
+msgstr "Añadir Contexto"
+
+#: src/preferences.py:164
+#, fuzzy
+msgid "Remove context"
+msgstr "Selecciona contexto:"
+
 #: src/preferences.py:175
 msgid "Tags"
 msgstr "Etiquetas"
 
+#: src/preferences.py:182
+#, fuzzy
+msgid "Add tag"
+msgstr "Añadir Etiqueta:"
+
+#: src/preferences.py:186
+#, fuzzy
+msgid "Remove tag"
+msgstr "Eliminar"
+
 #: src/list_todos.py:64
-msgid "List of todos"
+#, fuzzy
+msgid "List of tasks"
 msgstr "Lista de todos"
 
 #: src/list_todos.py:75
-msgid "Filter todos"
+#, fuzzy
+msgid "Filter tasks"
 msgstr "Filtrar todos"
 
 #: src/list_todos.py:87
@@ -86,122 +109,145 @@ msgstr "Selecciona proyecto:"
 msgid "Select context:"
 msgstr "Selecciona contexto:"
 
+#: src/list_todos.py:142 src/indicator.py:180 src/add_todo.py:61
+#, fuzzy
+msgid "Add task"
+msgstr "Añadir Etiqueta:"
+
 #: src/list_todos.py:146
-msgid "Edit"
+#, fuzzy
+msgid "Edit task"
 msgstr "Editar"
 
+#: src/list_todos.py:150
+#, fuzzy
+msgid "Remove task"
+msgstr "Eliminar"
+
 #: src/list_todos.py:154
-msgid "Clear"
+#, fuzzy
+msgid "Clear tasks"
 msgstr "Limpiar"
 
-#: src/indicator.py:155
-msgid "Add todo"
-msgstr "Añadir todo"
+#: src/indicator.py:184
+msgid "Tasks"
+msgstr ""
 
-#: src/indicator.py:159
-msgid "Todos"
-msgstr "Todos"
-
-#: src/indicator.py:175
+#: src/indicator.py:200
 msgid "Help"
 msgstr "Ayuda"
 
-#: src/indicator.py:181
+#: src/indicator.py:206
 msgid "Quit"
 msgstr "Salir"
 
-#: src/indicator.py:226 src/indicator.py:321
-msgid "TodoTxt Indicator"
-msgstr "TodoTxt Indicator"
-
-#: src/indicator.py:227
-msgid "Rates"
+#: src/indicator.py:251 src/indicator.py:346
+msgid "Tasker"
 msgstr ""
 
-#: src/indicator.py:258
+#: src/indicator.py:252
+msgid "Tasks statistics"
+msgstr ""
+
+#: src/indicator.py:283
 msgid "Homepage"
 msgstr "Homepage"
 
-#: src/indicator.py:265
+#: src/indicator.py:290
 msgid "Get help online..."
 msgstr "Consigue ayuda en línea..."
 
-#: src/indicator.py:273
+#: src/indicator.py:298
 msgid "Translate this application..."
 msgstr "Tradule la aplicación..."
 
-#: src/indicator.py:280
+#: src/indicator.py:305
 msgid "Report a bug..."
 msgstr "Informa de un error..."
 
-#: src/indicator.py:289
+#: src/indicator.py:314
 msgid "Found me in Twitter"
 msgstr "En Twitter"
 
-#: src/indicator.py:295
+#: src/indicator.py:320
 msgid "Found me in GitHub"
 msgstr "En GitHub"
 
-#: src/indicator.py:301
+#: src/indicator.py:326
 msgid "Found me in Mastodon"
 msgstr "En Mastodon"
 
-#: src/indicator.py:307
+#: src/indicator.py:332
 msgid "About"
 msgstr "Acerca de..."
 
-#: src/add_project.py:41
+#: src/add_project.py:42
 msgid "Add Project"
 msgstr "Añadir Proyecto"
 
-#: src/add_project.py:47
+#: src/add_project.py:48
 msgid "Project name:"
 msgstr "Nombre del proyecto:"
 
-#: src/add_context.py:41
+#: src/add_context.py:42
 msgid "Add Context"
 msgstr "Añadir Contexto"
 
-#: src/add_context.py:47
+#: src/add_context.py:48
 msgid "Context name:"
 msgstr "Nombre del contexto:"
 
-#: src/add_tag.py:56
+#: src/add_tag.py:57
 msgid "Add Tag"
 msgstr "Añadir Etiqueta:"
 
-#: src/add_tag.py:63
+#: src/add_tag.py:64
 msgid "Tag name:"
 msgstr "Nombre de la etiqueta:"
 
-#: src/add_tag.py:70
+#: src/add_tag.py:71
 msgid "Type:"
 msgstr "Tipo:"
 
-#: src/add_tag.py:75
+#: src/add_tag.py:76
+msgid "Boolean"
+msgstr ""
+
+#: src/add_tag.py:77
 msgid "Date"
 msgstr "Fecha"
 
-#: src/add_tag.py:76
+#: src/add_tag.py:78
 msgid "String"
 msgstr "Texto"
 
-#: src/add_todo.py:61
-msgid "Add Todo"
-msgstr "Añadir Todo"
-
-#: src/add_todo.py:88
+#: src/add_todo.py:90
 msgid "Text:"
 msgstr "Texto:"
 
-#: src/add_todo.py:95
+#: src/add_todo.py:97
 msgid "Priority"
 msgstr "Prioridad"
 
-#: src/add_todo.py:122
+#: src/add_todo.py:124
 msgid "Select project(s):"
 msgstr "Selecciona proyecto(s):"
 
-#: src/add_todo.py:132
+#: src/add_todo.py:134
 msgid "Select context(s):"
 msgstr "Selecciona contexto(s):"
+
+#~ msgid "Add"
+#~ msgstr "Añadir"
+
+#~ msgid "Add todo"
+#~ msgstr "Añadir todo"
+
+#~ msgid "Todos"
+#~ msgstr "Todos"
+
+#~ msgid "TodoTxt Indicator"
+#~ msgstr "TodoTxt Indicator"
+
+#~ msgid "Add Todo"
+#~ msgstr "Añadir Todo"

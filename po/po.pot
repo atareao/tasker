@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 07:16+0200\n"
+"POT-Creation-Date: 2020-04-16 06:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/preferences.py:64 src/indicator.py:171
+#: src/preferences.py:64 src/indicator.py:196
 msgid "Preferences"
 msgstr ""
 
@@ -34,7 +34,7 @@ msgid "Autostart"
 msgstr ""
 
 #: src/preferences.py:101
-msgid "Number of todos:"
+msgid "Number of tasks in menu:"
 msgstr ""
 
 #: src/preferences.py:111
@@ -49,30 +49,44 @@ msgstr ""
 msgid "Projects"
 msgstr ""
 
-#: src/preferences.py:138 src/preferences.py:160 src/preferences.py:182
-#: src/list_todos.py:142
-msgid "Add"
+#: src/preferences.py:138
+msgid "Add project"
 msgstr ""
 
-#: src/preferences.py:142 src/preferences.py:164 src/preferences.py:186
-#: src/list_todos.py:150
-msgid "Remove"
+#: src/preferences.py:142
+msgid "Remove project"
 msgstr ""
 
 #: src/preferences.py:153
 msgid "Contexts"
 msgstr ""
 
+#: src/preferences.py:160
+msgid "Add context"
+msgstr ""
+
+#: src/preferences.py:164
+msgid "Remove context"
+msgstr ""
+
 #: src/preferences.py:175
 msgid "Tags"
 msgstr ""
 
+#: src/preferences.py:182
+msgid "Add tag"
+msgstr ""
+
+#: src/preferences.py:186
+msgid "Remove tag"
+msgstr ""
+
 #: src/list_todos.py:64
-msgid "List of todos"
+msgid "List of tasks"
 msgstr ""
 
 #: src/list_todos.py:75
-msgid "Filter todos"
+msgid "Filter tasks"
 msgstr ""
 
 #: src/list_todos.py:87
@@ -87,122 +101,126 @@ msgstr ""
 msgid "Select context:"
 msgstr ""
 
+#: src/list_todos.py:142 src/indicator.py:180 src/add_todo.py:61
+msgid "Add task"
+msgstr ""
+
 #: src/list_todos.py:146
-msgid "Edit"
+msgid "Edit task"
+msgstr ""
+
+#: src/list_todos.py:150
+msgid "Remove task"
 msgstr ""
 
 #: src/list_todos.py:154
-msgid "Clear"
+msgid "Clear tasks"
 msgstr ""
 
-#: src/indicator.py:155
-msgid "Add todo"
+#: src/indicator.py:184
+msgid "Tasks"
 msgstr ""
 
-#: src/indicator.py:159
-msgid "Todos"
-msgstr ""
-
-#: src/indicator.py:175
+#: src/indicator.py:200
 msgid "Help"
 msgstr ""
 
-#: src/indicator.py:181
+#: src/indicator.py:206
 msgid "Quit"
 msgstr ""
 
-#: src/indicator.py:226 src/indicator.py:321
-msgid "TodoTxt Indicator"
+#: src/indicator.py:251 src/indicator.py:346
+msgid "Tasker"
 msgstr ""
 
-#: src/indicator.py:227
-msgid "Rates"
+#: src/indicator.py:252
+msgid "Tasks statistics"
 msgstr ""
 
-#: src/indicator.py:258
+#: src/indicator.py:283
 msgid "Homepage"
 msgstr ""
 
-#: src/indicator.py:265
+#: src/indicator.py:290
 msgid "Get help online..."
 msgstr ""
 
-#: src/indicator.py:273
+#: src/indicator.py:298
 msgid "Translate this application..."
 msgstr ""
 
-#: src/indicator.py:280
+#: src/indicator.py:305
 msgid "Report a bug..."
 msgstr ""
 
-#: src/indicator.py:289
+#: src/indicator.py:314
 msgid "Found me in Twitter"
 msgstr ""
 
-#: src/indicator.py:295
+#: src/indicator.py:320
 msgid "Found me in GitHub"
 msgstr ""
 
-#: src/indicator.py:301
+#: src/indicator.py:326
 msgid "Found me in Mastodon"
 msgstr ""
 
-#: src/indicator.py:307
+#: src/indicator.py:332
 msgid "About"
 msgstr ""
 
-#: src/add_project.py:41
+#: src/add_project.py:42
 msgid "Add Project"
 msgstr ""
 
-#: src/add_project.py:47
+#: src/add_project.py:48
 msgid "Project name:"
 msgstr ""
 
-#: src/add_context.py:41
+#: src/add_context.py:42
 msgid "Add Context"
 msgstr ""
 
-#: src/add_context.py:47
+#: src/add_context.py:48
 msgid "Context name:"
 msgstr ""
 
-#: src/add_tag.py:56
+#: src/add_tag.py:57
 msgid "Add Tag"
 msgstr ""
 
-#: src/add_tag.py:63
+#: src/add_tag.py:64
 msgid "Tag name:"
 msgstr ""
 
-#: src/add_tag.py:70
+#: src/add_tag.py:71
 msgid "Type:"
 msgstr ""
 
-#: src/add_tag.py:75
+#: src/add_tag.py:76
+msgid "Boolean"
+msgstr ""
+
+#: src/add_tag.py:77
 msgid "Date"
 msgstr ""
 
-#: src/add_tag.py:76
+#: src/add_tag.py:78
 msgid "String"
 msgstr ""
 
-#: src/add_todo.py:61
-msgid "Add Todo"
-msgstr ""
-
-#: src/add_todo.py:88
+#: src/add_todo.py:90
 msgid "Text:"
 msgstr ""
 
-#: src/add_todo.py:95
+#: src/add_todo.py:97
 msgid "Priority"
 msgstr ""
 
-#: src/add_todo.py:122
+#: src/add_todo.py:124
 msgid "Select project(s):"
 msgstr ""
 
-#: src/add_todo.py:132
+#: src/add_todo.py:134
 msgid "Select context(s):"
 msgstr ""

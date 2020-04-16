@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# This file is part of todotxt-indicator
+# This file is part of tasker
 #
 # Copyright (c) 2020 Lorenzo Carbonell Cerezo <a.k.a. atareao>
 #

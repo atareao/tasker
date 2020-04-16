@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# This file is part of todotxt-indicator
+# This file is part of tasker
 #
 # Copyright (c) 2020 Lorenzo Carbonell Cerezo <a.k.a. atareao>
 #
@@ -27,10 +27,10 @@ import os
 import sys
 
 if __name__ == '__main__':
-    if __file__.startswith('/opt/extras.ubuntu.com/todotxt-indicator') or\
+    if __file__.startswith('/opt/extras.ubuntu.com/tasker') or\
             os.getcwd().startswith(
-                '/opt/extras.ubuntu.com/todotxt-indicator'):
-        sys.path.insert(1, '/opt/extras.ubuntu.com/todotxt-indicator/share/todotxt-indicator')
+                '/opt/extras.ubuntu.com/tasker'):
+        sys.path.insert(1, '/opt/extras.ubuntu.com/tasker/share/tasker')
     else:
         sys.path.insert(1, os.path.normpath(
             os.path.join(os.path.dirname(__file__), '../src')))

@@ -1,4 +1,4 @@
-Source: todotxt-indicator
+Source: tasker
 Section: utils
 Priority: extra
 Maintainer: Lorenzo Carbonell Cerezo <lorenzo.carbonell.cerezo@gmail.com>
@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 9)
 Standards-Version: 3.9.6
 Homepage: http://www.atareao.es
 
-Package: todotxt-indicator
+Package: tasker
 Architecture: all
 Depends: ${misc:Depends}, ${python:Depends},
     gir1.2-gtk-3.0,

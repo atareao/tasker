@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# This file is part of todotxt-indicator
+# This file is part of tasker
 #
 # Copyright (c) 2020 Lorenzo Carbonell Cerezo <a.k.a. atareao>
 #
@@ -59,8 +59,8 @@ class Indicator(object):
 
     def __init__(self):
         self.indicator = AppIndicator3.Indicator.new(
-            'todotxt-indicator',
-            'todotxt-indicator',
+            'tasker',
+            'tasker',
             AppIndicator3.IndicatorCategory.APPLICATION_STATUS)
         self.load_preferences()
         self.indicator.set_menu(self.build_menu())
@@ -177,11 +177,11 @@ class Indicator(object):
 
         menu.append(Gtk.SeparatorMenuItem())
 
-        menu_add_todo = Gtk.MenuItem.new_with_label(_('Add todo'))
+        menu_add_todo = Gtk.MenuItem.new_with_label(_('Add task'))
         menu_add_todo.connect('activate', self.on_menu_add_todo_activate)
         menu.append(menu_add_todo)
 
-        menu_list_todos = Gtk.MenuItem.new_with_label(_('Todos'))
+        menu_list_todos = Gtk.MenuItem.new_with_label(_('Tasks'))
         menu_list_todos.connect('activate', self.on_menu_list_todos_activate)
         menu.append(menu_list_todos)
 
@@ -248,8 +248,8 @@ class Indicator(object):
     def show_statistics(self, widget):
         widget.set_sensitive(False)
 
-        title = _('TodoTxt Indicator')
-        subtitle = _('Rates')
+        title = _('Tasker')
+        subtitle = _('Tasks statistics')
         configuration = Configuration()
         preferences = self.configuration.get('preferences')
 
@@ -284,14 +284,14 @@ class Indicator(object):
         homepage_item.connect(
             'activate',
             lambda x: webbrowser.open(
-                'http://www.atareao.es/aplicacion/todotxt-indicator/'))
+                'http://www.atareao.es/aplicacion/tasker/'))
         help_menu.append(homepage_item)
 
         help_item = Gtk.MenuItem.new_with_label(_('Get help online...'))
         help_item.connect(
             'activate',
             lambda x: webbrowser.open(
-                'http://www.atareao.es/aplicacion/todotxt-indicator/'))
+                'http://www.atareao.es/aplicacion/tasker/'))
         help_menu.append(help_item)
 
         translate_item = Gtk.MenuItem.new_with_label(_(
@@ -299,14 +299,14 @@ class Indicator(object):
         translate_item.connect(
             'activate',
             lambda x: webbrowser.open(
-                'http://www.atareao.es/aplicacion/todotxt-indicator/'))
+                'http://www.atareao.es/aplicacion/tasker/'))
         help_menu.append(translate_item)
 
         bug_item = Gtk.MenuItem.new_with_label(_('Report a bug...'))
         bug_item.connect(
             'activate',
             lambda x: webbrowser.open('https://github.com/atareao\
-/todotxt-indicator/issues'))
+/tasker/issues'))
         help_menu.append(bug_item)
 
         help_menu.append(Gtk.SeparatorMenuItem())
@@ -343,7 +343,7 @@ class Indicator(object):
         ad.set_name(config.APPNAME)
         ad.set_version(config.VERSION)
         ad.set_copyright('Copyrignt (c) 2020\nLorenzo Carbonell')
-        ad.set_comments(_('TodoTxt Indicator'))
+        ad.set_comments(_('Tasker'))
         ad.set_license('''
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

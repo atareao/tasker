@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# This file is part of todotxt-indicator
+# This file is part of tasker
 #
 # Copyright (c) 2020 Lorenzo Carbonell Cerezo <a.k.a. atareao>
 #
@@ -32,7 +32,7 @@ PARAMS = {'stats': {},
           'preferences': {'theme-light': True,
                           'start-actived': True,
                           'todos': 10,
-                          'todo-file': '~/.config/todotxt-indicator/todo.txt',
+                          'todo-file': '~/.config/tasker/todo.txt',
                           'projects': [],
                           'contexts': [],
                           'tags': []
@@ -40,21 +40,21 @@ PARAMS = {'stats': {},
           }
 
 CONFIG_DIR = os.path.join(os.path.expanduser('~'),
-                          '.config/todotxt-indicator')
-CONFIG_FILE = os.path.join(CONFIG_DIR, 'todotxt-indicator.conf')
-DATA_FILE = os.path.join(CONFIG_DIR, 'todotxt-indicator.data')
+                          '.config/tasker')
+CONFIG_FILE = os.path.join(CONFIG_DIR, 'tasker.conf')
+DATA_FILE = os.path.join(CONFIG_DIR, 'tasker.data')
 
 
 def is_package():
     return __file__.find('src') < 0
 
 
-APP = 'todotxt-indicator'
+APP = 'tasker'
 APPNAME = 'TodoTxt Indicator'
 
 # check if running from source
 if is_package():
-    ROOTDIR = '/opt/extras.ubuntu.com/todotxt-indicator/share'
+    ROOTDIR = '/opt/extras.ubuntu.com/tasker/share'
     LANGDIR = os.path.join(ROOTDIR, 'locale-langpack')
     APPDIR = os.path.join(ROOTDIR, APP)
     CHANGELOG = os.path.join(APPDIR, 'changelog')
@@ -71,12 +71,12 @@ else:
     HTML_GRAPH = os.path.join(ROOTDIR, 'graph', 'graph.html')
     AUTOSTARTDIR = os.path.normpath(
         os.path.join(ROOTDIR, '../data/autostart/'))
-AUTOSTART = os.path.join(AUTOSTARTDIR, 'todotxt-indicator-autostart.desktop')
-ICON = os.path.join(ICONDIR, 'todotxt-indicator.svg')
-ICON_ACTIVED_LIGHT = os.path.join(ICONDIR, 'todotxt-indicator-active-light.svg')
-ICON_PAUSED_LIGHT = os.path.join(ICONDIR, 'todotxt-indicator-paused-light.svg')
-ICON_ACTIVED_DARK = os.path.join(ICONDIR, 'todotxt-indicator-active-dark.svg')
-ICON_PAUSED_DARK = os.path.join(ICONDIR, 'todotxt-indicator-paused-dark.svg')
+AUTOSTART = os.path.join(AUTOSTARTDIR, 'tasker-autostart.desktop')
+ICON = os.path.join(ICONDIR, 'tasker.svg')
+ICON_ACTIVED_LIGHT = os.path.join(ICONDIR, 'tasker-active-light.svg')
+ICON_PAUSED_LIGHT = os.path.join(ICONDIR, 'tasker-paused-light.svg')
+ICON_ACTIVED_DARK = os.path.join(ICONDIR, 'tasker-active-dark.svg')
+ICON_PAUSED_DARK = os.path.join(ICONDIR, 'tasker-paused-dark.svg')
 
 f = open(CHANGELOG, 'r')
 line = f.readline()

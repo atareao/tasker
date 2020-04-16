@@ -1,0 +1,17 @@
+[Desktop Entry]
+Name = Tasker
+GenericName = Tasker
+Comment = Tasker
+Exec = /opt/extras.ubuntu.com/tasker/bin/tasker
+Icon = tasker
+Type = Application
+Terminal = false
+StartupNotify = true
+Encoding = utf-8
+Categories = Utility;
+Name[en_GB] = Tasker
+Name[es] = Tasker
+GenericName[en_GB] = Tasker
+GenericName[es] = Tasker
+Comment[en_GB] = Tasker
+Comment[es] = Tasker

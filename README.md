@@ -1,16 +1,16 @@
-<h1 align="center">Welcome to TodoTxt Indicator 👋</h1>
+<h1 align="center">Welcome to Tasker 👋</h1>
 
 ![Licencia MIT](https://img.shields.io/badge/Licencia-MIT-green)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b3e704c3f150404582cd23b9fcb4be32)](https://www.codacy.com/manual/atareao/todotxt-indicator?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=atareao/todotxt-indicator&amp;utm_campaign=Badge_Grade)
-[![CodeFactor](https://www.codefactor.io/repository/github/atareao/todotxt-indicator/badge/master)](https://www.codefactor.io/repository/github/atareao/todotxt-indicator/overview/master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b3e704c3f150404582cd23b9fcb4be32)](https://www.codacy.com/manual/atareao/tasker?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=atareao/tasker&amp;utm_campaign=Badge_Grade)
+[![CodeFactor](https://www.codefactor.io/repository/github/atareao/tasker/badge/master)](https://www.codefactor.io/repository/github/atareao/tasker/overview/master)
 
 [![Twitter: atareao](https://img.shields.io/twitter/follow/atareao.svg?style=social)](https://twitter.com/atareao)
 
-todotxt-indicator is an application to 
+tasker is an application to 
 
-[![todotxt-indicator](./data/icons/todotxt-indicator.svg)](https://www.atareao.es/aplicacion/todotxt-indicator/)
+[![tasker](./data/icons/tasker.svg)](https://www.atareao.es/aplicacion/tasker/)
 
-## 🏠 [Homepage](https://www.atareao.es/aplicacion/todotxt-indicator/)
+## 🏠 [Homepage](https://www.atareao.es/aplicacion/tasker/)
 
 ## Prerequisites
 
@@ -25,30 +25,30 @@ Before you begin, ensure you have met the following requirements:
 * gir1.2-appindicator3-0.1
 * gir1.2-keybinder-3.0
 
-## Installing TodoTxt Indicator
+## Installing Tasker
 
-To install **TodoTxt Indicator**, follow these steps:
+To install **Tasker**, follow these steps:
 
 * In a terminal (`Ctrl+Alt+T`), run these commands
 
 ```
 sudo add-apt-repository ppa:atareao/atareao
 sudo apt update
-sudo apt install todotxt-indicator
+sudo apt install tasker
 ```
 
-## Using TodoTxt Indicator
+## Using Tasker
 
-When you start **TodoTxt Indicator** it goes to Indicator Area, as you can see in the next screenshot,
+When you start **Tasker** it goes to Indicator Area, as you can see in the next screenshot,
 
-![todotxt-indicator](./screenshots/screenshot_01.png)
+![tasker](./screenshots/screenshot_01.png)
 
 In this screenshot, the language is Spanish, but, if there is no translation for your language, you will find the app in English.
 
-You can set some options in order to start *TodoTxt Indicator* when you start your Operative System.
+You can set some options in order to start *Tasker* when you start your Operative System.
 
 * Set the icon theme. Dark or light.
-* Start TodoTxt Indicator with your Operative System
+* Start Tasker with your Operative System
 * Set the number of tasks you want to show in the indicator menu
 * Set the tasks files. The file must follow the Todo.txt syntax.
 
@@ -75,15 +75,15 @@ In the next screenshot you can see the about
 
 ![About](./screenshots/screenshot_03.png)
 
-In the next screenshots you can see some samples of my use of *todotxt-indicator*,
+In the next screenshots you can see some samples of my use of *tasker*,
 
 ![Example 1](./screenshots/screenshot_04.png)
 
 ![Example 2](./screenshots/screenshot_05.png)
 
-## Contributing to TodoTxt Indicator
+## Contributing to Tasker
 
-To contribute to **TodoTxt Indicator**, follow these steps:
+To contribute to **Tasker**, follow these steps:
 
 1. Fork this repository.
 2. Create a branch: `git checkout -b <branch_name>`.

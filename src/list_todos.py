@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# This file is part of todotxt-indicator
+# This file is part of tasker
 #
 # Copyright (c) 2020 Lorenzo Carbonell Cerezo <a.k.a. atareao>
 #
@@ -61,7 +61,7 @@ def get_selected_value_in_combo(combo):
 class ListTodos(BaseDialog):
     """docstring for ListTodos"""
     def __init__(self):
-        BaseDialog.__init__(self, _('List of todos'), None, ok_button=True,
+        BaseDialog.__init__(self, _('List of tasks'), None, ok_button=True,
                             cancel_button=True)
         self.load()
 
@@ -72,7 +72,7 @@ class ListTodos(BaseDialog):
         self.todos.set_size_request(300, 500)
         self.grid.attach(self.todos, 0, 0, 1, 1)
 
-        expander = Gtk.Expander.new(_('Filter todos'))
+        expander = Gtk.Expander.new(_('Filter tasks'))
 
         expander_grid = Gtk.Grid.new()
         expander_grid.set_row_spacing(10)
@@ -139,19 +139,19 @@ class ListTodos(BaseDialog):
         box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
         self.grid.attach(box, 1, 0, 1, 2)
 
-        button_add = Gtk.Button.new_with_label(_('Add'))
+        button_add = Gtk.Button.new_with_label(_('Add task'))
         button_add.connect('clicked', self.on_button_add_clicked)
         box.add(button_add)
 
-        button_edit = Gtk.Button.new_with_label(_('Edit'))
+        button_edit = Gtk.Button.new_with_label(_('Edit task'))
         button_edit.connect('clicked', self.on_button_edit_clicked)
         box.add(button_edit)
 
-        button_remove = Gtk.Button.new_with_label(_('Remove'))
+        button_remove = Gtk.Button.new_with_label(_('Remove task'))
         button_remove.connect('clicked', self.on_button_remove_clicked)
         box.add(button_remove)
 
-        button_clear = Gtk.Button.new_with_label(_('Clear'))
+        button_clear = Gtk.Button.new_with_label(_('Clear tasks'))
         button_clear.connect('clicked', self.on_button_clear_clicked)
         box.add(button_clear)
 

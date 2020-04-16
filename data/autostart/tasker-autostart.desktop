@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Exec=/opt/extras.ubuntu.com/tasker/bin/tasker
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[es_ES]=tasker-autostart
+Name=tasker-autostart
+Comment[es_ES]=tasker official shortcut
+Comment=tasker official shortcut
+X-GNOME-Autostart-Delay=15
