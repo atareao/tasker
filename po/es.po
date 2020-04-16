@@ -33,9 +33,8 @@ msgid "Autostart"
 msgstr "Autoinicio"
 
 #: src/preferences.py:101
-#, fuzzy
 msgid "Number of tasks in menu:"
-msgstr "Número de todos:"
+msgstr "Número de tareas en el menú:"
 
 #: src/preferences.py:111
 msgid "Todo file:"
@@ -131,7 +130,7 @@ msgstr "Limpiar"
 
 #: src/indicator.py:184
 msgid "Tasks"
-msgstr ""
+msgstr "Tareas"
 
 #: src/indicator.py:200
 msgid "Help"
@@ -143,11 +142,11 @@ msgstr "Salir"
 
 #: src/indicator.py:251 src/indicator.py:346
 msgid "Tasker"
-msgstr ""
+msgstr "Tasker"
 
 #: src/indicator.py:252
 msgid "Tasks statistics"
-msgstr ""
+msgstr "Estadística de tareas"
 
 #: src/indicator.py:283
 msgid "Homepage"
@@ -211,7 +210,7 @@ msgstr "Tipo:"
 
 #: src/add_tag.py:76
 msgid "Boolean"
-msgstr ""
+msgstr "Booleano"
 
 #: src/add_tag.py:77
 msgid "Date"
