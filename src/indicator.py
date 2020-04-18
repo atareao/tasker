@@ -150,9 +150,15 @@ class Indicator(object):
             list_of_todos[i].completion_date = None
         todotxtio.to_file(self.todo_file, list_of_todos)
 
+    def sort(self, todo):
+        if todo.priority:
+            order = '000' + str(ord(todo.priority.upper()))
+            return order[-3:] + todo.text.lower()
+        return '999' + todo.text.lower()
+
     def load_todos(self):
         list_of_todos = todotxtio.from_file(self.todo_file)
-        list_of_todos.sort(key=lambda x:ord(x.priority) if x.priority else 1000, reverse=False)
+        list_of_todos.sort(reverse=False, key=self.sort)
         for i in range(0, min(len(list_of_todos), self.todos)):
             if list_of_todos[i].priority:
                 text = '({}) {}'.format(list_of_todos[i].priority, list_of_todos[i].text)

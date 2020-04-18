@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tasker - 0.1.0-0extras19.10.11\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 06:34+0200\n"
+"POT-Creation-Date: 2020-04-18 20:49+0200\n"
 "PO-Revision-Date: 2020-03-04 18:31+0100\n"
 "Last-Translator: Lorenzo <lorenzo.carbonell.cerezo@gmail.com>\n"
 "Language-Team: Language *\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/preferences.py:64 src/indicator.py:196
+#: src/preferences.py:64 src/indicator.py:202
 msgid "Preferences"
 msgstr "Preferencias"
 
@@ -49,52 +49,44 @@ msgid "Projects"
 msgstr "Proyectos"
 
 #: src/preferences.py:138
-#, fuzzy
 msgid "Add project"
 msgstr "Añadir Proyecto"
 
 #: src/preferences.py:142
-#, fuzzy
 msgid "Remove project"
-msgstr "Selecciona proyecto:"
+msgstr "Borrar proyecto"
 
 #: src/preferences.py:153
 msgid "Contexts"
 msgstr "Contextos"
 
 #: src/preferences.py:160
-#, fuzzy
 msgid "Add context"
-msgstr "Añadir Contexto"
+msgstr "Añadir contexto"
 
 #: src/preferences.py:164
-#, fuzzy
 msgid "Remove context"
-msgstr "Selecciona contexto:"
+msgstr "Borrar contexto"
 
 #: src/preferences.py:175
 msgid "Tags"
 msgstr "Etiquetas"
 
 #: src/preferences.py:182
-#, fuzzy
 msgid "Add tag"
-msgstr "Añadir Etiqueta:"
+msgstr "Añadir etiqueta"
 
 #: src/preferences.py:186
-#, fuzzy
 msgid "Remove tag"
-msgstr "Eliminar"
+msgstr "Eliminar etiqueta"
 
 #: src/list_todos.py:64
-#, fuzzy
 msgid "List of tasks"
-msgstr "Lista de todos"
+msgstr "Lista de tareas"
 
 #: src/list_todos.py:75
-#, fuzzy
 msgid "Filter tasks"
-msgstr "Filtrar todos"
+msgstr "Filtrar tareas"
 
 #: src/list_todos.py:87
 msgid "Priority:"
@@ -108,75 +100,71 @@ msgstr "Selecciona proyecto:"
 msgid "Select context:"
 msgstr "Selecciona contexto:"
 
-#: src/list_todos.py:142 src/indicator.py:180 src/add_todo.py:61
-#, fuzzy
+#: src/list_todos.py:142 src/indicator.py:186 src/add_todo.py:65
 msgid "Add task"
-msgstr "Añadir Etiqueta:"
+msgstr "Añadir tarea"
 
 #: src/list_todos.py:146
-#, fuzzy
 msgid "Edit task"
-msgstr "Editar"
+msgstr "Editar tarea"
 
 #: src/list_todos.py:150
-#, fuzzy
 msgid "Remove task"
-msgstr "Eliminar"
+msgstr "Eliminar tarea"
 
 #: src/list_todos.py:154
-#, fuzzy
 msgid "Clear tasks"
-msgstr "Limpiar"
+msgstr "Limpiar tareas"
 
-#: src/indicator.py:184
+#: src/indicator.py:190
 msgid "Tasks"
 msgstr "Tareas"
 
-#: src/indicator.py:200
+#: src/indicator.py:206
 msgid "Help"
 msgstr "Ayuda"
 
-#: src/indicator.py:206
+#: src/indicator.py:212
 msgid "Quit"
 msgstr "Salir"
 
-#: src/indicator.py:251 src/indicator.py:346
+#: src/indicator.py:257 src/indicator.py:352
 msgid "Tasker"
 msgstr "Tasker"
 
-#: src/indicator.py:252
+#: src/indicator.py:258
 msgid "Tasks statistics"
 msgstr "Estadística de tareas"
 
-#: src/indicator.py:283
+#: src/indicator.py:289
 msgid "Homepage"
 msgstr "Homepage"
 
-#: src/indicator.py:290
+#: src/indicator.py:296
 msgid "Get help online..."
 msgstr "Consigue ayuda en línea..."
 
-#: src/indicator.py:298
+#: src/indicator.py:304
 msgid "Translate this application..."
 msgstr "Tradule la aplicación..."
 
-#: src/indicator.py:305
+#: src/indicator.py:311
 msgid "Report a bug..."
 msgstr "Informa de un error..."
 
-#: src/indicator.py:314
+#: src/indicator.py:320
 msgid "Found me in Twitter"
 msgstr "En Twitter"
 
-#: src/indicator.py:320
+#: src/indicator.py:326
 msgid "Found me in GitHub"
 msgstr "En GitHub"
 
-#: src/indicator.py:326
+#: src/indicator.py:332
 msgid "Found me in Mastodon"
 msgstr "En Mastodon"
 
-#: src/indicator.py:332
+#: src/indicator.py:338
 msgid "About"
 msgstr "Acerca de..."
 
@@ -220,33 +208,18 @@ msgstr "Fecha"
 msgid "String"
 msgstr "Texto"
 
-#: src/add_todo.py:90
+#: src/add_todo.py:94
 msgid "Text:"
 msgstr "Texto:"
 
-#: src/add_todo.py:97
+#: src/add_todo.py:101
 msgid "Priority"
 msgstr "Prioridad"
 
-#: src/add_todo.py:124
+#: src/add_todo.py:128
 msgid "Select project(s):"
 msgstr "Selecciona proyecto(s):"
 
-#: src/add_todo.py:134
+#: src/add_todo.py:138
 msgid "Select context(s):"
 msgstr "Selecciona contexto(s):"
-
-#~ msgid "Add"
-#~ msgstr "Añadir"
-
-#~ msgid "Add todo"
-#~ msgstr "Añadir todo"
-
-#~ msgid "Todos"
-#~ msgstr "Todos"
-
-#~ msgid "TodoTxt Indicator"
-#~ msgstr "TodoTxt Indicator"
-
-#~ msgid "Add Todo"
-#~ msgstr "Añadir Todo"
