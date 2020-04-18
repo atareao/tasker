@@ -76,9 +76,20 @@ class ListBoxStringType(Gtk.ListBox):
     def __init__(self, items=[]):
         """TODO: to be defined. """
         Gtk.ListBox.__init__(self)
+        self.set_sort_func(self.sort_list)
         if len(items) > 0:
             self.add_all(items)
     
+    def sort_list(self, row1, row2):
+        """TODO: Docstring for sort_list.
+
+        :row1: TODO
+        :row2: TODO
+        :returns: TODO
+
+        """
+        return row1.get_name() > row2.get_name()
+
     def add_all(self, items):
         for item in items:
             self.add_item(item)

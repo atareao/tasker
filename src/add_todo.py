@@ -38,6 +38,10 @@ from list_box_check import ListBoxCheck
 from check_calendar import CheckCalendar
 from todotxtio import todotxtio
 
+def string2bool(value):
+    if value.lower() in ['true', 'yes', 'y', '1']:
+        return True
+    return False
 
 def select_value_in_combo(combo, value):
     model = combo.get_model()
@@ -77,7 +81,7 @@ class AddTodoDialog(BaseDialog):
                         if type(tag_widget) == CheckCalendar:
                             tag_widget.set_date(todo_item.tags[key])
                         elif type(tag_widget) == Gtk.CheckButton:
-                            tag_widget.set_active(todo_item.tags[key])
+                            tag_widget.set_active(string2bool(todo_item.tags[key]))
                         else:
                             tag_widget.set_text(todo_item.tags[key])
                         break

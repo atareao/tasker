@@ -40,6 +40,8 @@ def listBoxFilterFunc(row, *user_data):
 
 def listBoxSortFunc(row1, row2, *user_data):
     if row1.is_visible() and row2.is_visible():
+        if row1.get_priority() == row2.get_priority():
+            return row1.todo.text.lower() > row2.todo.text.lower()
         return row1.get_priority() > row2.get_priority()
     return row1.is_visible() > row2.is_visible()
 

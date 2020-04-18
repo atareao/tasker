@@ -81,14 +81,25 @@ class ListBoxCheck(Gtk.ScrolledWindow):
         """TODO: to be defined. """
         Gtk.ScrolledWindow.__init__(self)
         self.listBox = Gtk.ListBox.new()
+        self.listBox.set_sort_func(self.sort_list)
         self.add(self.listBox)
         if len(items) > 0:
             self.add_all(items)
-    
+
+    def sort_list(self, row1, row2):
+        """TODO: Docstring for sort_list.
+
+        :row1: TODO
+        :row2: TODO
+        :returns: TODO
+
+        """
+        return row1.get_name() > row2.get_name()
+
     def add_all(self, items):
         for item in items:
             self.add_item(item)
-            
+
     def add_item(self, text):
         for item in self.get_children():
             if item.get_name() == text:
