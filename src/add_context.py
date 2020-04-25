@@ -57,7 +57,8 @@ class AddContextDialog(BaseDialog):
         :returns: TODO
 
         """
-        return self.text.get_text()
+        name = self.text.get_text()
+        return re.sub('[^0-9a-zA-Z]+', '_', name)
 
 
 if __name__ == '__main__':
@@ -66,4 +67,4 @@ if __name__ == '__main__':
     if response == Gtk.ResponseType.ACCEPT:
         addContextDialog.get_task()
     addContextDialog.destroy()
-        
+
