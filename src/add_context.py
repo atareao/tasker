@@ -32,6 +32,8 @@ except Exception as e:
 from gi.repository import Gtk
 from config import _
 from basedialog import BaseDialog
+import re
+
 
 class AddContextDialog(BaseDialog):
 
