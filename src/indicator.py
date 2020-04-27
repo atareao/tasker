@@ -150,7 +150,8 @@ class Indicator(object):
         else:
             list_of_todos[widget.file_index].completion_date = None
         todotxtio.to_file(self.todo_file, list_of_todos)
-        widget.hide()
+        if self.hide_completed:
+            widget.hide()
 
     def sort(self, todo):
         if todo.priority:
@@ -159,11 +160,8 @@ class Indicator(object):
         return '999' + todo.text.lower()
 
     def load_todos(self):
-        all_todos = todotxtio.from_file(self.todo_file)
-        all_todos.sort(reverse=False, key=self.sort)
-        list_of_todos = all_todos
-        if self.hide_completed:
-            list_of_todos = list(filter(lambda item: not item.completion_date, all_todos))
+        list_of_todos = todotxtio.from_file(self.todo_file)
+        list_of_todos.sort(reverse=False, key=self.sort)
 
         while self.todos > len(self.menu_todos):
             self.menu_todos.append(Gtk.CheckMenuItem.new_with_label(''))
@@ -176,7 +174,10 @@ class Indicator(object):
             self.menu_todos[i].set_label(text)
             self.menu_todos[i].set_active(list_of_todos[i].completed)
             self.menu_todos[i].connect('toggled', self.on_menu_todo_toggled)
-            self.menu_todos[i].show()
+            if self.hide_completed and list_of_todos[i].completed:
+                self.menu_todos[i].hide()
+            else:
+                self.menu_todos[i].show()
         if len(list_of_todos) < self.todos:
             for i in range(len(list_of_todos), self.todos):
                 self.menu_todos[i].hide()
