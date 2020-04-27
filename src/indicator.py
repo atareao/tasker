@@ -112,6 +112,7 @@ class Indicator(object):
         projects = preferences['projects']
         contexts = preferences['contexts']
         tags = preferences['tags']
+        self.hide_completed = preferences.get('hide-completed', False)
         list_of_todos = todotxtio.from_file(self.todo_file)
         pattern = r'^\d{4}-\d{2}-\d{2}$'
         for todo in list_of_todos:
@@ -149,6 +150,7 @@ class Indicator(object):
         else:
             list_of_todos[widget.file_index].completion_date = None
         todotxtio.to_file(self.todo_file, list_of_todos)
+        widget.hide()
 
     def sort(self, todo):
         if todo.priority:
@@ -157,8 +159,14 @@ class Indicator(object):
         return '999' + todo.text.lower()
 
     def load_todos(self):
-        list_of_todos = todotxtio.from_file(self.todo_file)
-        list_of_todos.sort(reverse=False, key=self.sort)
+        all_todos = todotxtio.from_file(self.todo_file)
+        all_todos.sort(reverse=False, key=self.sort)
+        list_of_todos = all_todos
+        if self.hide_completed:
+            list_of_todos = list(filter(lambda item: not item.completion_date, all_todos))
+
+        while self.todos > len(self.menu_todos):
+            self.menu_todos.append(Gtk.CheckMenuItem.new_with_label(''))
         for i in range(0, min(len(list_of_todos), self.todos)):
             if list_of_todos[i].priority:
                 text = '({}) {}'.format(list_of_todos[i].priority, list_of_todos[i].text)

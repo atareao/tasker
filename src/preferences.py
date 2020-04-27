@@ -68,18 +68,68 @@ class Preferences(BaseDialog):
     def init_ui(self):
         BaseDialog.init_ui(self)
 
-        notebook = Gtk.Notebook.new()
-        self.grid.attach(notebook, 0, 0, 1, 1)
+        self.notebook = Gtk.Notebook.new()
+        self.grid.attach(self.notebook, 0, 0, 1, 1)
 
-        page01 = Gtk.Grid.new()
-        page01.set_row_spacing(10)
-        page01.set_column_spacing(10)
-        page01.set_margin_bottom(10)
-        page01.set_margin_start(10)
-        page01.set_margin_end(10)
-        page01.set_margin_top(10)
-        notebook.append_page(page01, Gtk.Label.new(_('General')))
-        
+        self._build_page_general()
+        self._build_page_projects()
+        self._build_page_contexts()
+        self._build_tags()
+        self._build_behaviors()
+
+    def _build_behaviors(self, ):
+        page05 = self._new_page('Behaviors')
+        label = Gtk.Label.new(_('Hide completed tasks'))
+        label.set_property('halign', Gtk.Align.START)
+        page05.attach(label, 0, 0, 1, 1)
+        self.hide_completed = Gtk.Switch.new()
+        self.hide_completed.set_property('halign', Gtk.Align.CENTER)
+        page05.attach(self.hide_completed, 1, 0, 1, 1)
+
+    def _build_tags(self):
+        page04 = self._new_page('Tags')
+        self.tags = ListBoxStringType()
+        self.tags.set_size_request(250, 250)
+        page04.attach(self.tags, 0, 0, 3, 3)
+        box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
+        page04.attach(box, 3, 0, 1, 2)
+        button_add_tag = Gtk.Button.new_with_label(_('Add tag'))
+        button_add_tag.connect('clicked', self.on_button_add_tag_clicked)
+        box.add(button_add_tag)
+        button_remove_tag = Gtk.Button.new_with_label(_('Remove tag'))
+        button_remove_tag.connect('clicked', self.on_button_remove_tag_clicked)
+        box.add(button_remove_tag)
+
+    def _build_page_contexts(self):
+        page03 = self._new_page('Contexts')
+        self.contexts = ListBoxString()
+        self.contexts.set_size_request(250, 250)
+        page03.attach(self.contexts, 0, 0, 3, 3)
+        box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
+        page03.attach(box, 3, 0, 1, 2)
+        button_add_context = Gtk.Button.new_with_label(_('Add context'))
+        button_add_context.connect('clicked', self.on_button_add_context_clicked)
+        box.add(button_add_context)
+        button_remove_context = Gtk.Button.new_with_label(_('Remove context'))
+        button_remove_context.connect('clicked', self.on_button_remove_context_clicked)
+        box.add(button_remove_context)
+
+    def _build_page_projects(self):
+        page02 = self._new_page('Projects')
+        self.projects = ListBoxString()
+        self.projects.set_size_request(250, 250)
+        page02.attach(self.projects, 0, 0, 3, 3)
+        box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
+        page02.attach(box, 3, 0, 1, 2)
+        button_add_project = Gtk.Button.new_with_label(_('Add project'))
+        button_add_project.connect('clicked', self.on_button_add_project_clicked)
+        box.add(button_add_project)
+        button_remove_project = Gtk.Button.new_with_label(_('Remove project'))
+        button_remove_project.connect('clicked', self.on_button_remove_projet_clicked)
+        box.add(button_remove_project)
+
+    def _build_page_general(self):
+        page01 = self._new_page('General')
         label = Gtk.Label.new(_('Theme light:'))
         label.set_property('halign', Gtk.Align.START)
         page01.attach(label, 0, 0, 1, 1)
@@ -120,72 +170,16 @@ class Preferences(BaseDialog):
         self.todo_file.add_filter(todofilter)
         page01.attach(self.todo_file, 1, 5, 1, 1)
 
-        page02 = Gtk.Grid.new()
-        page02.set_row_spacing(10)
-        page02.set_column_spacing(10)
-        page02.set_margin_bottom(10)
-        page02.set_margin_start(10)
-        page02.set_margin_end(10)
-        page02.set_margin_top(10)
-        notebook.append_page(page02, Gtk.Label.new(_('Projects')))
-        self.projects = ListBoxString()
-        self.projects.set_size_request(250, 250)
-        page02.attach(self.projects, 0, 0, 3, 3)
-
-        box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
-        page02.attach(box, 3, 0, 1, 2)
-
-        button_add_project = Gtk.Button.new_with_label(_('Add project'))
-        button_add_project.connect('clicked', self.on_button_add_project_clicked)
-        box.add(button_add_project)
-
-        button_remove_project = Gtk.Button.new_with_label(_('Remove project'))
-        button_remove_project.connect('clicked', self.on_button_remove_projet_clicked)
-        box.add(button_remove_project)
-
-        page03 = Gtk.Grid.new()
-        page03.set_row_spacing(10)
-        page03.set_column_spacing(10)
-        page03.set_margin_bottom(10)
-        page03.set_margin_start(10)
-        page03.set_margin_end(10)
-        page03.set_margin_top(10)
-        notebook.append_page(page03, Gtk.Label.new(_('Contexts')))
-        self.contexts = ListBoxString()
-        self.contexts.set_size_request(250, 250)
-        page03.attach(self.contexts, 0, 0, 3, 3)
-
-        box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
-        page03.attach(box, 3, 0, 1, 2)
-        button_add_context = Gtk.Button.new_with_label(_('Add context'))
-        button_add_context.connect('clicked', self.on_button_add_context_clicked)
-        box.add(button_add_context)
-
-        button_remove_context = Gtk.Button.new_with_label(_('Remove context'))
-        button_remove_context.connect('clicked', self.on_button_remove_context_clicked)
-        box.add(button_remove_context)
-
-        page04 = Gtk.Grid.new()
-        page04.set_row_spacing(10)
-        page04.set_column_spacing(10)
-        page04.set_margin_bottom(10)
-        page04.set_margin_start(10)
-        page04.set_margin_end(10)
-        page04.set_margin_top(10)
-        notebook.append_page(page04, Gtk.Label.new(_('Tags')))
-        self.tags = ListBoxStringType()
-        self.tags.set_size_request(250, 250)
-        page04.attach(self.tags, 0, 0, 3, 3)
-
-        box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
-        page04.attach(box, 3, 0, 1, 2)
-        button_add_tag = Gtk.Button.new_with_label(_('Add tag'))
-        button_add_tag.connect('clicked', self.on_button_add_tag_clicked)
-        box.add(button_add_tag)
-
-        button_remove_tag = Gtk.Button.new_with_label(_('Remove tag'))
-        button_remove_tag.connect('clicked', self.on_button_remove_tag_clicked)
-        box.add(button_remove_tag)
+    def _new_page(self, label):
+        newPage = Gtk.Grid.new()
+        newPage.set_row_spacing(10)
+        newPage.set_column_spacing(10)
+        newPage.set_margin_bottom(10)
+        newPage.set_margin_start(10)
+        newPage.set_margin_end(10)
+        newPage.set_margin_top(10)
+        self.notebook.append_page(newPage, Gtk.Label.new(_(label)))
+        return newPage
 
     def load(self):
         configuration = Configuration()
@@ -209,6 +203,7 @@ class Preferences(BaseDialog):
                 os.makedirs(todo_file.parent)
             todo_file.touch()
         self.todo_file.set_file(Gio.File.new_for_path(todo_file.as_posix()))
+        self.hide_completed.set_active(preferences.get('hide-completed'))
 
     def save(self):
         configuration = Configuration()
@@ -219,6 +214,7 @@ class Preferences(BaseDialog):
         preferences['projects'] = self.projects.get_items()
         preferences['contexts'] = self.contexts.get_items()
         preferences['tags'] = self.tags.get_items()
+        preferences['hide-completed'] = self.hide_completed.get_active()
         configuration.set('preferences', preferences)
         configuration.save()
         autostart_file = 'todotxt-indicator-autostart.desktop'
