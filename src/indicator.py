@@ -141,13 +141,13 @@ class Indicator(object):
     def on_popped(self, widget, display):
         pass
 
-    def on_menu_todo_toggled(self, widget, i):
+    def on_menu_todo_toggled(self, widget):
         list_of_todos = todotxtio.from_file(self.todo_file)
-        list_of_todos[i].completed = widget.get_active()
+        list_of_todos[widget.file_index].completed = widget.get_active()
         if widget.get_active():
-            list_of_todos[i].completion_date = creation_date = datetime.datetime.now().strftime('%Y-%m-%d')
+            list_of_todos[widget.file_index].completion_date = creation_date = datetime.datetime.now().strftime('%Y-%m-%d')
         else:
-            list_of_todos[i].completion_date = None
+            list_of_todos[widget.file_index].completion_date = None
         todotxtio.to_file(self.todo_file, list_of_todos)
 
     def sort(self, todo):
@@ -164,9 +164,10 @@ class Indicator(object):
                 text = '({}) {}'.format(list_of_todos[i].priority, list_of_todos[i].text)
             else:
                 text = list_of_todos[i].text
+            self.menu_todos[i].file_index = i
             self.menu_todos[i].set_label(text)
             self.menu_todos[i].set_active(list_of_todos[i].completed)
-            self.menu_todos[i].connect('toggled', self.on_menu_todo_toggled, i)
+            self.menu_todos[i].connect('toggled', self.on_menu_todo_toggled)
             self.menu_todos[i].show()
         if len(list_of_todos) < self.todos:
             for i in range(len(list_of_todos), self.todos):
