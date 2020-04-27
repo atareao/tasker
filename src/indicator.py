@@ -257,6 +257,7 @@ class Indicator(object):
         if response == Gtk.ResponseType.ACCEPT:
             preferences.save()
             self.load_preferences()
+            self.load_todos()
             self.set_icon(True)
         preferences.destroy()
         widget.set_sensitive(True)
