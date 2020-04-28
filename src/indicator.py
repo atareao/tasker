@@ -113,7 +113,7 @@ class Indicator(object):
         contexts = preferences['contexts']
         tags = preferences['tags']
         self.hide_completed = preferences.get('hide-completed', False)
-	self.filter_projects = preferences.get('filter-projects', False)
+        self.filter_projects = preferences.get('filter-projects', False)
         self.last_filtered_projects = preferences.get('last-filtered-projects', [])
         list_of_todos = todotxtio.from_file(self.todo_file)
         pattern = r'^\d{4}-\d{2}-\d{2}$'
@@ -199,18 +199,24 @@ class Indicator(object):
             self.menu_todos[i].set_label(text)
             self.menu_todos[i].set_active(list_of_todos[i].completed)
             self.menu_todos[i].connect('toggled', self.on_menu_todo_toggled)
-            if self.hide_completed and list_of_todos[i].completed:
-                self.menu_todos[i].hide()
-            else:
-                self.menu_todos[i].show()
-
-	    #TODO: Esto no debe estar aquí, debe mezclarse bien
+            hide_by_project = False
             if self.filter_projects:
                 if not set(list_of_todos[i].projects).isdisjoint(self.get_project_showed()) or \
                 not list_of_todos[i].projects:
                     self.menu_todos[i].show()
                 else:
                     self.menu_todos[i].hide()
+                    hide_by_project = True
+
+            if not hide_by_project:
+                if self.hide_completed and list_of_todos[i].completed:
+                    self.menu_todos[i].hide()
+                elif self.hide_completed and not list_of_todos[i].completed:
+                    self.menu_todos[i].show()
+
+            if not self.filter_projects and not self.hide_completed:
+                self.menu_todos[i].show()
+
         if len(list_of_todos) < self.todos:
             for i in range(len(list_of_todos), self.todos):
                 self.menu_todos[i].hide()

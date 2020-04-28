@@ -80,7 +80,7 @@ class Preferences(BaseDialog):
     def _build_behaviors(self, ):
         page05 = self._new_page('Behaviors')
 
-	label = Gtk.Label.new(_('Hide completed tasks'))
+        label = Gtk.Label.new(_('Hide completed tasks'))
         label.set_property('halign', Gtk.Align.START)
         page05.attach(label, 0, 0, 1, 1)
         self.hide_completed = Gtk.Switch.new()
@@ -89,10 +89,10 @@ class Preferences(BaseDialog):
 
         label = Gtk.Label.new(_('Filter by projects'))
         label.set_property('halign', Gtk.Align.START)
-        page05.attach(label, 0, 0, 1, 1)
+        page05.attach(label, 0, 1, 1, 1)
         self.filter_projects = Gtk.Switch.new()
         self.filter_projects.set_property('halign', Gtk.Align.CENTER)
-        page05.attach(self.filter_projects, 1, 0, 1, 1)
+        page05.attach(self.filter_projects, 1, 1, 1, 1)
 
     def _build_tags(self):
         page04 = self._new_page('Tags')
@@ -200,7 +200,7 @@ class Preferences(BaseDialog):
                 os.makedirs(todo_file.parent)
             todo_file.touch()
         self.todo_file.set_file(Gio.File.new_for_path(todo_file.as_posix()))
-	self.hide_completed.set_active(preferences.get('hide-completed'))
+        self.hide_completed.set_active(preferences.get('hide-completed'))
         self.filter_projects.set_active(preferences.get('filter-projects'))
 
     def save(self):
