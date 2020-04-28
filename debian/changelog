@@ -1,11 +1,11 @@
-tasker (0.2.3-0extras20.04.7) focal; urgency=medium
+tasker (0.2.3-0extras20.04.8) focal; urgency=medium
 
   * Sort list box
   * Fix a bug with check box
   * Improve sort list of todos
   * Add dependencies
 
- -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Mon, 27 Apr 2020 20:50:43 +0200
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Tue, 28 Apr 2020 05:48:58 +0200
 
 tasker (0.2.2-0extras20.04.2) focal; urgency=medium
 

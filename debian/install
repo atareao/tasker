@@ -4,7 +4,7 @@ debian/changelog /opt/extras.ubuntu.com/tasker/share/tasker
 src/*.py /opt/extras.ubuntu.com/tasker/share/tasker
 src/todotxtio/*.py /opt/extras.ubuntu.com/tasker/share/tasker/todotxtio
 src/graph /opt/extras.ubuntu.com/tasker/share/tasker
-data/icons /opt/extras.ubuntu.com/tasker/share
+data/icons/*.svg /opt/extras.ubuntu.com/tasker/share/icons
 data/autostart /opt/extras.ubuntu.com/tasker/share
 data/tasker.desktop /usr/share/applications
 data/icons/* /usr/share/icons/hicolor
