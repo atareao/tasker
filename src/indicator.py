@@ -145,6 +145,8 @@ class Indicator(object):
         pass
 
     def get_project_showed(self, ):
+        if not hasattr(self, 'menu_filter_projects'):
+            return []
         projects_menuitems_actives = \
             list(filter(lambda item: item.get_active(), self.menu_filter_projects.get_submenu().get_children()))
         return [menu_item.get_label() for menu_item in projects_menuitems_actives]

@@ -181,7 +181,7 @@ class Preferences(BaseDialog):
     def load(self):
         configuration = Configuration()
         preferences = configuration.get('preferences')
-        self.theme_light.set_active(preferences.get('theme-light'))
+        self.theme_light.set_active(preferences.get('theme-light', False))
         autostart_file = 'todotxt-indicator-autostart.desktop'
         if os.path.exists(os.path.join(
                 os.getenv('HOME'), '.config/autostart', autostart_file)):
@@ -200,8 +200,8 @@ class Preferences(BaseDialog):
                 os.makedirs(todo_file.parent)
             todo_file.touch()
         self.todo_file.set_file(Gio.File.new_for_path(todo_file.as_posix()))
-        self.hide_completed.set_active(preferences.get('hide-completed'))
-        self.filter_projects.set_active(preferences.get('filter-projects'))
+        self.hide_completed.set_active(preferences.get('hide-completed', False))
+        self.filter_projects.set_active(preferences.get('filter-projects', False))
 
     def save(self):
         configuration = Configuration()
