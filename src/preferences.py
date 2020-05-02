@@ -45,7 +45,7 @@ from add_tag import AddTagDialog
 from list_box_string import ListBoxString
 from list_box_string_type import ListBoxStringType
 from alert import Alert
-
+from wait_keybind import WaitKeybind
 
 def select_value_in_combo(combo, value):
     model = combo.get_model()
@@ -78,6 +78,34 @@ class Preferences(BaseDialog):
         self._build_page_contexts()
         self._build_tags()
         self._build_behaviors()
+        self._build_keybinding()
+
+    def _build_keybinding(self, ):
+        page_keybinding = self._new_page('Keybinding')
+
+        label_new_task = Gtk.Label.new(_('New task'))
+        label_new_task.set_property('halign', Gtk.Align.START)
+        label_show_tasks = Gtk.Label.new(_('Show tasks'))
+        label_show_tasks.set_property('halign', Gtk.Align.START)
+    
+        page_keybinding.attach(label_new_task, 0, 0, 1, 1)
+        page_keybinding.attach(label_show_tasks, 0, 1, 1, 1)
+
+        self.new_task_keybinding = Gtk.Entry.new()
+        self.new_task_keybinding.set_property("editable", False)
+        self.new_task_keybinding.set_property("can_focus", False)
+        self.new_task_keybinding.set_property('halign', Gtk.Align.CENTER)
+        self.new_task_keybinding.connect('button-press-event', self.on_new_task_keybinding)
+
+        self.show_tasks_keybinding = Gtk.Entry.new()
+        self.show_tasks_keybinding.set_property("editable", False)
+        self.show_tasks_keybinding.set_property("can_focus", False)
+        self.show_tasks_keybinding.set_property('halign', Gtk.Align.CENTER)
+        self.show_tasks_keybinding.connect('button-press-event', self.on_show_task_keybinding)
+
+        page_keybinding.attach(self.new_task_keybinding, 1, 0, 1, 1)
+        page_keybinding.attach(self.show_tasks_keybinding, 1, 1, 1, 1)
+
 
     def _build_behaviors(self, ):
         page05 = self._new_page('Behaviors')
@@ -195,7 +223,20 @@ class Preferences(BaseDialog):
         self.projects.add_all(preferences['projects'])
         self.contexts.add_all(preferences['contexts'])
         self.tags.add_all(preferences['tags'])
-        
+        keybindings = preferences.get('keybindings', [])
+        if keybindings:
+            self.new_task_keybinding.set_text(
+                list(
+                    filter(lambda obj: obj.get('name') == 'new_task', keybindings)
+                )[0]['keybind']
+            )
+
+            self.show_tasks_keybinding.set_text(
+                list(
+                    filter(lambda obj: obj.get('name') == 'show_tasks', keybindings)
+                )[0]['keybind']
+            )
+
         todo_file = Path(os.path.expanduser(preferences['todo-file']))
         if not todo_file.exists():
             if not todo_file.parent.exists():
@@ -216,6 +257,10 @@ class Preferences(BaseDialog):
         preferences['tags'] = self.tags.get_items()
         preferences['hide-completed'] = self.hide_completed.get_active()
         preferences['filter-projects'] = self.filter_projects.get_active()
+        preferences['keybindings'] = [
+            {'name': 'new_task', 'keybind': self.new_task_keybinding.get_text()},
+            {'name': 'show_tasks', 'keybind': self.show_tasks_keybinding.get_text()},
+        ]
         configuration.set('preferences', preferences)
         configuration.save()
         autostart_file = 'todotxt-indicator-autostart.desktop'
@@ -228,6 +273,54 @@ class Preferences(BaseDialog):
         else:
             if os.path.exists(autostart_file):
                 os.remove(autostart_file)
+
+    def on_new_task_keybinding(self, widget, *event, **user_data):
+        widget.set_sensitive(False)
+        waiting_keybinding = WaitKeybind()
+        response = waiting_keybinding.run()
+        if response == Gtk.ResponseType.ACCEPT:
+            key_combination = waiting_keybinding.key_combination
+            if key_combination == self.show_tasks_keybinding.get_text():
+                self.show_alert('This keybind is alredy assigned to another action')
+            else:
+                self.new_task_keybinding.set_text(key_combination)
+        else:
+            self.show_invalid_alert()
+        waiting_keybinding.destroy()
+        widget.set_sensitive(True)
+
+    def on_show_task_keybinding(self, widget, *event, **user_data):
+        widget.set_sensitive(False)
+        waiting_keybinding = WaitKeybind()
+        response = waiting_keybinding.run()
+        if response == Gtk.ResponseType.ACCEPT:
+            key_combination = waiting_keybinding.key_combination
+            if key_combination == self.new_task_keybinding.get_text():
+                self.show_alert('This keybind is alredy assigned to another action')
+            else:
+                self.show_tasks_keybinding.set_text(key_combination)
+        else:
+            self.show_invalid_alert()
+        waiting_keybinding.destroy()
+        widget.set_sensitive(True)
+
+    def show_alert(self, primary_message, secondary_message=False):
+        dialog = Gtk.MessageDialog(
+            self,
+            0,
+            Gtk.MessageType.ERROR,
+            Gtk.ButtonsType.OK,
+            _(primary_message),
+        )
+        if secondary_message:
+            dialog.format_secondary_text(
+                _(secondary_message)
+            )
+        dialog.run()
+        dialog.destroy()
+
+    def show_invalid_alert(self):
+        self.show_alert("Keybind error", "Shift and letters is not supported yet.")
 
     def on_button_add_project_clicked(self, widget):
         addProjectDialog = AddProjectDialog()
