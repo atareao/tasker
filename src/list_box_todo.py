@@ -120,7 +120,7 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
     def get_completed(self):
         return self.switch.get_active()
 
-    def on_toggled(self, widget, status):
+    def on_toggled(self, widget):
         self.emit('toggled')
 
     def hide(self):
