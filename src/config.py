@@ -33,6 +33,7 @@ PARAMS = {'stats': {},
                           'start-actived': True,
                           'todos': 10,
                           'todo-file': '~/.config/tasker/todo.txt',
+                          'hide-completed': False,
                           'projects': [],
                           'contexts': [],
                           'tags': []

@@ -164,16 +164,29 @@ class Indicator(object):
         list_of_todos.sort(reverse=False, key=self.sort)
 
         while self.todos > len(self.menu_todos):
-            self.menu_todos.append(Gtk.CheckMenuItem.new_with_label(''))
+            # self.menu_todos.append(Gtk.CheckMenuItem.new_with_label(''))
+            menuitem = Gtk.MenuItem.new_with_label('')
+            menuitem.remove(menutitem.get_child())
+            menuitem.add(Gtk.Label.new(''))
+            menuitem.get_child().set_use_markup(True)
+            self.menu_todos.append(menuitem)
         for i in range(0, min(len(list_of_todos), self.todos)):
             if list_of_todos[i].priority:
                 text = '({}) {}'.format(list_of_todos[i].priority, list_of_todos[i].text)
             else:
                 text = list_of_todos[i].text
             self.menu_todos[i].file_index = i
-            self.menu_todos[i].set_label(text)
-            self.menu_todos[i].set_active(list_of_todos[i].completed)
-            self.menu_todos[i].connect('toggled', self.on_menu_todo_toggled)
+            # self.menu_todos[i].get_child().set_markup("<span strikethrough=\"true\"><b>{}</b></span>".format(text))
+            # text = "<span style=\"italic\">{}</span>".format(text)
+            # text = GLib.markup_escape_text(text)
+            text = '<span strikethrough="true">{}</span>'.format(text)
+            text = '<b>{}</b>'.format(text)
+            print(text)
+            label = self.menu_todos[i].get_children()[0]
+            label.set_markup(text)
+            # self.menu_todos[i].set_label(text)
+            # self.menu_todos[i].set_active(list_of_todos[i].completed)
+            # self.menu_todos[i].connect('toggled', self.on_menu_todo_toggled)
             if self.hide_completed and list_of_todos[i].completed:
                 self.menu_todos[i].hide()
             else:
@@ -188,7 +201,12 @@ class Indicator(object):
 
         self.menu_todos = []
         for i in range(0, self.todos):
-            self.menu_todos.append(Gtk.CheckMenuItem.new_with_label(''))
+            #self.menu_todos.append(Gtk.CheckMenuItem.new_with_label(''))
+            menuitem = Gtk.MenuItem.new_with_label('')
+            menuitem.remove(menuitem.get_child())
+            menuitem.add(Gtk.Label.new(''))
+            menuitem.get_child().set_use_markup(True)
+            self.menu_todos.append(menuitem)
             menu.append(self.menu_todos[i])
 
         menu.append(Gtk.SeparatorMenuItem())

@@ -66,11 +66,15 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
         self.box.add(self.switch)
         self.switch.connect('toggled', self.on_toggled)
 
-        if self.todo.priority:
-            text = '({}) {}'.format(self.todo.priority, self.todo.text)
+        if todo.completed:
+            text = '<span strikethrough="true">{}</span>'.format(self.todo.text)
         else:
             text = self.todo.text
-        self.label = Gtk.Label.new(text)
+        if self.todo.priority:
+            text = '({}) {}'.format(self.todo.priority, text)
+        self.label = Gtk.Label.new('')
+        self.label.set_use_markup(True)
+        self.label.set_markup(text)
         self.label.set_halign(Gtk.Align.START)
         self.label.set_margin_bottom(5)
         self.box.add(self.label)
@@ -87,11 +91,13 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
 
     def set_todo(self, todo):
         self.todo = todo
-        if self.todo.priority:
-            text = '({}) {}'.format(self.todo.priority, self.todo.text)
+        if todo.completed:
+            text = '<span strikethrough="true">{}</span>'.format(self.todo.text)
         else:
             text = self.todo.text
-        self.label.set_text(text)
+        if self.todo.priority:
+            text = '({}) {}'.format(self.todo.priority, text)
+        self.label.set_markup(text)
         self.label.show_all()
         self.switch.set_active(todo.completed)
         self.changed()
@@ -103,6 +109,13 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
         else:
             self.todo.completion_date = None
         self.switch.set_active(completed)
+        if completed:
+            text = '<span strikethrough="true">{}</span>'.format(self.todo.text)
+        else:
+            text = self.todo.text
+        if self.todo.priority:
+            text = '({}) {}'.format(self.todo.priority, text)
+        self.label.set_markup(text)
 
     def get_completed(self):
         return self.switch.get_active()

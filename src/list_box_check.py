@@ -61,7 +61,7 @@ class ListBoxRowCheck(Gtk.ListBoxRow):
         return self.label.get_text()
 
     def set_name(self, text):
-        self.label.set_text(text)
+        self.label.set_markup("<b>{}</b>".format(text))
 
     def set_active(self, active):
         self.switch.set_active(active)
