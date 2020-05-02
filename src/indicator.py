@@ -62,28 +62,14 @@ class Indicator(object):
             'tasker',
             'tasker',
             AppIndicator3.IndicatorCategory.APPLICATION_STATUS)
+        Keybinder.init()
         self.load_preferences()
         self.indicator.set_menu(self.build_menu())
         self.indicator.set_label('', '')
         self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
         self.set_icon(True)
         self.load_todos()
-        Keybinder.init()
-        Keybinder.bind('<Super><Ctrl>T', self.callback)
         Gtk.main()
-
-    def callback(self, widget):
-        addTodoDialog = AddTodoDialog()
-        if addTodoDialog.run() == Gtk.ResponseType.ACCEPT:
-            todo = addTodoDialog.get_task()
-            list_of_todos = todotxtio.from_file(self.todo_file)
-            for atodo in list_of_todos:
-                if todo.text == atodo.text:
-                    return
-            list_of_todos.append(todo)
-            todotxtio.to_file(self.todo_file, list_of_todos)
-            self.load_todos()
-        addTodoDialog.destroy()
 
     def set_icon(self, active=True):
         if active:
@@ -137,6 +123,24 @@ class Indicator(object):
         preferences['projects'] = self.projects
         preferences['contexts'] = contexts
         preferences['tags'] = tags
+        self.new_task_keybind = '<Control><Super>t'
+        self.show_tasks_keybind = '<Control><Super>a'
+        keybindings = preferences.get('keybindings', [])
+        if keybindings:
+            self.new_task_keybind = list(
+                filter(lambda obj: obj.get('name') == 'new_task', keybindings)
+            )[0]['keybind']
+            self.show_tasks_keybind = list(
+                filter(lambda obj: obj.get('name') == 'show_tasks', keybindings)
+            )[0]['keybind']
+
+        Keybinder.bind(self.new_task_keybind, self.on_menu_add_todo_activate)
+        Keybinder.bind(self.show_tasks_keybind, self.on_menu_list_todos_activate)
+
+        preferences['keybindings'] = [
+            {'name': 'new_task', 'keybind': self.new_task_keybind},
+            {'name': 'show_tasks', 'keybind': self.show_tasks_keybind},
+        ]
         self.configuration.set('preferences', preferences)
         self.configuration.save()
         self.set_icon(True)
@@ -309,14 +313,16 @@ class Indicator(object):
     def show_preferences(self, widget):
         widget.set_sensitive(False)
         preferences = Preferences()
+        Keybinder.unbind(self.new_task_keybind)
+        Keybinder.unbind(self.show_tasks_keybind)
         response = preferences.run()
         if response == Gtk.ResponseType.ACCEPT:
             preferences.save()
             self.load_preferences()
             self.load_todos()
             self.set_icon(True)
-        preferences.destroy()
         widget.set_sensitive(True)
+        preferences.destroy()
 
     def show_statistics(self, widget):
         widget.set_sensitive(False)
