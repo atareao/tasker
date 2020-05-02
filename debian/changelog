@@ -1,3 +1,9 @@
+tasker (0.2.4-0extras20.04.0) focal; urgency=medium
+
+  * Filtering projects 
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Sat, 02 May 2020 13:59:29 +0200
+
 tasker (0.2.3-0extras20.04.8) focal; urgency=medium
 
   * Sort list box
@@ -5,7 +11,7 @@ tasker (0.2.3-0extras20.04.8) focal; urgency=medium
   * Improve sort list of todos
   * Add dependencies
 
- -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Tue, 28 Apr 2020 05:48:58 +0200
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Sat, 02 May 2020 13:59:14 +0200
 
 tasker (0.2.2-0extras20.04.2) focal; urgency=medium
 
