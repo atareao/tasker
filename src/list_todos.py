@@ -69,7 +69,7 @@ class ListTodos(BaseDialog):
         BaseDialog.init_ui(self)
 
         self.todos = ListBoxTodo()
-        self.todos.set_size_request(300, 500)
+        self.todos.set_size_request(500, 500)
         self.grid.attach(self.todos, 0, 0, 1, 1)
 
         expander = Gtk.Expander.new(_('Filter tasks'))

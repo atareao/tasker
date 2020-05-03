@@ -35,6 +35,7 @@ from gi.repository import GObject
 import datetime
 import time
 from config import _
+import locale
 
 
 def listBoxFilterFunc(row, *user_data):
@@ -82,7 +83,7 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
             text = '({}) {}'.format(self.todo.priority, text)
         self.label = Gtk.Label.new('')
         self.label.set_use_markup(True)
-        self.label.set_markup(text + self.get_total_time_str())
+        self.label.set_markup(text + self.get_time_indicators())
         self.label.set_halign(Gtk.Align.START)
         self.label.set_margin_bottom(5)
         self.box.add(self.label)
@@ -90,12 +91,31 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
     def get_started_at(self, ):
         return float(self.todo.tags.get('started_at', 0))
 
+    def get_started_at_str(self, ):
+        started_at = self.get_started_at()
+        if not started_at:
+            return ''
+        locale.setlocale(locale.LC_TIME, '')
+        date_str = datetime.datetime.fromtimestamp(started_at).strftime(locale.nl_langinfo(locale.D_FMT))
+        time_str = datetime.datetime.fromtimestamp(started_at).strftime(locale.nl_langinfo(locale.T_FMT))
+        return date_str + ' ' + time_str
+
     def get_total_time_str(self):
         total_time = float(self.todo.tags.get('total_time', 0))
         if not total_time:
             return ''
         else:
-            return ' # ' + self.seconds_to_dhms(total_time)
+            return self.seconds_to_dhms(total_time)
+
+    def get_time_indicators(self):
+        total_time_str = self.get_total_time_str()
+        started_at_str = self.get_started_at_str()
+        result = ''
+        if started_at_str != '':
+            result += ' % ' + started_at_str
+        if total_time_str != '':
+            result += ' # ' + total_time_str
+        return result
 
     def get_total_time(self, ):
         return float(self.todo.tags.get('total_time', 0))
@@ -161,7 +181,7 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
             text = self.todo.text
         if self.todo.priority:
             text = '({}) {}'.format(self.todo.priority, text)
-        self.label.set_markup(text + self.get_total_time_str())
+        self.label.set_markup(text + self.get_time_indicators())
         self.label.show_all()
         self.switch.set_active(todo.completed)
         self.changed()
@@ -179,7 +199,7 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
             text = self.todo.text
         if self.todo.priority:
             text = '({}) {}'.format(self.todo.priority, text)
-        self.label.set_markup(text + self.get_total_time_str())
+        self.label.set_markup(text + self.get_time_indicators())
 
     def get_completed(self):
         return self.switch.get_active()
@@ -191,12 +211,11 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
             if (self.get_started_at()):
                 self.stop_siblings_if_started()
             self.track_time()
-            self.set_todo(self.todo)
         if self.todo.priority:
             text = '({}) {}'.format(self.todo.priority, text)
         widget.\
             get_parent().get_parent().\
-            label.set_markup(text + self.get_total_time_str())
+            label.set_markup(text + self.get_time_indicators())
         widget.\
             get_parent().get_parent().\
             time_button.set_image(Gtk.Image.new_from_icon_name(self.get_started_at_icon(), Gtk.IconSize.BUTTON))
