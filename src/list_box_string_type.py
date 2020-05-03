@@ -92,7 +92,8 @@ class ListBoxStringType(Gtk.ListBox):
 
     def add_all(self, items):
         for item in items:
-            self.add_item(item)
+            if not item['name'] in ('started_at', 'total_time'):
+                self.add_item(item)
             
     def add_item(self, new_item):
         for item in self.get_children():

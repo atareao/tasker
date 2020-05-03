@@ -144,6 +144,8 @@ class AddTodoDialog(BaseDialog):
             self.contexts.set_min_content_height(75)
             self.grid.attach(self.contexts, 1, posv, 1, 1)
         for tag in tags:
+            if tag['name'] in ('started_at', 'total_time'):
+                continue
             posv += 1
             label = Gtk.Label.new(tag['name'] + ': ')
             label.set_halign(Gtk.Align.START)
@@ -191,6 +193,12 @@ class AddTodoDialog(BaseDialog):
                         value = tag.get_text()
                     if value:
                         tags[name] = value
+                started_at = self.todo_item.tags.get('started_at', False)
+                total_time = self.todo_item.tags.get('total_time', False)
+                if started_at:
+                    tags['started_at'] = started_at
+                if total_time:
+                    tags['total_time'] = total_time
                 self.todo_item.tags = tags
         return self.todo_item
 
