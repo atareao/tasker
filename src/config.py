@@ -35,6 +35,16 @@ PARAMS = {'stats': {},
                           'todo-file': '~/.config/tasker/todo.txt',
                           'hide-completed': False,
                           'projects': [],
+                          'keybindings': [
+                               {
+                                   'keybind': '<Control><Super>t',
+                                   'name': 'new_task'
+                               },
+                               {
+                                   'keybind': '<Control><Super>a',
+                                   'name': 'show_tasks'
+                               }
+                           ],
                           'contexts': [],
                           'tags': []
                           }
@@ -92,7 +102,6 @@ try:
     current_locale, encoding = locale.getdefaultlocale()
     language = gettext.translation(APP, LANGDIR, [current_locale])
     language.install()
-    print(language)
     if sys.version_info[0] == 3:
         _ = language.gettext
     else:

@@ -100,7 +100,8 @@ class Indicator(object):
         tags = preferences['tags']
         self.hide_completed = preferences.get('hide-completed', False)
         self.filter_projects = preferences.get('filter-projects', False)
-        self.last_filtered_projects = preferences.get('last-filtered-projects', [])
+        self.last_filtered_projects = preferences.get(
+                'last-filtered-projects', [])
         list_of_todos = todotxtio.from_file(self.todo_file)
         pattern = r'^\d{4}-\d{2}-\d{2}$'
         for todo in list_of_todos:
@@ -131,11 +132,13 @@ class Indicator(object):
                 filter(lambda obj: obj.get('name') == 'new_task', keybindings)
             )[0]['keybind']
             self.show_tasks_keybind = list(
-                filter(lambda obj: obj.get('name') == 'show_tasks', keybindings)
+                filter(lambda obj: obj.get('name') == 'show_tasks',
+                       keybindings)
             )[0]['keybind']
 
         Keybinder.bind(self.new_task_keybind, self.on_menu_add_todo_activate)
-        Keybinder.bind(self.show_tasks_keybind, self.on_menu_list_todos_activate)
+        Keybinder.bind(self.show_tasks_keybind,
+                       self.on_menu_list_todos_activate)
 
         preferences['keybindings'] = [
             {'name': 'new_task', 'keybind': self.new_task_keybind},
@@ -152,15 +155,17 @@ class Indicator(object):
         if not hasattr(self, 'menu_filter_projects'):
             return []
         projects_menuitems_actives = \
-            list(filter(lambda item: item.get_active(), self.menu_filter_projects.get_submenu().get_children()))
-        return [menu_item.get_label() for menu_item in projects_menuitems_actives]
+            list(filter(lambda item: item.get_active(),
+                self.menu_filter_projects.get_submenu().get_children()))
+        return [menu_item.get_label() for menu_item in
+                projects_menuitems_actives]
 
     def set_filter_project_label(self):
-        projects_menuitems = self.menu_filter_projects.get_submenu().get_children()
-        projects_menuitems_actives = self.get_project_showed()
+        projects_items = self.menu_filter_projects.get_submenu().get_children()
+        projects_items_actives = self.get_project_showed()
         projects_sel = _('All')
-        if len(projects_menuitems) != len(projects_menuitems_actives):
-            projects_sel = ', '.join(projects_menuitems_actives)
+        if len(projects_items) != len(projects_items_actives):
+            projects_sel = ', '.join(projects_items_actives)
             if projects_sel == '':
                 projects_sel = _('Select one to show tasks')
         self.menu_filter_projects.set_label(projects_sel)
@@ -177,7 +182,8 @@ class Indicator(object):
         list_of_todos = todotxtio.from_file(self.todo_file)
         list_of_todos[widget.file_index].completed = widget.get_active()
         if widget.get_active():
-            list_of_todos[widget.file_index].completion_date = creation_date = datetime.datetime.now().strftime('%Y-%m-%d')
+            creation_date = datetime.datetime.now().strftime('%Y-%m-%d')
+            list_of_todos[widget.file_index].completion_date = creation_date 
         else:
             list_of_todos[widget.file_index].completion_date = None
         todotxtio.to_file(self.todo_file, list_of_todos)
@@ -202,7 +208,8 @@ class Indicator(object):
             self.menu_todos.append(menuitem)
         for i in range(0, min(len(list_of_todos), self.todos)):
             if list_of_todos[i].priority:
-                text = '({}) {}'.format(list_of_todos[i].priority, list_of_todos[i].text)
+                text = '({}) {}'.format(list_of_todos[i].priority,
+                                        list_of_todos[i].text)
             else:
                 text = list_of_todos[i].text
             self.menu_todos[i].file_index = i
@@ -237,7 +244,8 @@ class Indicator(object):
 
         if self.filter_projects:
             self.menu_filter_projects = Gtk.CheckMenuItem.new_with_label('')
-            self.menu_filter_projects.set_submenu(self.get_filter_project_menu())
+            self.menu_filter_projects.set_submenu(
+                    self.get_filter_project_menu())
             self.set_filter_project_label()
             menu.append(self.menu_filter_projects)
             menu.append(Gtk.SeparatorMenuItem())
@@ -361,7 +369,8 @@ class Indicator(object):
 
         for i in range(0, len(self.projects)):
             project_item = Gtk.CheckMenuItem.new_with_label(self.projects[i])
-            project_item.set_active(1 if self.projects[i] in self.last_filtered_projects else 0)
+            project_item.set_active(
+                    self.projects[i] in self.last_filtered_projects)
             project_item.connect('toggled', self.on_menu_filter_project_toggled, i)
             filter_menu.append(project_item)
         return filter_menu
@@ -484,4 +493,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+   main()
