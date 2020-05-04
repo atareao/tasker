@@ -482,10 +482,33 @@ SOFTWARE.''')
         widget.set_sensitive(True)
 
     def quit(self, menu_item):
-        Gtk.main_quit()
-        # If Gtk throws an error or just a warning, main_quit() might not
-        # actually close the app
-        sys.exit(0)
+        started_yet = list(
+            filter(
+                lambda todo: float(todo.tags['started_at']) > 0,
+                todotxtio.from_file(self.todo_file)
+            )
+        )
+        must_close = True
+        if started_yet:
+            dialog = Gtk.MessageDialog(
+                None,
+                0,
+                Gtk.MessageType.ERROR,
+                Gtk.ButtonsType.YES_NO,
+                _('There are tasks started'),
+            )
+            dialog.format_secondary_text(
+                _('Do you really want to close the app?')
+            )
+            must_close = False
+            if dialog.run() == Gtk.ResponseType.YES:
+                must_close = True
+            dialog.destroy()
+        if must_close:
+            Gtk.main_quit()
+            # If Gtk throws an error or just a warning, main_quit() might not
+            # actually close the app
+            sys.exit(0)
 
 
 def main():
