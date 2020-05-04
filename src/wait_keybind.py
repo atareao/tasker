@@ -36,8 +36,8 @@ from config import _
 
 class WaitKeybind(BaseDialog):
     def __init__(self):
-        BaseDialog.__init__(self, _('Waiting for keybind'), None, ok_button=True,
-                            cancel_button=True)
+        BaseDialog.__init__(self, _('Waiting for keybind'), None,
+                            ok_button=True, cancel_button=True)
 
     def init_ui(self):
         BaseDialog.init_ui(self)
