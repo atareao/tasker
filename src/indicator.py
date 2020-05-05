@@ -53,6 +53,7 @@ from configurator import Configuration
 from add_todo import AddTodoDialog
 from list_todos import ListTodos
 import todotxtio.todotxtio as todotxtio
+import time
 
 
 class Indicator(object):
@@ -467,33 +468,22 @@ SOFTWARE.''')
         widget.set_sensitive(True)
 
     def quit(self, menu_item):
-        started_yet = list(
-            filter(
-                lambda todo: float(todo.tags['started_at']) > 0,
-                todotxtio.from_file(self.todo_file)
-            )
-        )
-        must_close = True
-        if started_yet:
-            dialog = Gtk.MessageDialog(
-                None,
-                0,
-                Gtk.MessageType.ERROR,
-                Gtk.ButtonsType.YES_NO,
-                _('There are tasks started'),
-            )
-            dialog.format_secondary_text(
-                _('Do you really want to close the app?')
-            )
-            must_close = False
-            if dialog.run() == Gtk.ResponseType.YES:
-                must_close = True
-            dialog.destroy()
-        if must_close:
-            Gtk.main_quit()
-            # If Gtk throws an error or just a warning, main_quit() might not
-            # actually close the app
-            sys.exit(0)
+        list_of_todos = todotxtio.from_file(self.todo_file)
+        for atodo in list_of_todos:
+            if float(atodo.tags['started_at']) > 0:
+                started_at = float(atodo.tags.get('started_at', 0))
+                if started_at:
+                    total_time = float(atodo.tags.get('total_time', 0)) + time.time() - started_at
+                    atodo.tags['started_at'] = '0'
+                    atodo.tags['total_time'] = str(total_time)
+                elif not started_at and atodo.completed:
+                    atodo.tags['started_at'] = '0'
+        todotxtio.to_file(self.todo_file, list_of_todos)
+
+        Gtk.main_quit()
+        # If Gtk throws an error or just a warning, main_quit() might not
+        # actually close the app
+        sys.exit(0)
 
 
 def main():
