@@ -284,6 +284,7 @@ class Indicator(object):
 
     def on_menu_list_todos_activate(self, widget):
         listTodos = ListTodos()
+        listTodos.indicator = self
         if listTodos.run() == Gtk.ResponseType.ACCEPT:
             listTodos.save()
             self.load_todos()
@@ -485,7 +486,11 @@ SOFTWARE.''')
         # actually close the app
         sys.exit(0)
 
-
+    def set_icon_tracktime(self, tracking=False):
+        if tracking:
+            self.indicator.set_icon('media-playback-pause')
+        else:
+            self.set_icon(True)
 def main():
     Indicator()
 

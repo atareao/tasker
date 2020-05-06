@@ -143,6 +143,7 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
                 child.track_time()
                 child.time_button.set_image(Gtk.Image.new_from_icon_name(self.get_started_at_icon(), Gtk.IconSize.BUTTON))
                 child.set_todo(child.todo)
+                self.get_toplevel().indicator.set_icon_tracktime(False)
 
     def on_time_button_clicked(self, widget):
         if self.switch.get_active():
@@ -163,6 +164,7 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
             self.track_time()
             widget.set_image(Gtk.Image.new_from_icon_name(self.get_started_at_icon(), Gtk.IconSize.BUTTON))
             self.set_todo(self.todo)
+            self.get_toplevel().indicator.set_icon_tracktime(self.get_started_at())
 
     def get_priority(self):
         if self.todo.priority is None:
