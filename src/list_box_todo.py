@@ -36,6 +36,7 @@ import datetime
 import time
 from config import _
 import locale
+from alert import Alert
 
 
 def listBoxFilterFunc(row, *user_data):
@@ -147,18 +148,7 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
 
     def on_time_button_clicked(self, widget):
         if self.switch.get_active():
-            dialog = Gtk.MessageDialog(
-                self.get_toplevel(),
-                0,
-                Gtk.MessageType.ERROR,
-                Gtk.ButtonsType.OK,
-                _('Your task is completed'),
-            )
-            dialog.format_secondary_text(
-                _('Mark as uncompleted and continue')
-            )
-            dialog.run()
-            dialog.destroy()
+            Alert.show_alert('Your task is completed', 'Mark as uncompleted and continue')
         else:
             self.stop_siblings_if_started()
             self.track_time()
@@ -274,7 +264,7 @@ class ListBoxTodo(Gtk.ScrolledWindow):
             
     def add_item(self, todo):
         for item in self.listBox.get_children():
-            if item.get_todo().text == todo.text: 
+            if item.get_todo() and item.get_todo().text == todo.text:
                 return
         newListBoxRowTodo = ListBoxRowTodo(todo)
         newListBoxRowTodo.show_all()

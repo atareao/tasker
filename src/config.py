@@ -34,9 +34,23 @@ PARAMS = {'stats': {},
                           'todos': 10,
                           'todo-file': '~/.config/tasker/todo.txt',
                           'hide-completed': False,
+                          'filter-projects': False,
                           'projects': [],
                           'contexts': [],
-                          'tags': []
+                          'tags': [
+                              {
+                                  'name': 'due',
+                                  'type': 'date'
+                              },
+                              {
+                                  'name': 'started_at',
+                                  'type': 'string'
+                              },
+                              {
+                                  'name': 'total_time',
+                                  'type': 'string'
+                              },
+                          ]
                           }
           }
 

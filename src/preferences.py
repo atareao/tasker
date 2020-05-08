@@ -44,6 +44,8 @@ from add_context import AddContextDialog
 from add_tag import AddTagDialog
 from list_box_string import ListBoxString
 from list_box_string_type import ListBoxStringType
+from alert import Alert
+
 
 def select_value_in_combo(combo, value):
     model = combo.get_model()
@@ -266,8 +268,11 @@ class Preferences(BaseDialog):
     def on_button_remove_tag_clicked(self, widget):
         selected_row = self.tags.get_selected_row()
         if selected_row:
-            self.tags.remove_item(selected_row.get_name())
-            self.tags.show_all()
+            if selected_row.get_name() == 'due':
+                Alert.show_alert("This tag can't be removed")
+            else:
+                self.tags.remove_item(selected_row.get_name())
+                self.tags.show_all()
 
 if __name__ == '__main__':
     preferences = Preferences()

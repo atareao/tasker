@@ -78,10 +78,12 @@ class Indicator(object):
         if addTodoDialog.run() == Gtk.ResponseType.ACCEPT:
             todo = addTodoDialog.get_task()
             list_of_todos = todotxtio.from_file(self.todo_file)
+            finded = False
             for atodo in list_of_todos:
                 if todo.text == atodo.text:
-                    return
-            list_of_todos.append(todo)
+                    finded = True
+            if not finded:
+                list_of_todos.append(todo)
             todotxtio.to_file(self.todo_file, list_of_todos)
             self.load_todos()
         addTodoDialog.destroy()
@@ -295,10 +297,12 @@ class Indicator(object):
         if addTodoDialog.run() == Gtk.ResponseType.ACCEPT:
             todo = addTodoDialog.get_task()
             list_of_todos = todotxtio.from_file(self.todo_file)
+            finded = False
             for atodo in list_of_todos:
                 if todo.text == atodo.text:
-                    return
-            list_of_todos.append(todo)
+                    finded = True
+            if not finded:
+                list_of_todos.append(todo)
             todotxtio.to_file(self.todo_file, list_of_todos)
             self.load_todos()
         addTodoDialog.destroy()
@@ -471,7 +475,7 @@ SOFTWARE.''')
     def quit(self, menu_item):
         list_of_todos = todotxtio.from_file(self.todo_file)
         for atodo in list_of_todos:
-            if float(atodo.tags['started_at']) > 0:
+            if atodo.tags['started_at']:
                 started_at = float(atodo.tags.get('started_at', 0))
                 if started_at:
                     total_time = float(atodo.tags.get('total_time', 0)) + time.time() - started_at
