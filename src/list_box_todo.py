@@ -102,11 +102,10 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
         return date_str + ' ' + time_str
 
     def get_total_time_str(self):
-        total_time = float(self.todo.tags.get('total_time', 0))
-        if not total_time:
-            return ''
-        else:
-            return self.seconds_to_dhms(total_time)
+        result = self.todo.tags.get('total_time', '')
+        if result != '':
+            result = self.seconds_to_dhms(float(result))
+        return result
 
     def get_time_indicators(self):
         total_time_str = self.get_total_time_str()
