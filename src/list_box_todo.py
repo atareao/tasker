@@ -238,10 +238,10 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
         minutes = seconds // seconds_to_minute
         seconds %= seconds_to_minute
 
+        result = "%02d:%02d:%02d" % (hours, minutes, seconds)
         if days:
-            return "%d days, %02d:%02d:%02d" % (days, hours, minutes, seconds)
-        else:
-            return "%02d:%02d:%02d" % (hours, minutes, seconds)
+            result = "%d days, %02d:%02d:%02d" % (days, hours, minutes, seconds)
+        return result
 
 class ListBoxTodo(Gtk.ScrolledWindow):
     """Docstring for ListBoxCheck. """
