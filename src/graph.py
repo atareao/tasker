@@ -69,6 +69,7 @@ class Graph(BaseDialog):
         list_of_todos.sort(key=lambda todo: todo.creation_date, )
         list_of_todos.sort(key=lambda todo: ''.join(sorted(todo.projects, key=lambda project: project)), )
         dates = list(set([todo.creation_date for todo in list_of_todos]))
+        dates.sort(key=lambda day: day)
         values = []
         for todo in list_of_todos:
             data = []
