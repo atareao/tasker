@@ -22,31 +22,26 @@ msgstr "Preferencias"
 
 #: src/preferences.py:84
 msgid "Keybinding"
-msgstr ""
+msgstr "Atajos de teclado"
 
-#: src/preferences.py:86
-#, fuzzy
 msgid "New task"
-msgstr "Eliminar tarea"
+msgstr "Nueva tarea"
 
 #: src/preferences.py:88
-#, fuzzy
 msgid "Show tasks"
-msgstr "Lista de tareas"
+msgstr "Mostrar  tareas"
 
 #: src/preferences.py:112
 msgid "Behaviors"
-msgstr ""
+msgstr "Comportamientos"
 
 #: src/preferences.py:114
-#, fuzzy
 msgid "Hide completed tasks"
-msgstr "Filtrar tareas"
+msgstr "Ocultar tareas completadas"
 
 #: src/preferences.py:121
-#, fuzzy
 msgid "Filter by projects"
-msgstr "Selecciona proyecto(s):"
+msgstr "Filtrar por projecto"
 
 #: src/preferences.py:129
 msgid "Tags"
@@ -110,11 +105,11 @@ msgstr "Archivo Todo"
 
 #: src/wait_keybind.py:39
 msgid "Waiting for keybind"
-msgstr ""
+msgstr "Esperando por atajo de teclado"
 
 #: src/wait_keybind.py:44
 msgid "Capturing new keybind"
-msgstr ""
+msgstr "Capturando nuevo atajo de teclado"
 
 #: src/list_todos.py:64
 msgid "List of tasks"
@@ -153,30 +148,28 @@ msgid "Clear tasks"
 msgstr "Limpiar tareas"
 
 #: src/list_todos.py:189
-#, fuzzy
 msgid "Fill your task"
-msgstr "Filtrar tareas"
+msgstr "Completa tu tarea"
 
 #: src/list_todos.py:190
 msgid "You must specify a text for the task"
-msgstr ""
+msgstr "Debes especificar un texto para la tarea"
 
 #: src/indicator.py:167
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #: src/indicator.py:171
 msgid "Select one to show tasks"
-msgstr ""
+msgstr "Selecciona una para mostrar la tarea"
 
 #: src/indicator.py:269
 msgid "Tasks"
 msgstr "Tareas"
 
 #: src/indicator.py:275
-#, fuzzy
 msgid "Statistics"
-msgstr "Estadística de tareas"
+msgstr "Estadísticas"
 
 #: src/indicator.py:285
 msgid "Help"
@@ -188,11 +181,11 @@ msgstr "Salir"
 
 #: src/indicator.py:342
 msgid "Timetracking tasker"
-msgstr ""
+msgstr "Seguimiento de tareas"
 
 #: src/indicator.py:363
 msgid "Homepage"
-msgstr "Homepage"
+msgstr "Página de inicio"
 
 #: src/indicator.py:370
 msgid "Get help online..."
@@ -292,4 +285,4 @@ msgstr "Selecciona contexto(s):"
 
 #: src/add_todo.py:172
 msgid "Empty"
-msgstr ""
+msgstr "Vacío"
