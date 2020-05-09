@@ -27,6 +27,8 @@ import codecs
 import os
 import json
 from config import CONFIG_DIR
+from config import PLUGINS_DIR
+from config import PLUGINS_ACTIVED_DIR
 from config import CONFIG_FILE
 from config import PARAMS
 
@@ -36,6 +38,7 @@ class Configuration(object):
         self.params = PARAMS
         self.check()
         self.read()
+        self.load_plugins()
 
     def check(self):
         if not os.path.exists(CONFIG_FILE):
@@ -94,3 +97,33 @@ class Configuration(object):
         for key in sorted(self.params.keys()):
             ans += '{0}: {1}\n'.format(key, self.params[key])
         return ans
+
+    def load_plugins(self):
+        if not os.path.exists(PLUGINS_DIR):
+            os.makedirs(PLUGINS_DIR, 0o700)
+        if not os.path.exists(PLUGINS_ACTIVED_DIR):
+            os.makedirs(PLUGINS_ACTIVED_DIR, 0o700)
+        self._plugins = os.listdir(PLUGINS_ACTIVED_DIR)
+        self._plugins_to_load = os.listdir(PLUGINS_DIR)
+        self._plugins_to_load.remove('actived')
+
+    def get_plugins(self):
+        result = []
+        for plugin in self._plugins:
+            result.append({
+                'name': plugin,
+                'installed': True
+            })
+        for plugin in self._plugins_to_load:
+            result.append({
+                'name': plugin,
+                'installed': False
+            })
+        result.sort(key=lambda plugin: plugin['name'])
+        return result
+
+    def get_plugin_dir(self):
+        return PLUGINS_ACTIVED_DIR
+
+    def get_plugin_to_load_dir(self):
+        return PLUGINS_DIR

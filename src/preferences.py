@@ -46,6 +46,7 @@ from list_box_string import ListBoxString
 from list_box_string_type import ListBoxStringType
 from wait_keybind import WaitKeybind
 from alert import Alert
+from list_box_plugins import ListBoxPlugins
 
 def select_value_in_combo(combo, value):
     model = combo.get_model()
@@ -79,6 +80,17 @@ class Preferences(BaseDialog):
         self._build_tags()
         self._build_behaviors()
         self._build_keybinding()
+        self._build_plugins()
+
+    def _build_plugins(self, ):
+        page06 = self._new_page('Plugins')
+
+        plugins = ListBoxPlugins()
+        configuration = Configuration()
+        plugins.add_all(configuration.get_plugins())
+        plugins.set_size_request(300, 300)
+        self.plugins = plugins
+        page06.attach(plugins, 0, 0, 1, 1)
 
     def _build_keybinding(self, ):
         page_keybinding = self._new_page('Keybinding')
@@ -256,6 +268,7 @@ class Preferences(BaseDialog):
         self.filter_projects.set_active(
                 preferences.get('filter-projects', False))
 
+
     def save(self):
         configuration = Configuration()
         preferences = configuration.get('preferences')
@@ -285,6 +298,16 @@ class Preferences(BaseDialog):
         else:
             if os.path.exists(autostart_file):
                 os.remove(autostart_file)
+
+        for plugin in self.plugins.get_items():
+            try:
+                if plugin['installed']:
+                    shutil.move(configuration.get_plugin_to_load_dir() + '/' + plugin['name'], configuration.get_plugin_dir())
+                else:
+                    shutil.move(configuration.get_plugin_dir() + '/' + plugin['name'], configuration.get_plugin_to_load_dir())
+            except Exception as e:
+                print("Ignore error. Maybe no operation needed. %s" % e)
+                pass
 
     def on_new_task_keybinding(self, widget, *event, **user_data):
         widget.set_sensitive(False)
