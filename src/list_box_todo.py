@@ -36,6 +36,7 @@ import datetime
 import time
 from config import _
 import locale
+from alert import Alert
 
 
 def listBoxFilterFunc(row, *user_data):
@@ -101,11 +102,10 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
         return date_str + ' ' + time_str
 
     def get_total_time_str(self):
-        total_time = float(self.todo.tags.get('total_time', 0))
-        if not total_time:
-            return ''
-        else:
-            return self.seconds_to_dhms(total_time)
+        result = self.todo.tags.get('total_time', '')
+        if result != '':
+            result = self.seconds_to_dhms(float(result))
+        return result
 
     def get_time_indicators(self):
         total_time_str = self.get_total_time_str()
@@ -143,26 +143,17 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
                 child.track_time()
                 child.time_button.set_image(Gtk.Image.new_from_icon_name(self.get_started_at_icon(), Gtk.IconSize.BUTTON))
                 child.set_todo(child.todo)
+                self.get_toplevel().indicator.set_icon_tracktime(False)
 
     def on_time_button_clicked(self, widget):
         if self.switch.get_active():
-            dialog = Gtk.MessageDialog(
-                self.get_toplevel(),
-                0,
-                Gtk.MessageType.ERROR,
-                Gtk.ButtonsType.OK,
-                _('Your task is completed'),
-            )
-            dialog.format_secondary_text(
-                _('Mark as uncompleted and continue')
-            )
-            dialog.run()
-            dialog.destroy()
+            Alert.show_alert('Your task is completed', 'Mark as uncompleted and continue')
         else:
             self.stop_siblings_if_started()
             self.track_time()
             widget.set_image(Gtk.Image.new_from_icon_name(self.get_started_at_icon(), Gtk.IconSize.BUTTON))
             self.set_todo(self.todo)
+            self.get_toplevel().indicator.set_icon_tracktime(self.get_started_at())
 
     def get_priority(self):
         if self.todo.priority is None:
@@ -247,10 +238,10 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
         minutes = seconds // seconds_to_minute
         seconds %= seconds_to_minute
 
+        result = "%02d:%02d:%02d" % (hours, minutes, seconds)
         if days:
-            return "%d days, %02d:%02d:%02d" % (days, hours, minutes, seconds)
-        else:
-            return "%02d:%02d:%02d" % (hours, minutes, seconds)
+            result = "%d days, %02d:%02d:%02d" % (days, hours, minutes, seconds)
+        return result
 
 class ListBoxTodo(Gtk.ScrolledWindow):
     """Docstring for ListBoxCheck. """
@@ -272,7 +263,7 @@ class ListBoxTodo(Gtk.ScrolledWindow):
             
     def add_item(self, todo):
         for item in self.listBox.get_children():
-            if item.get_todo().text == todo.text: 
+            if item.get_todo() and item.get_todo().text == todo.text:
                 return
         newListBoxRowTodo = ListBoxRowTodo(todo)
         newListBoxRowTodo.show_all()

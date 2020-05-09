@@ -168,38 +168,36 @@ class AddTodoDialog(BaseDialog):
 
         """
         text = self.text.get_text()
-        if text:
-            if not self.todo_item:
-                creation_date = datetime.datetime.now().strftime('%Y-%m-%d')
-                self.todo_item = todotxtio.Todo(text=text, creation_date=creation_date)
-            else:
-                self.todo_item.text = text
-            priority = get_selected_value_in_combo(self.priority)
-            if priority > -1:
-                self.todo_item.priority = chr(priority + 65)
-            if self.projects:
-                self.todo_item.projects = self.projects.get_active_items()
-            if self.contexts:
-                self.todo_item.contexts = self.contexts.get_active_items()
-            if self.tags:
-                tags = {}
-                for tag in self.tags:
-                    name = tag.name
-                    if type(tag) == CheckCalendar:
-                        value = tag.get_date()
-                    elif type(tag) == Gtk.CheckButton:
-                        value = str(tag.get_active())
-                    else:
-                        value = tag.get_text()
-                    if value:
-                        tags[name] = value
-                started_at = self.todo_item.tags.get('started_at', False)
-                total_time = self.todo_item.tags.get('total_time', False)
-                if started_at:
-                    tags['started_at'] = started_at
-                if total_time:
-                    tags['total_time'] = total_time
-                self.todo_item.tags = tags
+        if not text:
+            text = _('Empty')
+        if not self.todo_item:
+            creation_date = datetime.datetime.now().strftime('%Y-%m-%d')
+            self.todo_item = todotxtio.Todo(text=text, creation_date=creation_date)
+        else:
+            self.todo_item.text = text
+        priority = get_selected_value_in_combo(self.priority)
+        if priority > -1:
+            self.todo_item.priority = chr(priority + 65)
+        if self.projects:
+            self.todo_item.projects = self.projects.get_active_items()
+        if self.contexts:
+            self.todo_item.contexts = self.contexts.get_active_items()
+
+        tags = {}
+        if self.tags:
+            for tag in self.tags:
+                name = tag.name
+                if type(tag) == CheckCalendar:
+                    value = tag.get_date()
+                elif type(tag) == Gtk.CheckButton:
+                    value = str(tag.get_active())
+                else:
+                    value = tag.get_text()
+                if value:
+                    tags[name] = value
+        tags['started_at'] = self.todo_item.tags.get('started_at', '0')
+        tags['total_time'] = self.todo_item.tags.get('total_time', '0')
+        self.todo_item.tags = tags
         return self.todo_item
 
         
@@ -212,11 +210,9 @@ if __name__ == '__main__':
         task = None
     addTodoDialog.destroy()
     if task:
-        print(task)
         addTodoDialog = AddTodoDialog(task)
         response = addTodoDialog.run()
         if response == Gtk.ResponseType.ACCEPT:
             task = addTodoDialog.get_task()
-            print(task)
         addTodoDialog.destroy()
         
