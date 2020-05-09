@@ -81,7 +81,7 @@ class Preferences(BaseDialog):
         self._build_keybinding()
 
     def _build_keybinding(self, ):
-        page_keybinding = self._new_page('Keybinding')
+        page_keybinding = self._new_page(_('Keybinding'))
 
         label_new_task = Gtk.Label.new(_('New task'))
         label_new_task.set_property('halign', Gtk.Align.START)
@@ -109,7 +109,7 @@ class Preferences(BaseDialog):
 
 
     def _build_behaviors(self, ):
-        page05 = self._new_page('Behaviors')
+        page05 = self._new_page(_('Behaviors'))
 
         label = Gtk.Label.new(_('Hide completed tasks'))
         label.set_property('halign', Gtk.Align.START)
@@ -126,7 +126,7 @@ class Preferences(BaseDialog):
         page05.attach(self.filter_projects, 1, 1, 1, 1)
 
     def _build_tags(self):
-        page04 = self._new_page('Tags')
+        page04 = self._new_page(_('Tags'))
         self.tags = ListBoxStringType()
         self.tags.set_size_request(250, 250)
         page04.attach(self.tags, 0, 0, 3, 3)
@@ -140,7 +140,7 @@ class Preferences(BaseDialog):
         box.add(button_remove_tag)
 
     def _build_page_contexts(self):
-        page03 = self._new_page('Contexts')
+        page03 = self._new_page(_('Contexts'))
         self.contexts = ListBoxString()
         self.contexts.set_size_request(250, 250)
         page03.attach(self.contexts, 0, 0, 3, 3)
@@ -156,7 +156,7 @@ class Preferences(BaseDialog):
         box.add(button_remove_context)
 
     def _build_page_projects(self):
-        page02 = self._new_page('Projects')
+        page02 = self._new_page(_('Projects'))
         self.projects = ListBoxString()
         self.projects.set_size_request(250, 250)
         page02.attach(self.projects, 0, 0, 3, 3)
@@ -172,7 +172,7 @@ class Preferences(BaseDialog):
         box.add(button_remove_project)
 
     def _build_page_general(self):
-        page01 = self._new_page('General')
+        page01 = self._new_page(_('General'))
         label = Gtk.Label.new(_('Theme light:'))
         label.set_property('halign', Gtk.Align.START)
         page01.attach(label, 0, 0, 1, 1)
@@ -211,7 +211,7 @@ class Preferences(BaseDialog):
         newPage.set_margin_start(10)
         newPage.set_margin_end(10)
         newPage.set_margin_top(10)
-        self.notebook.append_page(newPage, Gtk.Label.new(_(label)))
+        self.notebook.append_page(newPage, Gtk.Label.new(label))
         return newPage
 
     def load(self):

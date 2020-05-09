@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tasker - 0.1.0-0extras19.10.11\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-09 19:50+0200\n"
+"POT-Creation-Date: 2020-05-09 19:55+0200\n"
 "PO-Revision-Date: 2020-03-04 18:31+0100\n"
 "Last-Translator: Lorenzo <lorenzo.carbonell.cerezo@gmail.com>\n"
 "Language-Team: Language *\n"
@@ -20,6 +20,10 @@ msgstr ""
 msgid "Preferences"
 msgstr "Preferencias"
 
+#: src/preferences.py:84
+msgid "Keybinding"
+msgstr ""
+
 #: src/preferences.py:86
 #, fuzzy
 msgid "New task"
@@ -29,6 +33,10 @@ msgstr "Eliminar tarea"
 #, fuzzy
 msgid "Show tasks"
 msgstr "Lista de tareas"
+
+#: src/preferences.py:112
+msgid "Behaviors"
+msgstr ""
 
 #: src/preferences.py:114
 #, fuzzy
@@ -40,6 +48,10 @@ msgstr "Filtrar tareas"
 msgid "Filter by projects"
 msgstr "Selecciona proyecto(s):"
 
+#: src/preferences.py:129
+msgid "Tags"
+msgstr "Etiquetas"
+
 #: src/preferences.py:135
 msgid "Add tag"
 msgstr "Añadir etiqueta"
@@ -47,6 +59,10 @@ msgstr "Añadir etiqueta"
 #: src/preferences.py:138
 msgid "Remove tag"
 msgstr "Eliminar etiqueta"
+
+#: src/preferences.py:143
+msgid "Contexts"
+msgstr "Contextos"
 
 #: src/preferences.py:149
 msgid "Add context"
@@ -56,6 +72,10 @@ msgstr "Añadir contexto"
 msgid "Remove context"
 msgstr "Borrar contexto"
 
+#: src/preferences.py:159
+msgid "Projects"
+msgstr "Proyectos"
+
 #: src/preferences.py:165
 msgid "Add project"
 msgstr "Añadir Proyecto"
@@ -63,6 +83,10 @@ msgstr "Añadir Proyecto"
 #: src/preferences.py:169
 msgid "Remove project"
 msgstr "Borrar proyecto"
+
+#: src/preferences.py:175
+msgid "General"
+msgstr "General"
 
 #: src/preferences.py:176
 msgid "Theme light:"
@@ -269,15 +293,3 @@ msgstr "Selecciona contexto(s):"
 #: src/add_todo.py:172
 msgid "Empty"
 msgstr ""
-
-#~ msgid "General"
-#~ msgstr "General"
-
-#~ msgid "Projects"
-#~ msgstr "Proyectos"
-
-#~ msgid "Contexts"
-#~ msgstr "Contextos"
-
-#~ msgid "Tags"
-#~ msgstr "Etiquetas"
