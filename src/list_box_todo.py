@@ -70,14 +70,15 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
         self.box.add(self.switch)
         self.switch.connect('toggled', self.on_toggled)
 
-        self.time_button = Gtk.Button.new_from_icon_name(self.get_started_at_icon(),
-                                                         Gtk.IconSize.BUTTON)
+        self.time_button = Gtk.Button.new_from_icon_name(
+                self.get_started_at_icon(), Gtk.IconSize.BUTTON)
         self.time_button.connect("clicked", self.on_time_button_clicked)
         self.time_button.set_halign(Gtk.Align.START)
         self.box.add(self.time_button)
 
         if todo.completed:
-            text = '<span strikethrough="true">{}</span>'.format(self.todo.text)
+            text = '<span strikethrough="true">{}</span>'.format(
+                    self.todo.text)
         else:
             text = self.todo.text
         if self.todo.priority:
@@ -97,8 +98,10 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
         if not started_at:
             return ''
         locale.setlocale(locale.LC_TIME, '')
-        date_str = datetime.datetime.fromtimestamp(started_at).strftime(locale.nl_langinfo(locale.D_FMT))
-        time_str = datetime.datetime.fromtimestamp(started_at).strftime(locale.nl_langinfo(locale.T_FMT))
+        date_str = datetime.datetime.fromtimestamp(started_at).strftime(
+                locale.nl_langinfo(locale.D_FMT))
+        time_str = datetime.datetime.fromtimestamp(started_at).strftime(
+                locale.nl_langinfo(locale.T_FMT))
         return date_str + ' ' + time_str
 
     def get_total_time_str(self):
@@ -139,21 +142,27 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
 
     def stop_siblings_if_started(self):
         for child in self.get_parent().get_children():
-            if self.todo.text != child.get_todo().text and child.get_started_at():
+            if self.todo.text != child.get_todo().text and \
+                    child.get_started_at():
                 child.track_time()
-                child.time_button.set_image(Gtk.Image.new_from_icon_name(self.get_started_at_icon(), Gtk.IconSize.BUTTON))
+                child.time_button.set_image(
+                        Gtk.Image.new_from_icon_name(
+                            self.get_started_at_icon(), Gtk.IconSize.BUTTON))
                 child.set_todo(child.todo)
                 self.get_toplevel().indicator.set_icon_tracktime(False)
 
     def on_time_button_clicked(self, widget):
         if self.switch.get_active():
-            Alert.show_alert('Your task is completed', 'Mark as uncompleted and continue')
+            Alert.show_alert(_('Your task is completed'),
+                             _('Mark as uncompleted and continue'))
         else:
             self.stop_siblings_if_started()
             self.track_time()
-            widget.set_image(Gtk.Image.new_from_icon_name(self.get_started_at_icon(), Gtk.IconSize.BUTTON))
+            widget.set_image(Gtk.Image.new_from_icon_name(
+                self.get_started_at_icon(), Gtk.IconSize.BUTTON))
             self.set_todo(self.todo)
-            self.get_toplevel().indicator.set_icon_tracktime(self.get_started_at())
+            self.get_toplevel().indicator.set_icon_tracktime(
+                    self.get_started_at())
 
     def get_priority(self):
         if self.todo.priority is None:
@@ -167,7 +176,8 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
     def set_todo(self, todo):
         self.todo = todo
         if todo.completed:
-            text = '<span strikethrough="true">{}</span>'.format(self.todo.text)
+            text = '<span strikethrough="true">{}</span>'.format(
+                    self.todo.text)
         else:
             text = self.todo.text
         if self.todo.priority:
@@ -180,12 +190,14 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
     def set_completed(self, completed):
         self.todo.completed = completed
         if completed:
-            self.todo.completion_date = datetime.datetime.now().strftime('%Y-%m-%d')
+            self.todo.completion_date = datetime.datetime.now().strftime(
+                    '%Y-%m-%d')
         else:
             self.todo.completion_date = None
         self.switch.set_active(completed)
         if completed:
-            text = '<span strikethrough="true">{}</span>'.format(self.todo.text)
+            text = '<span strikethrough="true">{}</span>'.format(
+                    self.todo.text)
         else:
             text = self.todo.text
         if self.todo.priority:
@@ -198,7 +210,8 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
     def on_toggled(self, widget):
         text = self.todo.text
         if widget.get_active():
-            text = '<span strikethrough="true">{}</span>'.format(self.todo.text)
+            text = '<span strikethrough="true">{}</span>'.format(
+                    self.todo.text)
             if (self.get_started_at()):
                 self.stop_siblings_if_started()
             self.track_time()
@@ -209,7 +222,8 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
             label.set_markup(text + self.get_time_indicators())
         widget.\
             get_parent().get_parent().\
-            time_button.set_image(Gtk.Image.new_from_icon_name(self.get_started_at_icon(), Gtk.IconSize.BUTTON))
+            time_button.set_image(Gtk.Image.new_from_icon_name(
+                self.get_started_at_icon(), Gtk.IconSize.BUTTON))
         self.emit('toggled')
 
     def hide(self):
@@ -240,7 +254,8 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
 
         result = "%02d:%02d:%02d" % (hours, minutes, seconds)
         if days:
-            result = "%d days, %02d:%02d:%02d" % (days, hours, minutes, seconds)
+            result = "%d days, %02d:%02d:%02d" % (
+                    days, hours, minutes, seconds)
         return result
 
 class ListBoxTodo(Gtk.ScrolledWindow):
