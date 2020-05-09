@@ -35,11 +35,11 @@ import os
 from pathlib import Path
 import todotxtio.todotxtio as todotxtio
 from basedialog import BaseDialog
-from list_box_check import ListBoxCheck
 from list_box_todo import ListBoxTodo
 from add_todo import AddTodoDialog
 from config import _
 from configurator import Configuration
+from alert import Alert
 
 
 def select_value_in_combo(combo, value):
@@ -69,7 +69,7 @@ class ListTodos(BaseDialog):
         BaseDialog.init_ui(self)
 
         self.todos = ListBoxTodo()
-        self.todos.set_size_request(300, 500)
+        self.todos.set_size_request(500, 500)
         self.grid.attach(self.todos, 0, 0, 1, 1)
 
         expander = Gtk.Expander.new(_('Filter tasks'))
@@ -180,7 +180,10 @@ class ListTodos(BaseDialog):
         addTodoDialog = AddTodoDialog()
         if addTodoDialog.run() == Gtk.ResponseType.ACCEPT:
             todo = addTodoDialog.get_task()
-            self.todos.add_item(todo)
+            if not todo:
+                Alert.show_alert('Fill your task', 'You must specify a text for the task')
+            else:
+                self.todos.add_item(todo)
         addTodoDialog.destroy()
 
     def on_button_edit_clicked(self, widget):

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 # This file is part of tasker
@@ -23,48 +23,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
 import gi
 try:
     gi.require_version('Gtk', '3.0')
-except Exception as e:
+except ValueError as e:
     print(e)
-    exit(-1)
+    exit(1)
 from gi.repository import Gtk
+from config import _
 
-class CheckCalendar(Gtk.Grid):
-    """Docstring for CheckCalendar. """
-
-    def __init__(self, date=None):
-        """TODO: to be defined. """
-        Gtk.Grid.__init__(self)
-
-        self.expander = Gtk.Expander.new('')
-        self.calendar = Gtk.Calendar()
-        self.expander.add(self.calendar)
-        self.attach(self.expander, 0, 0, 1, 1)
-
-        if date:
-            self.set_active(True)
-            self.set_date(date)
-        else:
-            self.set_active(False)
-
-    def set_date(self, date):
-        if not date:
-            return
-        self.expander.set_expanded(True)
-        self.calendar.select_month(int(date[5:7]) - 1, int(date[0:4]))
-        self.calendar.select_day(int(date[-2:]))
-
-    def get_date(self):
-        if self.expander.get_expanded():
-            date = self.calendar.get_date()
-            return '{:04d}-{:02d}-{:02d}'.format(date.year, date.month + 1, date.day)
-        return None
-
-    def set_active(self, active):
-        self.expander.set_expanded(active)
-
-    def get_active(self):
-        return self.expander.get_expanded()
+class Alert(Gtk.Dialog):
+    def show_alert(primary_message, secondary_message=False):
+        dialog = Gtk.MessageDialog(
+            None,
+            0,
+            Gtk.MessageType.ERROR,
+            Gtk.ButtonsType.OK,
+            _(primary_message),
+        )
+        if secondary_message:
+            dialog.format_secondary_text(
+                _(secondary_message)
+            )
+        dialog.run()
+        dialog.destroy()

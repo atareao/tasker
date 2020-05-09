@@ -53,7 +53,7 @@ from configurator import Configuration
 from add_todo import AddTodoDialog
 from list_todos import ListTodos
 import todotxtio.todotxtio as todotxtio
-
+import time
 
 class Indicator(object):
 
@@ -100,8 +100,7 @@ class Indicator(object):
         tags = preferences['tags']
         self.hide_completed = preferences.get('hide-completed', False)
         self.filter_projects = preferences.get('filter-projects', False)
-        self.last_filtered_projects = preferences.get(
-                'last-filtered-projects', [])
+        self.last_filtered_projects = preferences.get('last-filtered-projects', [])
         list_of_todos = todotxtio.from_file(self.todo_file)
         pattern = r'^\d{4}-\d{2}-\d{2}$'
         for todo in list_of_todos:
@@ -295,6 +294,7 @@ class Indicator(object):
 
     def on_menu_list_todos_activate(self, widget):
         listTodos = ListTodos()
+        listTodos.indicator = self
         if listTodos.run() == Gtk.ResponseType.ACCEPT:
             listTodos.save()
             self.load_todos()
@@ -305,10 +305,12 @@ class Indicator(object):
         if addTodoDialog.run() == Gtk.ResponseType.ACCEPT:
             todo = addTodoDialog.get_task()
             list_of_todos = todotxtio.from_file(self.todo_file)
+            finded = False
             for atodo in list_of_todos:
                 if todo.text == atodo.text:
-                    return
-            list_of_todos.append(todo)
+                    finded = True
+            if not finded:
+                list_of_todos.append(todo)
             todotxtio.to_file(self.todo_file, list_of_todos)
             self.load_todos()
         addTodoDialog.destroy()
@@ -369,8 +371,7 @@ class Indicator(object):
 
         for i in range(0, len(self.projects)):
             project_item = Gtk.CheckMenuItem.new_with_label(self.projects[i])
-            project_item.set_active(
-                    self.projects[i] in self.last_filtered_projects)
+            project_item.set_active(1 if self.projects[i] in self.last_filtered_projects else 0)
             project_item.connect('toggled', self.on_menu_filter_project_toggled, i)
             filter_menu.append(project_item)
         return filter_menu
@@ -482,12 +483,28 @@ SOFTWARE.''')
         widget.set_sensitive(True)
 
     def quit(self, menu_item):
+        list_of_todos = todotxtio.from_file(self.todo_file)
+        for atodo in list_of_todos:
+            if 'started_at' in atodo.tags and atodo.tags['started_at']:
+                started_at = float(atodo.tags.get('started_at', 0))
+                if started_at:
+                    total_time = float(atodo.tags.get('total_time', 0)) + time.time() - started_at
+                    atodo.tags['started_at'] = '0'
+                    atodo.tags['total_time'] = str(total_time)
+                elif not started_at and atodo.completed:
+                    atodo.tags['started_at'] = '0'
+        todotxtio.to_file(self.todo_file, list_of_todos)
+
         Gtk.main_quit()
         # If Gtk throws an error or just a warning, main_quit() might not
         # actually close the app
         sys.exit(0)
 
-
+    def set_icon_tracktime(self, tracking=False):
+        if tracking:
+            self.indicator.set_icon('media-playback-pause')
+        else:
+            self.set_icon(True)
 def main():
     Indicator()
 
