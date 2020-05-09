@@ -35,20 +35,17 @@ from gi.repository import WebKit2
 import config
 from basedialog import BaseDialog
 from configurator import Configuration
-
+import todotxtio.todotxtio as todotxtio
+import os
+from pathlib import Path
 
 class Graph(BaseDialog):
-    def __init__(self, title='', subtitle='', currencies=[], days=[], c0=[],
-                 c1=[], c2=[], c3=[], c4=[]):
+    def __init__(self, title='', ):
         self.title = title
-        self.subtitle = subtitle
-        self.currencies = currencies
-        self.days = days
-        self.c0 = c0
-        self.c1 = c1
-        self.c2 = c2
-        self.c3 = c3
-        self.c4 = c4
+        self.configuration = Configuration()
+        preferences = self.configuration.get('preferences')
+        todo_file = Path(os.path.expanduser(preferences['todo-file']))
+        self.todo_file = todo_file.as_posix()
         BaseDialog.__init__(self, title, None, ok_button=False,
                             cancel_button=False)
 
@@ -68,40 +65,61 @@ class Graph(BaseDialog):
         self.set_focus(self.viewer)
 
     def update(self):
-        self.web_send('title="{}";subtitle="{}";currencies={};days={};c0={};\
-            c1={};c2={};c3={};c4={};draw_graph(title,subtitle,currencies,days,\
-                c0,c1,c2,c3,c4);'.format(self.title, self.subtitle,
-                                         self.currencies, self.days, self.c0,
-                                         self.c1, self.c2, self.c3, self.c4))
+        list_of_todos = todotxtio.from_file(self.todo_file)
+        list_of_todos.sort(key=lambda todo: todo.creation_date, )
+        list_of_todos.sort(key=lambda todo: ''.join(sorted(todo.projects, key=lambda project: project)), )
+        dates = list(set([todo.creation_date for todo in list_of_todos]))
+        values = []
+        for todo in list_of_todos:
+            data = []
+            for day in dates:
+                if todo.creation_date == day:
+                    data.append(float(todo.tags.get('total_time', '0')))
+                else:
+                    data.append(0)
+            values.append({'name': todo.text, 'data': data})
+        measure = {'dates': dates, 'values': values}
+        self.web_send('draw_graph("{}", {});'.format(self.title, measure))
 
     def load_changed(self, widget, load_event):
         if load_event == WebKit2.LoadEvent.FINISHED:
             self.update()
-            '''
-            configuration = Configuration()
-            preferences = configuration.get('preferences')
-            distance_color = preferences['distance-color']
-            clics_color = preferences['clics-color']
-            keys_color = preferences['keys-color']
-            units = preferences['units']
-            self.web_send('set_colors("{}", "{}", "{}");'.format(
-                distance_color, clics_color, keys_color
-            ))
-            self.web_send('set_units("{}");'.format(units))
-            while Gtk.events_pending():
-                Gtk.main_iteration()
-            '''
 
     def web_send(self, msg):
         self.viewer.run_javascript(msg, None, None, None)
 
 
 if __name__ == '__main__':
-    title = 'Titulo'
-    subtitle = 'Subtitulo'
-    days = ['2020-12-25', '2020-12-26', '2020-12-27', 10]
-    distance = [25, 30, 35]
-    clics = [50, 60, 70]
-    keys = [1230, 2550, 2600]
-    graph = Graph(title, subtitle, days, distance, clics, keys)
+    title = 'Timetracking tasker'
+    measure = {
+        'dates': [
+            '08-05-2020',
+            '09-05-2020',
+            '10-05-2020',
+            '11-05-2020',
+            '12-05-2020',
+            '13-05-2020',
+            '14-05-2020',
+            '15-05-2020',
+            '16-05-2020',
+            '17-05-2020',
+            '18-05-2020',
+            '19-05-2020',
+            '20-05-2020',
+            '21-05-2020',
+        ],
+        'values': [
+            {
+                name: 'Task 1:Proj 1',
+                data: [3, 3, 0, 7, 5, 2, 3, 4, 1, 2, 3, 4, 0, 0]
+            }, {
+                name: 'Task 2:Proj 1',
+                data: [4, 3, 4, 0, 0, 2, 3, 4, 1, 2, 3, 4, 0, 0]
+            }, {
+                name: 'Task 3:Proj 2',
+                data: [1, 2, 4, 0, 3, 2, 3, 4, 1, 2, 3, 4, 0, 0]
+            },
+        ]
+    }
+    graph = Graph(title, measure, )
     graph.run()
