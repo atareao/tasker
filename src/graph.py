@@ -66,10 +66,10 @@ class Graph(BaseDialog):
 
     def update(self):
         list_of_todos = todotxtio.from_file(self.todo_file)
-        list_of_todos.sort(key=lambda todo: todo.creation_date, )
+        list_of_todos.sort(key=lambda todo: todo.creation_date if todo.creation_date else '', )
         list_of_todos.sort(key=lambda todo: ''.join(sorted(todo.projects, key=lambda project: project)), )
         dates = list(set([todo.creation_date for todo in list_of_todos]))
-        dates.sort(key=lambda day: day)
+        dates.sort(key=lambda day: day if day else '')
         values = []
         for todo in list_of_todos:
             data = []

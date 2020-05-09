@@ -466,7 +466,7 @@ SOFTWARE.''')
     def quit(self, menu_item):
         list_of_todos = todotxtio.from_file(self.todo_file)
         for atodo in list_of_todos:
-            if atodo.tags['started_at']:
+            if 'started_at' in atodo.tags and atodo.tags['started_at']:
                 started_at = float(atodo.tags.get('started_at', 0))
                 if started_at:
                     total_time = float(atodo.tags.get('total_time', 0)) + time.time() - started_at
