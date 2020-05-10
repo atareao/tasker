@@ -111,5 +111,3 @@ class ListBoxPlugins(Gtk.ScrolledWindow):
         selected_row = self.listBox.get_selected_row()
         if selected_row:
             selected_row.set_plugin(plugin)
-
-

@@ -307,7 +307,6 @@ class Preferences(BaseDialog):
                     shutil.move(configuration.get_plugin_dir() + '/' + plugin['name'], configuration.get_plugin_to_load_dir())
             except Exception as e:
                 print("Ignore error. Maybe no operation needed. %s" % e)
-                pass
 
     def on_new_task_keybinding(self, widget, *event, **user_data):
         widget.set_sensitive(False)
