@@ -104,9 +104,8 @@ class Configuration(object):
         if not os.path.exists(PLUGINS_ACTIVED_DIR):
             os.makedirs(PLUGINS_ACTIVED_DIR, 0o700)
 
-        self._plugins = [name for name in os.listdir(PLUGINS_ACTIVED_DIR) if os.path.isdir(os.path.join(PLUGINS_ACTIVED_DIR, name)) and not 'pycache' in name]
-        self._plugins_to_load = [name for name in os.listdir(PLUGINS_DIR) if os.path.isdir(os.path.join(PLUGINS_DIR, name))and not 'pycache' in name]
-        self._plugins_to_load.remove('actived')
+        self._plugins = [name for name in os.listdir(PLUGINS_ACTIVED_DIR) if os.path.isdir(os.path.join(PLUGINS_ACTIVED_DIR, name)) and not 'pycache' in name and not '.git' in name]
+        self._plugins_to_load = [name for name in os.listdir(PLUGINS_DIR) if os.path.isdir(os.path.join(PLUGINS_DIR, name))and not 'pycache' in name and not '.git' in name]
 
     def get_plugins(self):
         result = []
