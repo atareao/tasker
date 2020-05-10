@@ -54,7 +54,6 @@ from add_todo import AddTodoDialog
 from list_todos import ListTodos
 import todotxtio.todotxtio as todotxtio
 import time
-import pluggy
 from hooks import plugin_manager
 
 class Indicator(object):
@@ -517,7 +516,7 @@ SOFTWARE.''')
             self.set_icon(True)
 
 def main():
-    Indicator(plugin_manager.get_plugin_manager().hook)
+    Indicator(plugin_manager.get_indicator_plugin_manager().hook)
 
 if __name__ == '__main__':
    main()
