@@ -54,10 +54,13 @@ from add_todo import AddTodoDialog
 from list_todos import ListTodos
 import todotxtio.todotxtio as todotxtio
 import time
+import pluggy
+from hooks import plugin_manager
 
 class Indicator(object):
 
-    def __init__(self):
+    def __init__(self, hook):
+        self.hook = hook
         self.indicator = AppIndicator3.Indicator.new(
             'tasker',
             'tasker',
@@ -273,6 +276,13 @@ class Indicator(object):
         #     _('Statistics'))
         # menu_show_statistics.connect('activate', self.show_statistics)
         # menu.append(menu_show_statistics)
+
+        hookmenu = self.hook.get_hook_menu()
+        if hookmenu:
+            menu.append(Gtk.SeparatorMenuItem())
+            for menuitem in hookmenu[0]:
+                menu.append(menuitem)
+            menu.append(Gtk.SeparatorMenuItem())
 
         menu.append(Gtk.SeparatorMenuItem())
 
@@ -505,9 +515,9 @@ SOFTWARE.''')
             self.indicator.set_icon('media-playback-pause')
         else:
             self.set_icon(True)
-def main():
-    Indicator()
 
+def main():
+    Indicator(plugin_manager.get_plugin_manager().hook)
 
 if __name__ == '__main__':
    main()
