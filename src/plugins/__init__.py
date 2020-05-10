@@ -20,4 +20,5 @@ for (_, module_name, _) in iter_modules([package_dir]):
 countered_classes = dict(Counter(classes))
 for class_ in countered_classes.keys():
     if countered_classes[class_] > 1:
-        print('The class \'{}\' appears in more than one installed plugin. You must unninstall these'.format(class_))
+        print('The class \'{}\' appears in more than one installed plugin. 
+You must unninstall these'.format(class_))

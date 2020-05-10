@@ -35,5 +35,16 @@ if __name__ == '__main__':
         sys.path.insert(1, os.path.normpath(
             os.path.join(os.path.dirname(__file__), '../src')))
     from indicator import main
-    main()
+    try:
+        """
+        This remove the  message warning:
+        Couldn't register with accessibility bus: Did not receive a reply.
+        Possible causes include: the remote application did not send a reply,
+        the message bus security policy blocked the reply, the reply timeout
+        expired, or the network connection was broken.
+        """
+        os.environ['NO_AT_BRIDGE'] = '1'
+        main()
+    except KeyboardInterrupt as e:
+        print(e)
 exit(0)
