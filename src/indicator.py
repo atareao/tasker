@@ -54,10 +54,13 @@ from add_todo import AddTodoDialog
 from list_todos import ListTodos
 import todotxtio.todotxtio as todotxtio
 import time
+import pluggy
+from hooks import plugin_manager
 
 class Indicator(object):
 
-    def __init__(self):
+    def __init__(self, hook):
+        self.hook = hook
         self.indicator = AppIndicator3.Indicator.new(
             'tasker',
             'tasker',
@@ -285,6 +288,13 @@ class Indicator(object):
         menu_statistics.set_submenu(inner_menu_statistics)
         menu.append(menu_statistics)
 
+        hookmenu = self.hook.get_hook_menu()
+        if hookmenu:
+            menu.append(Gtk.SeparatorMenuItem())
+            for menuitem in hookmenu[0]:
+                menu.append(menuitem)
+            menu.append(Gtk.SeparatorMenuItem())
+
         menu.append(Gtk.SeparatorMenuItem())
 
         menu_preferences = Gtk.MenuItem.new_with_label(_('Preferences'))
@@ -345,12 +355,34 @@ class Indicator(object):
         widget.set_sensitive(True)
         preferences.destroy()
 
-    def show_statistics(self, widget, by_project):
+    def show_statistics(self, widget):
         widget.set_sensitive(False)
 
-        title = _('Timetracking tasker')
+        title = _('Tasker')
+        subtitle = _('Tasks statistics')
+        configuration = Configuration()
+        preferences = self.configuration.get('preferences')
 
-        graph = Graph(title, by_project)
+        mc = CURRENCIES[self.main_currency]
+        currencies = []
+        for i in range(0, 5):
+            currencies.append(CURRENCIES[self.currencies[i]])
+        days = []
+        c0 = []
+        c1 = []
+        c2 = []
+        c3 = []
+        c4 = []
+        for aday in self.exchange.data:
+            days.append(aday['date'])
+            mc = aday[self.main_currency.lower()]
+            c0.append(round(aday[self.currencies[0].lower()] / mc))
+            c1.append(round(aday[self.currencies[1].lower()] / mc))
+            c2.append(round(aday[self.currencies[2].lower()] / mc))
+            c3.append(round(aday[self.currencies[3].lower()] / mc))
+            c4.append(round(aday[self.currencies[4].lower()] / mc))
+
+        graph = Graph(title, subtitle, currencies, days, c0, c1, c2, c3, c4)
         graph.run()
         graph.destroy()
         widget.set_sensitive(True)
@@ -490,12 +522,13 @@ SOFTWARE.''')
         sys.exit(0)
 
     def set_icon_tracktime(self, tracking=False):
-        self.tracking = tracking
-        self.set_icon()
+        if tracking:
+            self.indicator.set_icon('media-playback-pause')
+        else:
+            self.set_icon()
 
 def main():
-    Indicator()
-
+    Indicator(plugin_manager.get_plugin_manager().hook)
 
 if __name__ == '__main__':
    main()
