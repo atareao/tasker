@@ -1,6 +1,6 @@
 import pluggy
 from plugins import *
-from .hookspecs import IndicatorSpec
+from .indicatorspecs import IndicatorSpec
 
 def get_indicator_plugin_manager():
 	"""
@@ -9,7 +9,6 @@ def get_indicator_plugin_manager():
 	"""
 	pm = pluggy.PluginManager("indicator")
 	pm.add_hookspecs(IndicatorSpec)
-	# TODO: Make a method to filter classes that has hooks for Indicator master source
 	for class_imported in classes:
 		pm.register(globals()[class_imported]())
 	return pm

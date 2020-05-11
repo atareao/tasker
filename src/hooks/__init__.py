@@ -8,3 +8,4 @@ Plugins tab of the Preferences menu.
 
 If you need an example plugin you can get it [here](https://github.com/flachica/tasker-plugins).
 """
+from .indicatorspecs import IndicatorSpec
