@@ -63,25 +63,26 @@ class Indicator(object):
             'tasker',
             AppIndicator3.IndicatorCategory.APPLICATION_STATUS)
         Keybinder.init()
+        self.tracking = False
         self.load_preferences()
         self.indicator.set_menu(self.build_menu())
         self.indicator.set_label('', '')
         self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
-        self.set_icon(True)
+        self.set_icon()
         self.load_todos()
         Gtk.main()
 
-    def set_icon(self, active=True):
-        if active:
-            if self.theme_light:
-                icon = config.ICON_ACTIVED_LIGHT
-            else:
-                icon = config.ICON_ACTIVED_DARK
-        else:
+    def set_icon(self):
+        if self.tracking:
             if self.theme_light:
                 icon = config.ICON_PAUSED_LIGHT
             else:
                 icon = config.ICON_PAUSED_DARK
+        else:
+            if self.theme_light:
+                icon = config.ICON_ACTIVED_LIGHT
+            else:
+                icon = config.ICON_ACTIVED_DARK
         self.indicator.set_icon(icon)
 
     def load_preferences(self):
@@ -145,7 +146,7 @@ class Indicator(object):
         ]
         self.configuration.set('preferences', preferences)
         self.configuration.save()
-        self.set_icon(True)
+        self.set_icon()
 
     def on_popped(self, widget, display):
         pass
@@ -201,7 +202,7 @@ class Indicator(object):
 
         while self.todos > len(self.menu_todos):
             menuitem = Gtk.CheckMenuItem.new_with_label('')
-            menuitem.remove(menutitem.get_child())
+            menuitem.remove(menuitem.get_child())
             menuitem.add(Gtk.Label.new(''))
             menuitem.get_child().set_use_markup(True)
             self.menu_todos.append(menuitem)
@@ -268,11 +269,21 @@ class Indicator(object):
         menu_list_todos.connect('activate', self.on_menu_list_todos_activate)
         menu.append(menu_list_todos)
 
-        # menu.append(Gtk.SeparatorMenuItem())
-        # menu_show_statistics = Gtk.MenuItem.new_with_label(
-        #     _('Statistics'))
-        # menu_show_statistics.connect('activate', self.show_statistics)
-        # menu.append(menu_show_statistics)
+        menu.append(Gtk.SeparatorMenuItem())
+
+        inner_menu_statistics = Gtk.Menu()
+
+        menu_show_statistics = Gtk.MenuItem.new_with_label(_('By project'))
+        menu_show_statistics.connect('activate', self.show_statistics, True)
+        inner_menu_statistics.append(menu_show_statistics)
+
+        menu_show_statistics = Gtk.MenuItem.new_with_label(_('By context'))
+        menu_show_statistics.connect('activate', self.show_statistics, False)
+        inner_menu_statistics.append(menu_show_statistics)
+
+        menu_statistics = Gtk.MenuItem.new_with_label(_('Statistics'))
+        menu_statistics.set_submenu(inner_menu_statistics)
+        menu.append(menu_statistics)
 
         menu.append(Gtk.SeparatorMenuItem())
 
@@ -330,38 +341,16 @@ class Indicator(object):
             preferences.save()
             self.load_preferences()
             self.load_todos()
-            self.set_icon(True)
+            self.set_icon()
         widget.set_sensitive(True)
         preferences.destroy()
 
-    def show_statistics(self, widget):
+    def show_statistics(self, widget, by_project):
         widget.set_sensitive(False)
 
-        title = _('Tasker')
-        subtitle = _('Tasks statistics')
-        configuration = Configuration()
-        preferences = self.configuration.get('preferences')
+        title = _('Timetracking tasker')
 
-        mc = CURRENCIES[self.main_currency]
-        currencies = []
-        for i in range(0, 5):
-            currencies.append(CURRENCIES[self.currencies[i]])
-        days = []
-        c0 = []
-        c1 = []
-        c2 = []
-        c3 = []
-        c4 = []
-        for aday in self.exchange.data:
-            days.append(aday['date'])
-            mc = aday[self.main_currency.lower()]
-            c0.append(round(aday[self.currencies[0].lower()] / mc))
-            c1.append(round(aday[self.currencies[1].lower()] / mc))
-            c2.append(round(aday[self.currencies[2].lower()] / mc))
-            c3.append(round(aday[self.currencies[3].lower()] / mc))
-            c4.append(round(aday[self.currencies[4].lower()] / mc))
-
-        graph = Graph(title, subtitle, currencies, days, c0, c1, c2, c3, c4)
+        graph = Graph(title, by_project)
         graph.run()
         graph.destroy()
         widget.set_sensitive(True)
@@ -501,10 +490,9 @@ SOFTWARE.''')
         sys.exit(0)
 
     def set_icon_tracktime(self, tracking=False):
-        if tracking:
-            self.indicator.set_icon('media-playback-pause')
-        else:
-            self.set_icon(True)
+        self.tracking = tracking
+        self.set_icon()
+
 def main():
     Indicator()
 

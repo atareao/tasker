@@ -60,7 +60,7 @@ class AddContextDialog(BaseDialog):
 
         """
         name = self.text.get_text()
-        return re.sub('[^0-9a-zA-Z]+', '_', name)
+        return re.sub('\s', '_', name)
 
 
 if __name__ == '__main__':
