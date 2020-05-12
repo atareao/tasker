@@ -302,7 +302,7 @@ class Indicator(object):
         return menu
 
     def on_menu_list_todos_activate(self, widget):
-        listTodos = ListTodos()
+        listTodos = ListTodos(plugin_manager.get_list_box_todo_plugin_manager().hook)
         listTodos.indicator = self
         if listTodos.run() == Gtk.ResponseType.ACCEPT:
             listTodos.save()
@@ -496,12 +496,28 @@ SOFTWARE.''')
         for atodo in list_of_todos:
             if 'started_at' in atodo.tags and atodo.tags['started_at']:
                 started_at = float(atodo.tags.get('started_at', 0))
+                lbhook = plugin_manager.get_list_box_todo_plugin_manager().hook
+                just_now = time.time()
                 if started_at:
                     total_time = float(atodo.tags.get('total_time', 0)) + time.time() - started_at
                     atodo.tags['started_at'] = '0'
                     atodo.tags['total_time'] = str(total_time)
-                elif not started_at and atodo.completed:
+                    lbhook.after_track_time(
+                        todo=atodo,
+                        before_started_at=started_at,
+                        after_started_at=0,
+                        total_time=total_time,
+                        just_now=just_now
+                    )
+                elif not started_at and atodo.completed and started_at:
                     atodo.tags['started_at'] = '0'
+                    lbhook.after_track_time(
+                        todo=atodo,
+                        before_started_at=started_at,
+                        after_started_at=0,
+                        total_time=None,
+                        just_now=just_now
+                    )
         todotxtio.to_file(self.todo_file, list_of_todos)
 
         Gtk.main_quit()
