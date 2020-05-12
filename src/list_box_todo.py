@@ -37,6 +37,7 @@ import time
 from config import _
 import locale
 from alert import Alert
+from hooks import plugin_manager
 
 
 def listBoxFilterFunc(row, *user_data):
@@ -56,8 +57,9 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
         'toggled': (GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE, ()),
     }
 
-    def __init__(self, todo):
+    def __init__(self, todo, hook):
         """TODO: to be defined. """
+        self.hook = hook
         Gtk.ListBoxRow.__init__(self)
         self.box = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
         self.add(self.box)
@@ -131,14 +133,36 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
 
     def track_time(self, ):
         started_at = self.get_started_at()
+        just_now = time.time()
         if started_at:
             total_time = self.get_total_time() + time.time() - started_at
             self.todo.tags['started_at'] = '0'
             self.todo.tags['total_time'] = str(total_time)
+            self.hook.after_track_time(
+                todo=self.todo,
+                before_started_at=started_at,
+                after_started_at=0,
+                total_time=total_time,
+                just_now=just_now
+            )
         elif not started_at and self.switch.get_active():
             self.todo.tags['started_at'] = '0'
+            self.hook.after_track_time(
+                todo=self.todo,
+                before_started_at=started_at,
+                after_started_at=0,
+                total_time=None,
+                just_now=just_now
+            )
         else:
-            self.todo.tags['started_at'] = str(time.time())
+            self.todo.tags['started_at'] = str(just_now)
+            self.hook.after_track_time(
+                todo=self.todo,
+                before_started_at=started_at,
+                after_started_at=just_now,
+                total_time=None,
+                just_now=just_now
+            )
 
     def stop_siblings_if_started(self):
         for child in self.get_parent().get_children():
@@ -263,7 +287,7 @@ class ListBoxTodo(Gtk.ScrolledWindow):
     __gsignals__ = {
         'toggled': (GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE, ()),
     }
-    def __init__(self, items=[]):
+    def __init__(self, hook, items=[]):
         """TODO: to be defined. """
         Gtk.ScrolledWindow.__init__(self)
         self.listBox = Gtk.ListBox.new()
@@ -272,6 +296,8 @@ class ListBoxTodo(Gtk.ScrolledWindow):
         self.add(self.listBox)
         if len(items) > 0:
             self.add_all(items)
+        self.hook = hook
+
     def add_all(self, items):
         for item in items:
             self.add_item(item)
@@ -280,7 +306,7 @@ class ListBoxTodo(Gtk.ScrolledWindow):
         for item in self.listBox.get_children():
             if item.get_todo() and item.get_todo().text == todo.text:
                 return
-        newListBoxRowTodo = ListBoxRowTodo(todo)
+        newListBoxRowTodo = ListBoxRowTodo(todo, self.hook)
         newListBoxRowTodo.show_all()
         newListBoxRowTodo.connect('toggled', self.on_toggled)
         self.listBox.add(newListBoxRowTodo)
@@ -331,4 +357,3 @@ class ListBoxTodo(Gtk.ScrolledWindow):
             else:
                 child.hide()
         self.listBox.invalidate_sort()
-
