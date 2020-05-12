@@ -40,12 +40,17 @@ import os
 from pathlib import Path
 
 class Graph(BaseDialog):
-    def __init__(self, title='', ):
+    def __init__(self, title='', by_project=True):
         self.title = title
         self.configuration = Configuration()
         preferences = self.configuration.get('preferences')
         todo_file = Path(os.path.expanduser(preferences['todo-file']))
         self.todo_file = todo_file.as_posix()
+        self.by_project = by_project
+        if by_project:
+            self.subtitle = _('By project')
+        else:
+            self.subtitle = _('By context')
         BaseDialog.__init__(self, title, None, ok_button=False,
                             cancel_button=False)
 
@@ -64,27 +69,70 @@ class Graph(BaseDialog):
         self.viewer.connect('load-changed', self.load_changed)
         self.set_focus(self.viewer)
 
-    def update(self):
+    def update_projects(self):
         list_of_todos = todotxtio.from_file(self.todo_file)
-        list_of_todos.sort(key=lambda todo: todo.creation_date if todo.creation_date else '', )
-        list_of_todos.sort(key=lambda todo: ''.join(sorted(todo.projects, key=lambda project: project)), )
-        dates = list(set([todo.creation_date for todo in list_of_todos]))
-        dates.sort(key=lambda day: day if day else '')
+        projects = []
+        empty = False
+        for todo in list_of_todos:
+            if todo.projects:
+                for project in todo.projects:
+                    if project not in projects:
+                        projects.append(project)
+            else:
+                empty = True
+        if empty:
+            projects.append(_('None'))
+        projects.sort()
         values = []
         for todo in list_of_todos:
             data = []
-            for day in dates:
-                if todo.creation_date == day:
-                    data.append(float(todo.tags.get('total_time', '0')))
+            for project in projects:
+                if project in todo.projects:
+                    data.append(float(todo.tags.get('total_time', '0'))/3600.0)
+                elif not todo.projects and project == _('None'):
+                    data.append(float(todo.tags.get('total_time', '0'))/3600.0)
                 else:
                     data.append(0)
             values.append({'name': todo.text, 'data': data})
-        measure = {'dates': dates, 'values': values}
-        self.web_send('draw_graph("{}", {});'.format(self.title, measure))
+        measure = {'dates': projects, 'values': values}
+        self.web_send('draw_graph("{}", "{}", {});'.format(
+            self.title, self.subtitle,  measure))
+
+    def update_contexts(self):
+        list_of_todos = todotxtio.from_file(self.todo_file)
+        contexts = []
+        empty = False
+        for todo in list_of_todos:
+            if todo.contexts:
+                for context in todo.contexts:
+                    if context not in contexts:
+                        contexts.append(context)
+            else:
+                empty = True
+        if empty:
+            contexts.append(_('None'))
+        contexts.sort()
+        values = []
+        for todo in list_of_todos:
+            data = []
+            for context in contexts:
+                if context in todo.contexts:
+                    data.append(float(todo.tags.get('total_time', '0'))/3600.0)
+                elif not todo.contexts and context == _('None'):
+                    data.append(float(todo.tags.get('total_time', '0'))/3600.0)
+                else:
+                    data.append(0)
+            values.append({'name': todo.text, 'data': data})
+        measure = {'dates': contexts, 'values': values}
+        self.web_send('draw_graph("{}", "{}", {});'.format(
+            self.title, self.subtitle,  measure))
 
     def load_changed(self, widget, load_event):
         if load_event == WebKit2.LoadEvent.FINISHED:
-            self.update()
+            if self.by_project:
+                self.update_projects()
+            else:
+                self.update_contexts()
 
     def web_send(self, msg):
         self.viewer.run_javascript(msg, None, None, None)
@@ -111,16 +159,16 @@ if __name__ == '__main__':
         ],
         'values': [
             {
-                name: 'Task 1:Proj 1',
-                data: [3, 3, 0, 7, 5, 2, 3, 4, 1, 2, 3, 4, 0, 0]
+                'name': 'Task 1:Proj 1',
+                'data': [3, 3, 0, 7, 5, 2, 3, 4, 1, 2, 3, 4, 0, 0]
             }, {
-                name: 'Task 2:Proj 1',
-                data: [4, 3, 4, 0, 0, 2, 3, 4, 1, 2, 3, 4, 0, 0]
+                'name': 'Task 2:Proj 1',
+                'data': [4, 3, 4, 0, 0, 2, 3, 4, 1, 2, 3, 4, 0, 0]
             }, {
-                name: 'Task 3:Proj 2',
-                data: [1, 2, 4, 0, 3, 2, 3, 4, 1, 2, 3, 4, 0, 0]
+                'name': 'Task 3:Proj 2',
+                'data': [1, 2, 4, 0, 3, 2, 3, 4, 1, 2, 3, 4, 0, 0]
             },
         ]
     }
-    graph = Graph(title, measure, )
+    graph = Graph(title)
     graph.run()

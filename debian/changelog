@@ -1,3 +1,10 @@
+tasker (0.3.0-0extras20.04.0) focal; urgency=medium
+
+  * Add time tracking
+  * Add graphs 
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Tue, 12 May 2020 21:22:44 +0200
+
 tasker (0.2.4-0extras20.04.0) focal; urgency=medium
 
   * Filtering projects 

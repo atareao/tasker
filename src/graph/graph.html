@@ -5,7 +5,7 @@
 		<title>Tasker timetracking visualizer</title>
 		<script type="text/javascript" src="jquery.min.js"></script>
 		<script type="text/javascript">
-			function draw_graph(title, measure){
+			function draw_graph(title, subtitle, measure){
 				document.body.onclick = undefined;
 				if (typeof measure == 'undefined') {
 					measure = {
@@ -46,6 +46,9 @@
 					title: {
 						text: title
 					},
+                    subtitle: {
+                        text: subtitle
+                    },
 					xAxis: {
 						categories: Array.from(measure.dates)
 					},
