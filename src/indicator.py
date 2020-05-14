@@ -354,34 +354,12 @@ class Indicator(object):
         widget.set_sensitive(True)
         preferences.destroy()
 
-    def show_statistics(self, widget):
+    def show_statistics(self, widget, by_project):
         widget.set_sensitive(False)
 
-        title = _('Tasker')
-        subtitle = _('Tasks statistics')
-        configuration = Configuration()
-        preferences = self.configuration.get('preferences')
+        title = _('Timetracking tasker')
 
-        mc = CURRENCIES[self.main_currency]
-        currencies = []
-        for i in range(0, 5):
-            currencies.append(CURRENCIES[self.currencies[i]])
-        days = []
-        c0 = []
-        c1 = []
-        c2 = []
-        c3 = []
-        c4 = []
-        for aday in self.exchange.data:
-            days.append(aday['date'])
-            mc = aday[self.main_currency.lower()]
-            c0.append(round(aday[self.currencies[0].lower()] / mc))
-            c1.append(round(aday[self.currencies[1].lower()] / mc))
-            c2.append(round(aday[self.currencies[2].lower()] / mc))
-            c3.append(round(aday[self.currencies[3].lower()] / mc))
-            c4.append(round(aday[self.currencies[4].lower()] / mc))
-
-        graph = Graph(title, subtitle, currencies, days, c0, c1, c2, c3, c4)
+        graph = Graph(title, by_project)
         graph.run()
         graph.destroy()
         widget.set_sensitive(True)
