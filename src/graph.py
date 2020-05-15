@@ -33,6 +33,7 @@ except ValueError as e:
 from gi.repository import Gtk
 from gi.repository import WebKit2
 import config
+from config import _
 from basedialog import BaseDialog
 from configurator import Configuration
 import todotxtio.todotxtio as todotxtio
