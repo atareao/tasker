@@ -154,7 +154,7 @@ class ListTodos(BaseDialog):
         button_remove.connect('clicked', self.on_button_remove_clicked)
         box.add(button_remove)
 
-        button_clear = Gtk.Button.new_with_label(_('Clear tasks'))
+        button_clear = Gtk.Button.new_with_label(_('Clear completed'))
         button_clear.connect('clicked', self.on_button_clear_clicked)
         box.add(button_clear)
 
