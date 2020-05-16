@@ -16,7 +16,7 @@ codefactor-badge: True
 
 <!-- start badges -->
 
-![License MIT](https://img.shields.io/badge/license-Type license() to see the full license text-green)
+![License MIT](https://img.shields.io/badge/MIT-license-green)
 ![Contributors](https://img.shields.io/github/contributors-anon/atareao/tasker)
 ![Last commit](https://img.shields.io/github/last-commit/atareao/tasker)
 [![CodeFactor](https://www.codefactor.io/repository/github/atareao/tasker/badge/master)](https://www.codefactor.io/repository/github/atareao/tasker/overview/master)
