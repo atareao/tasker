@@ -183,7 +183,7 @@ class ListTodos(BaseDialog):
         self.todos.clear()
 
     def on_button_add_clicked(self, widget):
-        addTodoDialog = AddTodoDialog()
+        addTodoDialog = AddTodoDialog(_('Add task'))
         if addTodoDialog.run() == Gtk.ResponseType.ACCEPT:
             todo = addTodoDialog.get_task()
             if not todo:
@@ -197,7 +197,7 @@ class ListTodos(BaseDialog):
         selected = self.todos.get_selected()
         if selected:
             todo = selected.get_todo()
-            addTodoDialog = AddTodoDialog(todo)
+            addTodoDialog = AddTodoDialog(_('Edit task'), todo)
             if addTodoDialog.run() == Gtk.ResponseType.ACCEPT:
                 todo = addTodoDialog.get_task()
                 self.todos.set_selected(todo)

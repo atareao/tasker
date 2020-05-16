@@ -60,9 +60,9 @@ def get_selected_value_in_combo(combo):
 class AddTodoDialog(BaseDialog):
     """Docstring for AddTodoDialog. """
 
-    def __init__(self, todo_item=None):
+    def __init__(self, title, todo_item=None):
         """TODO: to be defined. """
-        BaseDialog.__init__(self, _('Add task'), None, ok_button=True,
+        BaseDialog.__init__(self, title, None, ok_button=True,
                             cancel_button=True)
         self.todo_item = todo_item
         if todo_item:

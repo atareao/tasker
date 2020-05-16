@@ -44,7 +44,7 @@ class BaseDialog(Gtk.Dialog):
         if cancel_button:
             self.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)
         self.set_default_response(Gtk.ResponseType.ACCEPT)
-        self.set_resizable(False)
+        #self.set_resizable(False)
         self.set_icon_from_file(config.ICON)
         self.connect('realize', self.on_realize)
         self.init_ui()

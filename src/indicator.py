@@ -328,7 +328,7 @@ class Indicator(object):
         listTodos.destroy()
 
     def on_menu_add_todo_activate(self, widget):
-        addTodoDialog = AddTodoDialog()
+        addTodoDialog = AddTodoDialog(_('Add task'))
         if addTodoDialog.run() == Gtk.ResponseType.ACCEPT:
             todo = addTodoDialog.get_task()
             list_of_todos = todotxtio.from_file(self.todo_file)
