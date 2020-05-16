@@ -45,6 +45,6 @@ if __name__ == '__main__':
         """
         os.environ['NO_AT_BRIDGE'] = '1'
         main()
-    except KeyboardInterrupt as e:
-        print(e)
+    except KeyboardInterrupt as exception:
+        print(exception)
 exit(0)

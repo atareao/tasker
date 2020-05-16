@@ -2,23 +2,35 @@ from inspect import isclass
 from pkgutil import iter_modules
 from pathlib import Path
 from importlib import import_module
-from collections import Counter
+from src.hooks import IndicatorSpec, ListBoxRowTodoSpec
 
-# iterate through the modules in the current package
+# Dynamic import all classes located here
+# If the class is not subclass of allowed spec, this is not will be imported
+# The allowed classes must be declared and decorated with pluggy.HookspecMarker function in the hooks package
 package_dir = Path(__file__).resolve().parent
-classes = []
+indicatorPluginClasses = []
+listBoxRowTodoPluginClasses = []
 for (_, module_name, _) in iter_modules([package_dir]):
-    # import the module and iterate through its attributes
     module = import_module(f"{__name__}.{module_name}")
     for attribute_name in dir(module):
         attribute = getattr(module, attribute_name)
 
-        if isclass(attribute):
-            # Add the class to this package's variables
+        if isclass(attribute) and issubclass(attribute, IndicatorSpec):
             globals()[attribute_name] = attribute
-            classes.append(attribute.__name__)
-countered_classes = dict(Counter(classes))
-for class_ in countered_classes.keys():
-    if countered_classes[class_] > 1:
-        print('The class \'{}\' appears in more than one installed plugin. 
-You must unninstall these'.format(class_))
+            class_ = attribute.__name__
+            if class_ in indicatorPluginClasses:
+                print('The class \'{}\' appears in more than one installed plugin. You must unninstall these'.format(
+                    class_))
+            else:
+                indicatorPluginClasses.append(class_)
+        elif isclass(attribute) and issubclass(attribute, ListBoxRowTodoSpec):
+            globals()[attribute_name] = attribute
+            class_ = attribute.__name__
+            if class_ in listBoxRowTodoPluginClasses:
+                print(
+                    'The class \'{}\' appears in more than one installed plugin. You must unninstall these'.format(
+                        class_))
+            else:
+                listBoxRowTodoPluginClasses.append(class_)
+        elif isclass(attribute):
+            print('The class {} was not imported because must be subclass of almost one class form hooks package'.format(attribute.__name__))

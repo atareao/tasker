@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tasker - 0.1.0-0extras19.10.11\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-18 20:49+0200\n"
+"POT-Creation-Date: 2020-05-09 19:55+0200\n"
 "PO-Revision-Date: 2020-03-04 18:31+0100\n"
 "Last-Translator: Lorenzo <lorenzo.carbonell.cerezo@gmail.com>\n"
 "Language-Team: Language *\n"
@@ -16,69 +16,100 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/preferences.py:64 src/indicator.py:202
+#: src/preferences.py:66 src/indicator.py:281
 msgid "Preferences"
 msgstr "Preferencias"
 
-#: src/preferences.py:81
-msgid "General"
-msgstr "General"
+#: src/preferences.py:84
+msgid "Keybinding"
+msgstr "Atajos de teclado"
 
-#: src/preferences.py:83
-msgid "Theme light:"
-msgstr "Tema claro"
+msgid "New task"
+msgstr "Nueva tarea"
 
-#: src/preferences.py:91
-msgid "Autostart"
-msgstr "Autoinicio"
+#: src/preferences.py:88
+msgid "Show tasks"
+msgstr "Mostrar  tareas"
 
-#: src/preferences.py:101
-msgid "Number of tasks in menu:"
-msgstr "Número de tareas en el menú:"
+#: src/preferences.py:112
+msgid "Behaviors"
+msgstr "Comportamientos"
 
-#: src/preferences.py:111
-msgid "Todo file:"
-msgstr "Archivo Todo:"
+#: src/preferences.py:114
+msgid "Hide completed tasks"
+msgstr "Ocultar tareas completadas"
 
-#: src/preferences.py:119
-msgid "Todo file"
-msgstr "Archivo Todo"
+#: src/preferences.py:121
+msgid "Filter by projects"
+msgstr "Filtrar por projecto"
 
-#: src/preferences.py:130
-msgid "Projects"
-msgstr "Proyectos"
-
-#: src/preferences.py:138
-msgid "Add project"
-msgstr "Añadir Proyecto"
-
-#: src/preferences.py:142
-msgid "Remove project"
-msgstr "Borrar proyecto"
-
-#: src/preferences.py:153
-msgid "Contexts"
-msgstr "Contextos"
-
-#: src/preferences.py:160
-msgid "Add context"
-msgstr "Añadir contexto"
-
-#: src/preferences.py:164
-msgid "Remove context"
-msgstr "Borrar contexto"
-
-#: src/preferences.py:175
+#: src/preferences.py:129
 msgid "Tags"
 msgstr "Etiquetas"
 
-#: src/preferences.py:182
+#: src/preferences.py:135
 msgid "Add tag"
 msgstr "Añadir etiqueta"
 
-#: src/preferences.py:186
+#: src/preferences.py:138
 msgid "Remove tag"
 msgstr "Eliminar etiqueta"
+
+#: src/preferences.py:143
+msgid "Contexts"
+msgstr "Contextos"
+
+#: src/preferences.py:149
+msgid "Add context"
+msgstr "Añadir contexto"
+
+#: src/preferences.py:153
+msgid "Remove context"
+msgstr "Borrar contexto"
+
+#: src/preferences.py:159
+msgid "Projects"
+msgstr "Proyectos"
+
+#: src/preferences.py:165
+msgid "Add project"
+msgstr "Añadir Proyecto"
+
+#: src/preferences.py:169
+msgid "Remove project"
+msgstr "Borrar proyecto"
+
+#: src/preferences.py:175
+msgid "General"
+msgstr "General"
+
+#: src/preferences.py:176
+msgid "Theme light:"
+msgstr "Tema claro"
+
+#: src/preferences.py:182
+msgid "Autostart"
+msgstr "Autoinicio"
+
+#: src/preferences.py:189
+msgid "Number of tasks in menu:"
+msgstr "Número de tareas en el menú:"
+
+#: src/preferences.py:195
+msgid "Todo file:"
+msgstr "Archivo Todo:"
+
+#: src/preferences.py:201
+msgid "Todo file"
+msgstr "Archivo Todo"
+
+#: src/wait_keybind.py:39
+msgid "Waiting for keybind"
+msgstr "Esperando por atajo de teclado"
+
+#: src/wait_keybind.py:44
+msgid "Capturing new keybind"
+msgstr "Capturando nuevo atajo de teclado"
 
 #: src/list_todos.py:64
 msgid "List of tasks"
@@ -92,95 +123,123 @@ msgstr "Filtrar tareas"
 msgid "Priority:"
 msgstr "Prioridad:"
 
-#: src/list_todos.py:109
+#: src/list_todos.py:110
 msgid "Select project:"
 msgstr "Selecciona proyecto:"
 
-#: src/list_todos.py:124
+#: src/list_todos.py:126
 msgid "Select context:"
 msgstr "Selecciona contexto:"
 
-#: src/list_todos.py:142 src/indicator.py:186 src/add_todo.py:65
+#: src/list_todos.py:145 src/indicator.py:265 src/add_todo.py:65
 msgid "Add task"
 msgstr "Añadir tarea"
 
-#: src/list_todos.py:146
+#: src/list_todos.py:149
 msgid "Edit task"
 msgstr "Editar tarea"
 
-#: src/list_todos.py:150
+#: src/list_todos.py:153
 msgid "Remove task"
 msgstr "Eliminar tarea"
 
-#: src/list_todos.py:154
+#: src/list_todos.py:157
 msgid "Clear tasks"
 msgstr "Limpiar tareas"
 
-#: src/indicator.py:190
+#: src/list_todos.py:189
+msgid "Fill your task"
+msgstr "Completa tu tarea"
+
+#: src/list_todos.py:190
+msgid "You must specify a text for the task"
+msgstr "Debes especificar un texto para la tarea"
+
+#: src/indicator.py:167
+msgid "All"
+msgstr "Todos"
+
+#: src/indicator.py:171
+msgid "Select one to show tasks"
+msgstr "Selecciona una para mostrar la tarea"
+
+#: src/indicator.py:269
 msgid "Tasks"
 msgstr "Tareas"
 
-#: src/indicator.py:206
+#: src/indicator.py:275
+msgid "Statistics"
+msgstr "Estadísticas"
+
+#: src/indicator.py:285
 msgid "Help"
 msgstr "Ayuda"
 
-#: src/indicator.py:212
+#: src/indicator.py:291
 msgid "Quit"
 msgstr "Salir"
 
-#: src/indicator.py:257 src/indicator.py:352
-msgid "Tasker"
-msgstr "Tasker"
+#: src/indicator.py:342
+msgid "Timetracking tasker"
+msgstr "Seguimiento de tareas"
 
-#: src/indicator.py:258
-msgid "Tasks statistics"
-msgstr "Estadística de tareas"
-
-#: src/indicator.py:289
+#: src/indicator.py:363
 msgid "Homepage"
-msgstr "Homepage"
+msgstr "Página de inicio"
 
-#: src/indicator.py:296
+#: src/indicator.py:370
 msgid "Get help online..."
 msgstr "Consigue ayuda en línea..."
 
-#: src/indicator.py:304
+#: src/indicator.py:378
 msgid "Translate this application..."
 msgstr "Tradule la aplicación..."
 
-#: src/indicator.py:311
+#: src/indicator.py:385
 msgid "Report a bug..."
 msgstr "Informa de un error..."
 
-#: src/indicator.py:320
+#: src/indicator.py:394
 msgid "Found me in Twitter"
 msgstr "En Twitter"
 
-#: src/indicator.py:326
+#: src/indicator.py:400
 msgid "Found me in GitHub"
 msgstr "En GitHub"
 
-#: src/indicator.py:332
+#: src/indicator.py:406
 msgid "Found me in Mastodon"
 msgstr "En Mastodon"
 
-#: src/indicator.py:338
+#: src/indicator.py:412
 msgid "About"
 msgstr "Acerca de..."
 
-#: src/add_project.py:42
+#: src/indicator.py:426
+msgid "Tasker"
+msgstr "Tasker"
+
+#: src/list_box_todo.py:156
+msgid "Your task is completed"
+msgstr ""
+
+#: src/list_box_todo.py:157
+msgid "Mark as uncompleted and continue"
+msgstr ""
+
+#: src/add_project.py:44
 msgid "Add Project"
 msgstr "Añadir Proyecto"
 
-#: src/add_project.py:48
+#: src/add_project.py:50
 msgid "Project name:"
 msgstr "Nombre del proyecto:"
 
-#: src/add_context.py:42
+#: src/add_context.py:44
 msgid "Add Context"
 msgstr "Añadir Contexto"
 
-#: src/add_context.py:48
+#: src/add_context.py:50
 msgid "Context name:"
 msgstr "Nombre del contexto:"
 
@@ -223,3 +282,7 @@ msgstr "Selecciona proyecto(s):"
 #: src/add_todo.py:138
 msgid "Select context(s):"
 msgstr "Selecciona contexto(s):"
+
+#: src/add_todo.py:172
+msgid "Empty"
+msgstr "Vacío"

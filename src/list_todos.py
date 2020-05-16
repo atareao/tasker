@@ -60,7 +60,8 @@ def get_selected_value_in_combo(combo):
 
 class ListTodos(BaseDialog):
     """docstring for ListTodos"""
-    def __init__(self):
+    def __init__(self, hook):
+        self.hook = hook
         BaseDialog.__init__(self, _('List of tasks'), None, ok_button=True,
                             cancel_button=True)
         self.load()
@@ -68,7 +69,7 @@ class ListTodos(BaseDialog):
     def init_ui(self):
         BaseDialog.init_ui(self)
 
-        self.todos = ListBoxTodo()
+        self.todos = ListBoxTodo(self.hook)
         self.todos.set_size_request(500, 500)
         self.grid.attach(self.todos, 0, 0, 1, 1)
 
@@ -95,7 +96,8 @@ class ListTodos(BaseDialog):
         for i in range(0, 26):
             priority_store.append([chr(i + 65), i])
         self.priority = Gtk.ComboBox.new()
-        self.priority.connect('changed', self.on_priority_project_context_changed)
+        self.priority.connect('changed',
+                              self.on_priority_project_context_changed)
         self.priority.set_model(priority_store)
         cell1 = Gtk.CellRendererText()
         self.priority.pack_start(cell1, True)
@@ -114,7 +116,8 @@ class ListTodos(BaseDialog):
 
         project_store = Gtk.ListStore(str, str)
         self.project = Gtk.ComboBox.new()
-        self.project.connect('changed', self.on_priority_project_context_changed)
+        self.project.connect('changed',
+                             self.on_priority_project_context_changed)
         self.project.set_model(project_store)
         cell1 = Gtk.CellRendererText()
         self.project.pack_start(cell1, True)
@@ -129,7 +132,8 @@ class ListTodos(BaseDialog):
 
         context_store = Gtk.ListStore(str, str)
         self.context = Gtk.ComboBox.new()
-        self.context.connect('changed', self.on_priority_project_context_changed)
+        self.context.connect('changed',
+                             self.on_priority_project_context_changed)
         self.context.set_model(context_store)
         cell1 = Gtk.CellRendererText()
         self.context.pack_start(cell1, True)
@@ -171,7 +175,9 @@ class ListTodos(BaseDialog):
 
     def on_toggled(self, widget):
         list_of_todos = self.todos.get_items()
-        results = todotxtio.search(list_of_todos, contexts=self.contexts.get_items(), projects=self.projects.get_items())
+        results = todotxtio.search(list_of_todos,
+                                   contexts=self.contexts.get_items(),
+                                   projects=self.projects.get_items())
 
     def on_button_clear_clicked(self, widget):
         self.todos.clear()
@@ -181,7 +187,8 @@ class ListTodos(BaseDialog):
         if addTodoDialog.run() == Gtk.ResponseType.ACCEPT:
             todo = addTodoDialog.get_task()
             if not todo:
-                Alert.show_alert('Fill your task', 'You must specify a text for the task')
+                Alert.show_alert(_('Fill your task'),
+                                 _('You must specify a text for the task'))
             else:
                 self.todos.add_item(todo)
         addTodoDialog.destroy()
