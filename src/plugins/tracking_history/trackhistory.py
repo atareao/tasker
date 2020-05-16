@@ -5,8 +5,8 @@ import pluggy
 list_box_todospec = pluggy.HookimplMarker("list_box_todo")
 
 # Custom featured needed
-from src.hooks import ListBoxRowTodoSpec
-from src.configurator import Configuration
+from hooks import ListBoxRowTodoSpec
+from configurator import Configuration
 from pathlib import Path
 import os
 import todotxtio.todotxtio as todotxtio
