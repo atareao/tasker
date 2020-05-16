@@ -296,7 +296,8 @@ class ListBoxTodo(Gtk.ScrolledWindow):
 
     def clear(self):
         for index in range(len(self.listBox.get_children()) -1, -1, -1):
-            self.listBox.remove(self.listBox.get_children()[index])
+            if self.listBox.get_children()[index].get_todo().completed:
+                self.listBox.remove(self.listBox.get_children()[index])
 
     def get_items(self):
         items = []
