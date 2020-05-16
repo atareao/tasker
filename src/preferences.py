@@ -44,8 +44,9 @@ from add_context import AddContextDialog
 from add_tag import AddTagDialog
 from list_box_string import ListBoxString
 from list_box_string_type import ListBoxStringType
-from alert import Alert
 from wait_keybind import WaitKeybind
+from alert import Alert
+from list_box_plugins import ListBoxPlugins
 
 def select_value_in_combo(combo, value):
     model = combo.get_model()
@@ -79,9 +80,20 @@ class Preferences(BaseDialog):
         self._build_tags()
         self._build_behaviors()
         self._build_keybinding()
+        self._build_plugins()
+
+    def _build_plugins(self, ):
+        page06 = self._new_page('Plugins')
+
+        plugins = ListBoxPlugins()
+        configuration = Configuration()
+        plugins.add_all(configuration.get_plugins())
+        plugins.set_size_request(300, 300)
+        self.plugins = plugins
+        page06.attach(plugins, 0, 0, 1, 1)
 
     def _build_keybinding(self, ):
-        page_keybinding = self._new_page(_('Keybinding'))
+        page_keybinding = self._new_page('Keybinding')
 
         label_new_task = Gtk.Label.new(_('New task'))
         label_new_task.set_property('halign', Gtk.Align.START)
@@ -109,7 +121,7 @@ class Preferences(BaseDialog):
 
 
     def _build_behaviors(self, ):
-        page05 = self._new_page(_('Behaviors'))
+        page05 = self._new_page('Behaviors')
 
         label = Gtk.Label.new(_('Hide completed tasks'))
         label.set_property('halign', Gtk.Align.START)
@@ -126,7 +138,7 @@ class Preferences(BaseDialog):
         page05.attach(self.filter_projects, 1, 1, 1, 1)
 
     def _build_tags(self):
-        page04 = self._new_page(_('Tags'))
+        page04 = self._new_page('Tags')
         self.tags = ListBoxStringType()
         self.tags.set_size_request(250, 250)
         page04.attach(self.tags, 0, 0, 3, 3)
@@ -140,7 +152,7 @@ class Preferences(BaseDialog):
         box.add(button_remove_tag)
 
     def _build_page_contexts(self):
-        page03 = self._new_page(_('Contexts'))
+        page03 = self._new_page('Contexts')
         self.contexts = ListBoxString()
         self.contexts.set_size_request(250, 250)
         page03.attach(self.contexts, 0, 0, 3, 3)
@@ -156,7 +168,7 @@ class Preferences(BaseDialog):
         box.add(button_remove_context)
 
     def _build_page_projects(self):
-        page02 = self._new_page(_('Projects'))
+        page02 = self._new_page('Projects')
         self.projects = ListBoxString()
         self.projects.set_size_request(250, 250)
         page02.attach(self.projects, 0, 0, 3, 3)
@@ -172,7 +184,7 @@ class Preferences(BaseDialog):
         box.add(button_remove_project)
 
     def _build_page_general(self):
-        page01 = self._new_page(_('General'))
+        page01 = self._new_page('General')
         label = Gtk.Label.new(_('Theme light:'))
         label.set_property('halign', Gtk.Align.START)
         page01.attach(label, 0, 0, 1, 1)
@@ -211,7 +223,7 @@ class Preferences(BaseDialog):
         newPage.set_margin_start(10)
         newPage.set_margin_end(10)
         newPage.set_margin_top(10)
-        self.notebook.append_page(newPage, Gtk.Label.new(label))
+        self.notebook.append_page(newPage, Gtk.Label.new(_(label)))
         return newPage
 
     def load(self):
@@ -256,6 +268,7 @@ class Preferences(BaseDialog):
         self.filter_projects.set_active(
                 preferences.get('filter-projects', False))
 
+
     def save(self):
         configuration = Configuration()
         preferences = configuration.get('preferences')
@@ -285,6 +298,15 @@ class Preferences(BaseDialog):
         else:
             if os.path.exists(autostart_file):
                 os.remove(autostart_file)
+
+        for plugin in self.plugins.get_items():
+            try:
+                if plugin['installed']:
+                    shutil.move(configuration.get_plugin_to_load_dir() + '/' + plugin['name'], configuration.get_plugin_dir())
+                else:
+                    shutil.move(configuration.get_plugin_dir() + '/' + plugin['name'], configuration.get_plugin_to_load_dir())
+            except Exception as e:
+                print("Ignore error. Maybe no operation needed. %s" % e)
 
     def on_new_task_keybinding(self, widget, *event, **user_data):
         widget.set_sensitive(False)

@@ -54,10 +54,12 @@ from add_todo import AddTodoDialog
 from list_todos import ListTodos
 import todotxtio.todotxtio as todotxtio
 import time
+from hooks import plugin_manager
 
 class Indicator(object):
 
-    def __init__(self):
+    def __init__(self, hook):
+        self.hook = hook
         self.indicator = AppIndicator3.Indicator.new(
             'tasker',
             'tasker',
@@ -285,6 +287,20 @@ class Indicator(object):
         menu_statistics.set_submenu(inner_menu_statistics)
         menu.append(menu_statistics)
 
+        hookmenu = self.hook.get_hook_menu()
+        if hookmenu:
+            menu.append(Gtk.SeparatorMenuItem())
+            for menuitem in hookmenu[0]:
+                menu.append(menuitem)
+            menu.append(Gtk.SeparatorMenuItem())
+
+        hookmenu = self.hook.get_hook_menu()
+        if hookmenu:
+            menu.append(Gtk.SeparatorMenuItem())
+            for menuitem in hookmenu[0]:
+                menu.append(menuitem)
+            menu.append(Gtk.SeparatorMenuItem())
+
         menu.append(Gtk.SeparatorMenuItem())
 
         menu_preferences = Gtk.MenuItem.new_with_label(_('Preferences'))
@@ -304,7 +320,7 @@ class Indicator(object):
         return menu
 
     def on_menu_list_todos_activate(self, widget):
-        listTodos = ListTodos()
+        listTodos = ListTodos(plugin_manager.get_list_box_todo_plugin_manager().hook)
         listTodos.indicator = self
         if listTodos.run() == Gtk.ResponseType.ACCEPT:
             listTodos.save()
@@ -476,12 +492,28 @@ SOFTWARE.''')
         for atodo in list_of_todos:
             if 'started_at' in atodo.tags and atodo.tags['started_at']:
                 started_at = float(atodo.tags.get('started_at', 0))
+                lbhook = plugin_manager.get_list_box_todo_plugin_manager().hook
+                just_now = time.time()
                 if started_at:
                     total_time = float(atodo.tags.get('total_time', 0)) + time.time() - started_at
                     atodo.tags['started_at'] = '0'
                     atodo.tags['total_time'] = str(total_time)
-                elif not started_at and atodo.completed:
+                    lbhook.after_track_time(
+                        todo=atodo,
+                        before_started_at=started_at,
+                        after_started_at=0,
+                        total_time=total_time,
+                        just_now=just_now
+                    )
+                elif not started_at and atodo.completed and started_at:
                     atodo.tags['started_at'] = '0'
+                    lbhook.after_track_time(
+                        todo=atodo,
+                        before_started_at=started_at,
+                        after_started_at=0,
+                        total_time=None,
+                        just_now=just_now
+                    )
         todotxtio.to_file(self.todo_file, list_of_todos)
 
         Gtk.main_quit()
@@ -490,12 +522,13 @@ SOFTWARE.''')
         sys.exit(0)
 
     def set_icon_tracktime(self, tracking=False):
-        self.tracking = tracking
-        self.set_icon()
+        if tracking:
+            self.indicator.set_icon('media-playback-pause')
+        else:
+            self.set_icon()
 
 def main():
-    Indicator()
-
+    Indicator(plugin_manager.get_indicator_plugin_manager().hook)
 
 if __name__ == '__main__':
    main()

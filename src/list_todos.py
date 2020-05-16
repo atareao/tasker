@@ -60,7 +60,8 @@ def get_selected_value_in_combo(combo):
 
 class ListTodos(BaseDialog):
     """docstring for ListTodos"""
-    def __init__(self):
+    def __init__(self, hook):
+        self.hook = hook
         BaseDialog.__init__(self, _('List of tasks'), None, ok_button=True,
                             cancel_button=True)
         self.load()
@@ -68,7 +69,7 @@ class ListTodos(BaseDialog):
     def init_ui(self):
         BaseDialog.init_ui(self)
 
-        self.todos = ListBoxTodo()
+        self.todos = ListBoxTodo(self.hook)
         self.todos.set_size_request(500, 500)
         self.grid.attach(self.todos, 0, 0, 1, 1)
 
