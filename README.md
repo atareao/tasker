@@ -30,7 +30,7 @@ codefactor-badge: True
 </a>
 </p>
 <h2>🏠 <a href="https://www.atareao.es/aplicacion/tasker" id="homepage">Homepage</a></h2>
-<p>Readme Maker is a simple application to help you to make your README files</p>
+<p><span id="project_title">Tasker</span> is a simple application to help you to get your tasks done. This app follows Todo.txt criteria.
 
 <!-- end description -->
 
