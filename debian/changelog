@@ -1,4 +1,4 @@
-tasker (0.4.0-0extras20.04.1) focal; urgency=medium
+tasker (0.4.0-0extras20.04.2) focal; urgency=medium
 
   * Plugins by Flachica
   * Fix Incorrect resizing new task window #15 
@@ -6,7 +6,7 @@ tasker (0.4.0-0extras20.04.1) focal; urgency=medium
   * Fix  Ventana 'Lista de tareas' no deja redimensionar #16 
   * Fix  Ventana 'Editar tarea' el título de la ventana no se corresponde #17 
 
- -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Sun, 17 May 2020 20:15:37 +0200
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Mon, 18 May 2020 05:53:31 +0200
 
 tasker (0.3.0-0extras20.04.0) focal; urgency=medium
 
