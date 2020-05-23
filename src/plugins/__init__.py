@@ -2,7 +2,7 @@ from inspect import isclass
 from pkgutil import iter_modules
 from pathlib import Path
 from importlib import import_module
-from hooks import IndicatorSpec, ListBoxRowTodoSpec
+from src.hooks import IndicatorSpec, ListBoxRowTodoSpec
 
 # Dynamic import all classes located here
 # If the class is not subclass of allowed spec, this is not will be imported

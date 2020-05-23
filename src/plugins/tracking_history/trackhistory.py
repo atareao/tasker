@@ -1,15 +1,14 @@
 import pluggy
-
-# Decorator for hook. The function that was decorated with this
-# will be called from de master source if it in Hookspecks availables
-list_box_todospec = pluggy.HookimplMarker("list_box_todo")
-
 # Custom featured needed
-from hooks import ListBoxRowTodoSpec
+from src.hooks import ListBoxRowTodoSpec
 from configurator import Configuration
 from pathlib import Path
 import os
 import todotxtio.todotxtio as todotxtio
+
+# Decorator for hook. The function that was decorated with this
+# will be called from de master source if it in Hookspecks availables
+list_box_todospec = pluggy.HookimplMarker("list_box_todo")
 
 
 class TrackingHistory(ListBoxRowTodoSpec):
