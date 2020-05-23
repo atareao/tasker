@@ -297,13 +297,6 @@ class Indicator(object):
                 menu.append(menuitem)
             menu.append(Gtk.SeparatorMenuItem())
 
-        hookmenu = self.hook.get_hook_menu()
-        if hookmenu:
-            menu.append(Gtk.SeparatorMenuItem())
-            for menuitem in hookmenu[0]:
-                menu.append(menuitem)
-            menu.append(Gtk.SeparatorMenuItem())
-
         menu.append(Gtk.SeparatorMenuItem())
 
         menu_preferences = Gtk.MenuItem.new_with_label(_('Preferences'))
