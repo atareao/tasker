@@ -36,7 +36,6 @@ except Exception as e:
 from gi.repository import Keybinder
 from gi.repository import Gtk
 from gi.repository import Gdk
-from gi.repository import GLib
 from gi.repository import AppIndicator3
 from gi.repository import GdkPixbuf
 import sys
@@ -55,6 +54,7 @@ from list_todos import ListTodos
 import todotxtio.todotxtio as todotxtio
 import time
 from hooks import plugin_manager
+
 
 class Indicator(object):
 
@@ -185,7 +185,7 @@ class Indicator(object):
         list_of_todos[widget.file_index].completed = widget.get_active()
         if widget.get_active():
             creation_date = datetime.datetime.now().strftime('%Y-%m-%d')
-            list_of_todos[widget.file_index].completion_date = creation_date 
+            list_of_todos[widget.file_index].completion_date = creation_date
         else:
             list_of_todos[widget.file_index].completion_date = None
         todotxtio.to_file(self.todo_file, list_of_todos)
@@ -209,18 +209,21 @@ class Indicator(object):
             menuitem.get_child().set_use_markup(True)
             self.menu_todos.append(menuitem)
         for i in range(0, min(len(list_of_todos), self.todos)):
-            if list_of_todos[i].priority:
-                text = '({}) {}'.format(list_of_todos[i].priority,
-                                        list_of_todos[i].text)
+            if len(list_of_todos[i].text) > 25:
+                content = list_of_todos[i].text[:22] + '...'
             else:
-                text = list_of_todos[i].text
+                content = list_of_todos[i].text
+            if list_of_todos[i].priority:
+                content = '({}) {}'.format(list_of_todos[i].priority,
+                                        content)
             self.menu_todos[i].file_index = i
-            self.menu_todos[i].set_label(text)
+            self.menu_todos[i].set_label(content)
             self.menu_todos[i].set_active(list_of_todos[i].completed)
             self.menu_todos[i].connect('toggled', self.on_menu_todo_toggled)
             hide_by_project = False
             if self.filter_projects:
-                if not set(list_of_todos[i].projects).isdisjoint(self.get_project_showed()) or \
+                if not set(list_of_todos[i].projects).isdisjoint(
+                    self.get_project_showed()) or \
                 not list_of_todos[i].projects:
                     self.menu_todos[i].show()
                 else:
@@ -341,11 +344,6 @@ class Indicator(object):
             todotxtio.to_file(self.todo_file, list_of_todos)
             self.load_todos()
         addTodoDialog.destroy()
-
-    def show_change(self, widget):
-        change = Change()
-        response = change.run()
-        change.destroy()
 
     def show_preferences(self, widget):
         widget.set_sensitive(False)
