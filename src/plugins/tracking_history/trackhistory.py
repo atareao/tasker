@@ -1,6 +1,6 @@
 import pluggy
 # Custom featured needed
-from src.hooks import ListBoxRowTodoSpec
+from hooks import ListBoxRowTodoSpec
 from configurator import Configuration
 from pathlib import Path
 import os
