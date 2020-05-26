@@ -96,6 +96,7 @@ class AddTodoDialog(BaseDialog):
         self.grid.attach(label, 0, 0, 1, 1)
 
         self.text = Gtk.Entry.new()
+        self.text.set_hexpand(True)
         self.grid.attach(self.text, 1, 0, 1, 1)
 
         label = Gtk.Label.new(_('Priority'))
@@ -202,7 +203,7 @@ class AddTodoDialog(BaseDialog):
 
         
 if __name__ == '__main__':
-    addTodoDialog = AddTodoDialog()
+    addTodoDialog = AddTodoDialog('Sample')
     response = addTodoDialog.run()
     if response == Gtk.ResponseType.ACCEPT:
         task = addTodoDialog.get_task()
