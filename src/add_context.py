@@ -52,6 +52,7 @@ class AddContextDialog(BaseDialog):
         self.grid.attach(label, 0, 0, 1, 1)
 
         self.text = Gtk.Entry.new()
+        self.text.set_hexpand(True)
         self.grid.attach(self.text, 1, 0, 1, 1)
 
     def get_name(self):
