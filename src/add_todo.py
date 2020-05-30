@@ -133,6 +133,7 @@ class AddTodoDialog(BaseDialog):
 
             self.projects = ListBoxCheck(projects)
             self.projects.set_min_content_height(75)
+            self.projects.set_vexpand(True)
             self.grid.attach(self.projects, 1, posv, 1, 1)
         if contexts:
             posv += 1
@@ -142,6 +143,7 @@ class AddTodoDialog(BaseDialog):
             self.grid.attach(label, 0, posv, 1, 1)
 
             self.contexts = ListBoxCheck(contexts)
+            self.contexts.set_vexpand(True)
             self.contexts.set_min_content_height(75)
             self.grid.attach(self.contexts, 1, posv, 1, 1)
         for tag in tags:
