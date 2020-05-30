@@ -70,6 +70,8 @@ class ListTodos(BaseDialog):
         BaseDialog.init_ui(self)
 
         self.todos = ListBoxTodo(self.hook)
+        self.todos.set_hexpand(True)
+        self.todos.set_vexpand(True)
         self.todos.set_size_request(500, 500)
         self.grid.attach(self.todos, 0, 0, 1, 1)
 

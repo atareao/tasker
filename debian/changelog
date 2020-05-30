@@ -1,8 +1,9 @@
-tasker (0.4.3-0extras20.04.3) focal; urgency=medium
+tasker (0.4.3-0extras20.04.4) focal; urgency=medium
 
   * Plugins fixes
+  * Resize windows
 
- -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Tue, 26 May 2020 19:20:24 +0200
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Sat, 30 May 2020 07:01:12 +0200
 
 tasker (0.4.2-0extras20.04.0) focal; urgency=medium
 
