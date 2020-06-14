@@ -298,7 +298,7 @@ class Indicator(object):
                     for menuitem in item:
                         menu.append(menuitem)
                 else:
-                    menu.append(item)
+                    menu.append(item)r
             menu.append(Gtk.SeparatorMenuItem())
 
         menu.append(Gtk.SeparatorMenuItem())
