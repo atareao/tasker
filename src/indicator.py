@@ -294,7 +294,7 @@ class Indicator(object):
         if hookmenu:
             menu.append(Gtk.SeparatorMenuItem())
             for item in hookmenu:
-                if type(item) == list:
+                if isinstance(item, list):
                     for menuitem in item:
                         menu.append(menuitem)
                 else:
