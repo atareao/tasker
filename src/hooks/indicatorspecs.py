@@ -16,3 +16,8 @@ class IndicatorSpec(object):
 
         :return: new Menu Gtk.MenuItem
         """
+
+    @indicatorspec
+    def after_init_indicator(self, ):
+        """Event fired after init
+        """
