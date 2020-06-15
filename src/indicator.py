@@ -72,6 +72,7 @@ class Indicator(object):
         self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
         self.set_icon()
         self.load_todos()
+        self.hook.after_init_indicator()
         Gtk.main()
 
     def set_icon(self):
@@ -298,7 +299,7 @@ class Indicator(object):
                     for menuitem in item:
                         menu.append(menuitem)
                 else:
-                    menu.append(item)r
+                    menu.append(item)
             menu.append(Gtk.SeparatorMenuItem())
 
         menu.append(Gtk.SeparatorMenuItem())
