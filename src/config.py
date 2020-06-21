@@ -97,7 +97,8 @@ line = f.readline()
 f.close()
 pos = line.find("(")
 posf = line.find(")", pos)
-VERSION = line[pos + 1 : posf].strip()
+# fmt: off
+VERSION = line[pos + 1:posf].strip()
 if not is_package():
     VERSION = VERSION + "-src"
 
