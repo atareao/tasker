@@ -1,5 +1,7 @@
 import pluggy
+
 list_box_todospec = pluggy.HookspecMarker("list_box_todo")
+
 
 class ListBoxRowTodoSpec(object):
     """
@@ -11,7 +13,9 @@ class ListBoxRowTodoSpec(object):
     """
 
     @list_box_todospec
-    def after_track_time(self, todo, before_started_at, after_started_at, total_time, just_now):
+    def after_track_time(
+        self, todo, before_started_at, after_started_at, total_time, just_now
+    ):
         """
         todo (todo object. See todotxt.io) Object that hold information
         started_at (float): Unix time. When 0 the todo has being finalizted

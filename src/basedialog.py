@@ -23,15 +23,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import config
 import gi
+
 try:
-    gi.require_version('Gtk', '3.0')
-    gi.require_version('Gdk', '3.0')
+    gi.require_version("Gtk", "3.0")
+    gi.require_version("Gdk", "3.0")
 except ValueError as e:
     print(e)
     exit(1)
-from gi.repository import Gdk, Gtk
-import config
+from gi.repository import Gdk, Gtk  # isort:skip
 
 
 class BaseDialog(Gtk.Dialog):
@@ -44,9 +45,9 @@ class BaseDialog(Gtk.Dialog):
         if cancel_button:
             self.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)
         self.set_default_response(Gtk.ResponseType.ACCEPT)
-        #self.set_resizable(False)
+        # self.set_resizable(False)
         self.set_icon_from_file(config.ICON)
-        self.connect('realize', self.on_realize)
+        self.connect("realize", self.on_realize)
         self.init_ui()
         self.show_all()
 
@@ -74,9 +75,9 @@ class BaseDialog(Gtk.Dialog):
         monitor_height = monitor.get_geometry().height / scale
         width = self.get_preferred_width()[0]
         height = self.get_preferred_height()[0]
-        self.move((monitor_width - width)/2, (monitor_height - height)/2)
+        self.move((monitor_width - width) / 2, (monitor_height - height) / 2)
 
 
-if __name__ == '__main__':
-    dialog = BaseDialog('Test')
+if __name__ == "__main__":
+    dialog = BaseDialog("Test")
     dialog.run()

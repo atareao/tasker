@@ -23,16 +23,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import re
+
 import gi
+from basedialog import BaseDialog
+from config import _
+from gi.repository import Gtk
+
 try:
-    gi.require_version('Gtk', '3.0')
+    gi.require_version("Gtk", "3.0")
 except Exception as e:
     print(e)
     exit(-1)
-from gi.repository import Gtk
-from config import _
-from basedialog import BaseDialog
-import re
 
 
 class AddProjectDialog(BaseDialog):
@@ -41,14 +43,15 @@ class AddProjectDialog(BaseDialog):
 
     def __init__(self):
         """TODO: to be defined. """
-        BaseDialog.__init__(self, _('Add Project'), None, ok_button=True,
-                            cancel_button=True)
-       
+        BaseDialog.__init__(
+            self, _("Add Project"), None, ok_button=True, cancel_button=True
+        )
+
     def init_ui(self):
         BaseDialog.init_ui(self)
 
-        label = Gtk.Label.new(_('Project name:'))
-        label.set_property('halign', Gtk.Align.START)
+        label = Gtk.Label.new(_("Project name:"))
+        label.set_property("halign", Gtk.Align.START)
         self.grid.attach(label, 0, 0, 1, 1)
 
         self.text = Gtk.Entry.new()
@@ -61,13 +64,12 @@ class AddProjectDialog(BaseDialog):
 
         """
         name = self.text.get_text()
-        return re.sub('\s', '_', name)
+        return re.sub(r"\s", "_", name)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     addProjectDialog = AddProjectDialog()
     response = addProjectDialog.run()
     if response == Gtk.ResponseType.ACCEPT:
         addProjectDialog.get_task()
     addProjectDialog.destroy()
-        

@@ -25,20 +25,20 @@
 
 
 import gi
+
 try:
-    gi.require_version('Gtk', '3.0')
+    gi.require_version("Gtk", "3.0")
 except Exception as e:
     print(e)
     exit(-1)
-from gi.repository import Gtk
-from config import _
+from gi.repository import Gtk  # isort:skip
 
 
 class ListBoxRowStringType(Gtk.ListBoxRow):
 
     """Docstring for ListBoxRowStringType. """
 
-    def __init__(self, text='', atype='string'):
+    def __init__(self, text="", atype="string"):
         """TODO: to be defined. """
         Gtk.ListBoxRow.__init__(self)
         grid = Gtk.Grid.new()
@@ -68,7 +68,7 @@ class ListBoxRowStringType(Gtk.ListBoxRow):
     def set_type(self, atype):
         self.type.set_text(atype)
 
-        
+
 class ListBoxStringType(Gtk.ListBox):
 
     """Docstring for ListBoxStringTyoe. """
@@ -79,7 +79,7 @@ class ListBoxStringType(Gtk.ListBox):
         self.set_sort_func(self.sort_list)
         if len(items) > 0:
             self.add_all(items)
-    
+
     def sort_list(self, row1, row2):
         """TODO: Docstring for sort_list.
 
@@ -92,14 +92,16 @@ class ListBoxStringType(Gtk.ListBox):
 
     def add_all(self, items):
         for item in items:
-            if not item['name'] in ('started_at', 'total_time'):
+            if not item["name"] in ("started_at", "total_time"):
                 self.add_item(item)
-            
+
     def add_item(self, new_item):
         for item in self.get_children():
-            if item.get_name() == new_item['name']:
+            if item.get_name() == new_item["name"]:
                 return
-        newListBoxRowStringType = ListBoxRowStringType(new_item['name'], new_item['type'])
+        newListBoxRowStringType = ListBoxRowStringType(
+            new_item["name"], new_item["type"]
+        )
         newListBoxRowStringType.show_all()
         self.add(newListBoxRowStringType)
 
@@ -110,12 +112,11 @@ class ListBoxStringType(Gtk.ListBox):
                 return
 
     def clear(self):
-        for index in range(len(self.get_children()) -1, -1):
+        for index in range(len(self.get_children()) - 1, -1):
             self.remove(self.get_children()[index])
 
     def get_items(self):
         items = []
         for child in self.get_children():
-            item = {}
-            items.append({'name': child.get_name(), 'type': child.get_type()})
+            items.append({"name": child.get_name(), "type": child.get_type()})
         return items

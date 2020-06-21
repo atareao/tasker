@@ -23,23 +23,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import os
+from pathlib import Path
+
+import config
 import gi
+from basedialog import BaseDialog
+from config import _
+from configurator import Configuration
+from todotxtio import todotxtio
 
 try:
-    gi.require_version('Gtk', '3.0')
-    gi.require_version('WebKit2', '4.0')
+    gi.require_version("Gtk", "3.0")
+    gi.require_version("WebKit2", "4.0")
 except ValueError as e:
     print(e)
     exit(1)
-from gi.repository import Gtk
-from gi.repository import WebKit2
-import config
-from config import _
-from basedialog import BaseDialog
-from configurator import Configuration
-from todotxtio import todotxtio
-import os
-from pathlib import Path
+from gi.repository import Gtk, WebKit2  # isort:skip
 
 
 class BaseGraph(BaseDialog):
@@ -51,29 +51,31 @@ class BaseGraph(BaseDialog):
     that are related to each other
     """
 
-    def __init__(self, title='', subtitle=''):
+    def __init__(self, title="", subtitle=""):
         self.title = _(title)
         self.configuration = Configuration()
-        preferences = self.configuration.get('preferences')
-        todo_file = Path(os.path.expanduser(preferences['todo-file']))
+        preferences = self.configuration.get("preferences")
+        todo_file = Path(os.path.expanduser(preferences["todo-file"]))
         self.todo_file = todo_file.as_posix()
         self.subtitle = _(subtitle)
-        BaseDialog.__init__(self, title, None, ok_button=False,
-                            cancel_button=False)
+        BaseDialog.__init__(
+            self, title, None, ok_button=False, cancel_button=False
+        )
 
     def init_ui(self):
         BaseDialog.init_ui(self)
 
         self.scrolledwindow1 = Gtk.ScrolledWindow()
-        self.scrolledwindow1.set_policy(Gtk.PolicyType.AUTOMATIC,
-                                        Gtk.PolicyType.AUTOMATIC)
+        self.scrolledwindow1.set_policy(
+            Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC
+        )
         self.grid.attach(self.scrolledwindow1, 0, 0, 1, 1)
 
         self.viewer = WebKit2.WebView()
         self.scrolledwindow1.add(self.viewer)
         self.scrolledwindow1.set_size_request(1300, 600)
-        self.viewer.load_uri('file://' + config.HTML_GRAPH)
-        self.viewer.connect('load-changed', self.load_changed)
+        self.viewer.load_uri("file://" + config.HTML_GRAPH)
+        self.viewer.connect("load-changed", self.load_changed)
         self.set_focus(self.viewer)
 
     def load_changed(self, widget, load_event):
@@ -81,19 +83,19 @@ class BaseGraph(BaseDialog):
             self.send_data()
 
     def send_data(self):
-        message = 'draw_graph("{}", "{}", {});'.format(self.title,
-                                                       self.subtitle,
-                                                       self.get_data())
+        message = 'draw_graph("{}", "{}", {});'.format(
+            self.title, self.subtitle, self.get_data()
+        )
 
         self.viewer.run_javascript(message, None, None, None)
 
-    def get_data(self, ):
+    def get_data(self,):
         plaindata = self.get_plaindata()
         keys = self.get_keys(plaindata)
         values = self.get_values(keys, plaindata)
-        return {'keys': keys, 'values': values}
+        return {"keys": keys, "values": values}
 
-    def get_plaindata(self, ):
+    def get_plaindata(self,):
         return todotxtio.from_file(self.todo_file)
 
     def get_keys(self, plaindata):
@@ -103,6 +105,6 @@ class BaseGraph(BaseDialog):
         return super().get_values(keys, plaindata)
 
 
-if __name__ == '__main__':
-    graph = BaseGraph(_('Testing graph'))
+if __name__ == "__main__":
+    graph = BaseGraph(_("Testing graph"))
     graph.run()

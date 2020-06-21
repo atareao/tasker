@@ -25,19 +25,20 @@
 
 
 import gi
+from gi.repository import GObject, Gtk
+
 try:
-    gi.require_version('Gtk', '3.0')
+    gi.require_version("Gtk", "3.0")
 except Exception as e:
     print(e)
     exit(-1)
-from gi.repository import Gtk
-from gi.repository import GObject
 
 
 class ListBoxRowPlugins(Gtk.ListBoxRow):
     """Docstring for ListBoxRowCheck. """
+
     __gsignals__ = {
-        'toggled': (GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE, ()),
+        "toggled": (GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE, ()),
     }
 
     def __init__(self, plugin):
@@ -50,12 +51,12 @@ class ListBoxRowPlugins(Gtk.ListBoxRow):
         self.visible = True
 
         self.switch = Gtk.CheckButton.new()
-        self.switch.set_active(self.plugin['installed'])
+        self.switch.set_active(self.plugin["installed"])
         self.box.add(self.switch)
-        self.switch.connect('toggled', self.on_toggled)
+        self.switch.connect("toggled", self.on_toggled)
 
-        text = self.plugin['name']
-        self.label = Gtk.Label.new('')
+        text = self.plugin["name"]
+        self.label = Gtk.Label.new("")
         self.label.set_use_markup(True)
         self.label.set_markup(text)
         self.label.set_halign(Gtk.Align.START)
@@ -63,18 +64,20 @@ class ListBoxRowPlugins(Gtk.ListBoxRow):
         self.box.add(self.label)
 
     def on_toggled(self, widget):
-        self.emit('toggled')
+        self.emit("toggled")
 
     def get_plugin(self):
-        self.plugin['installed'] = self.switch.get_active()
+        self.plugin["installed"] = self.switch.get_active()
         return self.plugin
 
 
 class ListBoxPlugins(Gtk.ScrolledWindow):
     """Docstring for ListBoxCheck. """
+
     __gsignals__ = {
-        'toggled': (GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE, ()),
+        "toggled": (GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE, ()),
     }
+
     def __init__(self, items=[]):
         """TODO: to be defined. """
         Gtk.ScrolledWindow.__init__(self)
@@ -82,18 +85,19 @@ class ListBoxPlugins(Gtk.ScrolledWindow):
         self.add(self.listBox)
         if len(items) > 0:
             self.add_all(items)
+
     def add_all(self, items):
         for item in items:
             self.add_item(item)
-            
+
     def add_item(self, plugin):
         newListBoxRowPlugin = ListBoxRowPlugins(plugin)
         newListBoxRowPlugin.show_all()
-        newListBoxRowPlugin.connect('toggled', self.on_toggled)
+        newListBoxRowPlugin.connect("toggled", self.on_toggled)
         self.listBox.add(newListBoxRowPlugin)
 
     def on_toggled(self, widget):
-        self.emit('toggled')
+        self.emit("toggled")
 
     def get_items(self):
         items = []

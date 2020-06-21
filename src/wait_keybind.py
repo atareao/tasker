@@ -24,26 +24,32 @@
 # SOFTWARE.
 
 import gi
+from basedialog import BaseDialog
+from config import _
+from gi.repository import Gdk, Gtk
+
 try:
-    gi.require_version('Gtk', '3.0')
+    gi.require_version("Gtk", "3.0")
 except ValueError as e:
     print(e)
     exit(1)
-from gi.repository import Gtk
-from gi.repository import Gdk
-from basedialog import BaseDialog
-from config import _
+
 
 class WaitKeybind(BaseDialog):
     def __init__(self):
-        BaseDialog.__init__(self, _('Waiting for keybind'), None,
-                            ok_button=True, cancel_button=True)
+        BaseDialog.__init__(
+            self,
+            _("Waiting for keybind"),
+            None,
+            ok_button=True,
+            cancel_button=True,
+        )
 
     def init_ui(self):
         BaseDialog.init_ui(self)
-        label_waiting = Gtk.Label.new(_('Capturing new keybind'))
-        label_waiting.set_property('halign', Gtk.Align.START)
-        label_waiting.set_property('can_focus', False)
+        label_waiting = Gtk.Label.new(_("Capturing new keybind"))
+        label_waiting.set_property("halign", Gtk.Align.START)
+        label_waiting.set_property("can_focus", False)
         self.grid.attach(label_waiting, 0, 0, 1, 1)
 
         self.key_pressed = []
@@ -71,20 +77,19 @@ class WaitKeybind(BaseDialog):
 
         if not len(self.key_pressed) and len(self.key_unpressed):
             response_arr = [
-                Gdk.keyval_name(keyval).split('_')[0]
-                if len(Gdk.keyval_name(keyval).split('_')[0]) <= 2
-                else
-                    '<' + Gdk.keyval_name(keyval).split('_')[0] + '>'
+                Gdk.keyval_name(keyval).split("_")[0]
+                if len(Gdk.keyval_name(keyval).split("_")[0]) <= 2
+                else "<" + Gdk.keyval_name(keyval).split("_")[0] + ">"
                 for keyval in list(set(self.key_unpressed))
             ]
             response_arr.sort(key=lambda i: len(i), reverse=True)
-            self.key_combination = ''.join(response_arr)
+            self.key_combination = "".join(response_arr)
             response = Gtk.ResponseType.ACCEPT
-            if '<Shift>' in response_arr and len(response_arr[-1]) <= 1:
+            if "<Shift>" in response_arr and len(response_arr[-1]) <= 1:
                 response = Gtk.ResponseType.CANCEL
             if not self.response(response):
                 self.destroy()
 
-    def update_label_text(self, ):
+    def update_label_text(self,):
         # Update the label based on the state of the hit variable
         self.label.set_text("Shortcut pressed %d times" % self.shortcut_hits)

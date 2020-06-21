@@ -24,13 +24,16 @@
 # SOFTWARE.
 
 import codecs
-import os
 import json
-from config import CONFIG_DIR
-from config import PLUGINS_DIR
-from config import PLUGINS_ACTIVED_DIR
-from config import CONFIG_FILE
-from config import PARAMS
+import os
+
+from config import (
+    CONFIG_DIR,
+    CONFIG_FILE,
+    PARAMS,
+    PLUGINS_ACTIVED_DIR,
+    PLUGINS_DIR,
+)
 
 
 class Configuration(object):
@@ -44,7 +47,7 @@ class Configuration(object):
         if not os.path.exists(CONFIG_FILE):
             if not os.path.exists(CONFIG_DIR):
                 os.makedirs(CONFIG_DIR, 0o700)
-            open(CONFIG_FILE, 'a').close()
+            open(CONFIG_FILE, "a").close()
             os.chmod(CONFIG_FILE, 0o600)
 
     def has(self, key):
@@ -74,11 +77,11 @@ class Configuration(object):
     def read(self):
         self.check()
         try:
-            f = codecs.open(CONFIG_FILE, 'r', 'utf-8')
+            f = codecs.open(CONFIG_FILE, "r", "utf-8")
         except IOError as e:
             print(e)
             self.save()
-            f = codecs.open(CONFIG_FILE, 'r', 'utf-8')
+            f = codecs.open(CONFIG_FILE, "r", "utf-8")
         try:
             self.params = json.loads(f.read())
         except ValueError as e:
@@ -88,14 +91,14 @@ class Configuration(object):
 
     def save(self):
         self.check()
-        f = codecs.open(CONFIG_FILE, 'w', 'utf-8')
+        f = codecs.open(CONFIG_FILE, "w", "utf-8")
         f.write(json.dumps(self.params, indent=4, sort_keys=True))
         f.close()
 
     def __str__(self):
-        ans = ''
+        ans = ""
         for key in sorted(self.params.keys()):
-            ans += '{0}: {1}\n'.format(key, self.params[key])
+            ans += "{0}: {1}\n".format(key, self.params[key])
         return ans
 
     def load_plugins(self):
@@ -104,22 +107,28 @@ class Configuration(object):
         if not os.path.exists(PLUGINS_ACTIVED_DIR):
             os.makedirs(PLUGINS_ACTIVED_DIR, 0o700)
 
-        self._plugins = [name for name in os.listdir(PLUGINS_ACTIVED_DIR) if os.path.isdir(os.path.join(PLUGINS_ACTIVED_DIR, name)) and not 'pycache' in name and not '.git' in name]
-        self._plugins_to_load = [name for name in os.listdir(PLUGINS_DIR) if os.path.isdir(os.path.join(PLUGINS_DIR, name))and not 'pycache' in name and not '.git' in name]
+        self._plugins = [
+            name
+            for name in os.listdir(PLUGINS_ACTIVED_DIR)
+            if os.path.isdir(os.path.join(PLUGINS_ACTIVED_DIR, name))
+            and "pycache" not in name
+            and ".git" not in name
+        ]
+        self._plugins_to_load = [
+            name
+            for name in os.listdir(PLUGINS_DIR)
+            if os.path.isdir(os.path.join(PLUGINS_DIR, name))
+            and "pycache" not in name
+            and ".git" not in name
+        ]
 
     def get_plugins(self):
         result = []
         for plugin in self._plugins:
-            result.append({
-                'name': plugin,
-                'installed': True
-            })
+            result.append({"name": plugin, "installed": True})
         for plugin in self._plugins_to_load:
-            result.append({
-                'name': plugin,
-                'installed': False
-            })
-        result.sort(key=lambda plugin: plugin['name'])
+            result.append({"name": plugin, "installed": False})
+        result.sort(key=lambda plugin: plugin["name"])
         return result
 
     def get_plugin_dir(self):

@@ -24,14 +24,15 @@
 # SOFTWARE.
 
 import gi
+from basedialog import BaseDialog
+from config import _
+from gi.repository import Gtk
+
 try:
-    gi.require_version('Gtk', '3.0')
+    gi.require_version("Gtk", "3.0")
 except Exception as e:
     print(e)
     exit(-1)
-from gi.repository import Gtk
-from config import _
-from basedialog import BaseDialog
 
 
 def select_value_in_combo(combo, value):
@@ -54,34 +55,35 @@ class AddTagDialog(BaseDialog):
 
     def __init__(self):
         """TODO: to be defined. """
-        BaseDialog.__init__(self, _('Add Tag'), None, ok_button=True,
-                            cancel_button=True)
-        select_value_in_combo(self.type, 'string')
-       
+        BaseDialog.__init__(
+            self, _("Add Tag"), None, ok_button=True, cancel_button=True
+        )
+        select_value_in_combo(self.type, "string")
+
     def init_ui(self):
         BaseDialog.init_ui(self)
 
-        label = Gtk.Label.new(_('Tag name:'))
-        label.set_property('halign', Gtk.Align.START)
+        label = Gtk.Label.new(_("Tag name:"))
+        label.set_property("halign", Gtk.Align.START)
         self.grid.attach(label, 0, 0, 1, 1)
 
         self.text = Gtk.Entry.new()
         self.grid.attach(self.text, 1, 0, 1, 1)
 
-        label = Gtk.Label.new(_('Type:'))
-        label.set_property('halign', Gtk.Align.START)
+        label = Gtk.Label.new(_("Type:"))
+        label.set_property("halign", Gtk.Align.START)
         self.grid.attach(label, 0, 1, 1, 1)
 
         type_store = Gtk.ListStore(str, str)
-        type_store.append([_('Boolean'), 'boolean'])
-        type_store.append([_('Date'), 'date'])
-        type_store.append([_('String'), 'string'])
+        type_store.append([_("Boolean"), "boolean"])
+        type_store.append([_("Date"), "date"])
+        type_store.append([_("String"), "string"])
 
         self.type = Gtk.ComboBox.new()
         self.type.set_model(type_store)
         cell1 = Gtk.CellRendererText()
         self.type.pack_start(cell1, True)
-        self.type.add_attribute(cell1, 'text', 0)
+        self.type.add_attribute(cell1, "text", 0)
         self.grid.attach(self.type, 1, 1, 1, 1)
 
     def get_type(self):
@@ -94,10 +96,10 @@ class AddTagDialog(BaseDialog):
         """
         return self.text.get_text()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     addTagDialog = AddTagDialog()
     response = addTagDialog.run()
     if response == Gtk.ResponseType.ACCEPT:
         addTagDialog.get_task()
     addTagDialog.destroy()
-        
