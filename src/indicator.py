@@ -100,11 +100,13 @@ class Indicator(object):
             todo_file.touch()
         self.todo_file = todo_file.as_posix()
         self.projects = preferences['projects']
-        contexts = preferences['contexts']
+        self.contexts = preferences['contexts']
         tags = preferences['tags']
         self.hide_completed = preferences.get('hide-completed', False)
         self.filter_projects = preferences.get('filter-projects', False)
+        self.filter_contexts = preferences.get('filter-contexts', False)
         self.last_filtered_projects = preferences.get('last-filtered-projects', [])
+        self.last_filtered_contexts = preferences.get('last-filtered-contexts', [])
         list_of_todos = todotxtio.from_file(self.todo_file)
         pattern = r'^\d{4}-\d{2}-\d{2}$'
         for todo in list_of_todos:
@@ -112,20 +114,20 @@ class Indicator(object):
                 if aproject not in self.projects:
                     self.projects.append(aproject)
             for acontext in todo.contexts:
-                if acontext not in contexts:
-                    contexts.append(acontext)
+                if acontext not in self.contexts:
+                    self.contexts.append(acontext)
             for atag in todo.tags:
                 if atag not in [tag['name'] for tag in tags]:
                     if re.search(pattern, todo.tags[atag]):
                         tags.append({'name': atag, 'type': 'date'})
                     elif todo.tags[atag].lower() in ['true', 'false']:
                         tags.append({'name': atag, 'type': 'boolean'})
-                    elif todo.tags[atag].lower() in [ 'true', 'false']:
+                    elif todo.tags[atag].lower() in ['true', 'false']:
                         tags.append({'name': atag, 'type': 'boolean'})
                     else:
                         tags.append({'name': atag, 'type': 'string'})
         preferences['projects'] = self.projects
-        preferences['contexts'] = contexts
+        preferences['contexts'] = self.contexts
         preferences['tags'] = tags
         self.new_task_keybind = '<Control><Super>t'
         self.show_tasks_keybind = '<Control><Super>a'
@@ -163,6 +165,15 @@ class Indicator(object):
         return [menu_item.get_label() for menu_item in
                 projects_menuitems_actives]
 
+    def get_context_showed(self, ):
+        if not hasattr(self, 'menu_filter_contexts'):
+            return []
+        contexts_menuitems_actives = \
+            list(filter(lambda item: item.get_active(),
+                self.menu_filter_contexts.get_submenu().get_children()))
+        return [menu_item.get_label() for menu_item in
+                contexts_menuitems_actives]
+
     def set_filter_project_label(self):
         projects_items = self.menu_filter_projects.get_submenu().get_children()
         projects_items_actives = self.get_project_showed()
@@ -173,11 +184,29 @@ class Indicator(object):
                 projects_sel = _('Select one to show tasks')
         self.menu_filter_projects.set_label(projects_sel)
 
+    def set_filter_context_label(self):
+        contexts_items = self.menu_filter_contexts.get_submenu().get_children()
+        contexts_items_actives = self.get_context_showed()
+        contexts_sel = _('All')
+        if len(contexts_items) != len(contexts_items_actives):
+            contexts_sel = ', '.join(contexts_items_actives)
+            if contexts_sel == '':
+                contexts_sel = _('Select one to show tasks')
+        self.menu_filter_contexts.set_label(contexts_sel)
+
     def on_menu_filter_project_toggled(self, widget, i):
         self.set_filter_project_label()
         self.load_todos()
         preferences = self.configuration.get('preferences')
         preferences['last-filtered-projects'] = self.get_project_showed()
+        self.configuration.set('preferences', preferences)
+        self.configuration.save()
+
+    def on_menu_filter_context_toggled(self, widget, i):
+        self.set_filter_context_label()
+        self.load_todos()
+        preferences = self.configuration.get('preferences')
+        preferences['last-filtered-contexts'] = self.get_context_showed()
         self.configuration.set('preferences', preferences)
         self.configuration.save()
 
@@ -231,13 +260,27 @@ class Indicator(object):
                     self.menu_todos[i].hide()
                     hide_by_project = True
 
+            hide_by_context = False
+            if self.filter_contexts:
+                if (not set(list_of_todos[i].contexts).isdisjoint(
+                        self.get_context_showed()) or \
+                        not list_of_todos[i].contexts) and not hide_by_project:
+                    self.menu_todos[i].show()
+                else:
+                    self.menu_todos[i].hide()
+                    hide_by_context = True
+
             if not hide_by_project:
                 if self.hide_completed and list_of_todos[i].completed:
                     self.menu_todos[i].hide()
-                elif self.hide_completed and not list_of_todos[i].completed:
+                elif self.hide_completed and not list_of_todos[i].completed and not hide_by_context:
                     self.menu_todos[i].show()
 
-            if not self.filter_projects and not self.hide_completed:
+            if not hide_by_context:
+                if self.hide_completed and not list_of_todos[i].completed and not hide_by_project:
+                    self.menu_todos[i].show()
+
+            if not self.filter_projects and not self.filter_contexts and not self.hide_completed:
                 self.menu_todos[i].show()
 
         if len(list_of_todos) < self.todos:
@@ -254,6 +297,14 @@ class Indicator(object):
                     self.get_filter_project_menu())
             self.set_filter_project_label()
             menu.append(self.menu_filter_projects)
+            menu.append(Gtk.SeparatorMenuItem())
+
+        if self.filter_contexts:
+            self.menu_filter_contexts = Gtk.CheckMenuItem.new_with_label('')
+            self.menu_filter_contexts.set_submenu(
+                    self.get_filter_context_menu())
+            self.set_filter_context_label()
+            menu.append(self.menu_filter_contexts)
             menu.append(Gtk.SeparatorMenuItem())
 
         self.menu_todos = []
@@ -375,6 +426,16 @@ class Indicator(object):
             project_item.set_active(1 if self.projects[i] in self.last_filtered_projects else 0)
             project_item.connect('toggled', self.on_menu_filter_project_toggled, i)
             filter_menu.append(project_item)
+        return filter_menu
+
+    def get_filter_context_menu(self):
+        filter_menu = Gtk.Menu()
+
+        for i in range(0, len(self.contexts)):
+            context_item = Gtk.CheckMenuItem.new_with_label(self.contexts[i])
+            context_item.set_active(1 if self.contexts[i] in self.last_filtered_contexts else 0)
+            context_item.connect('toggled', self.on_menu_filter_context_toggled, i)
+            filter_menu.append(context_item)
         return filter_menu
 
     def get_help_menu(self):

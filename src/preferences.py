@@ -137,6 +137,13 @@ class Preferences(BaseDialog):
         self.filter_projects.set_property('halign', Gtk.Align.CENTER)
         page05.attach(self.filter_projects, 1, 1, 1, 1)
 
+        label = Gtk.Label.new(_('Filter by contexts'))
+        label.set_property('halign', Gtk.Align.START)
+        page05.attach(label, 0, 2, 1, 1)
+        self.filter_contexts = Gtk.Switch.new()
+        self.filter_contexts.set_property('halign', Gtk.Align.CENTER)
+        page05.attach(self.filter_contexts, 1, 2, 1, 1)
+
     def _build_tags(self):
         page04 = self._new_page('Tags')
         self.tags = ListBoxStringType()
@@ -267,7 +274,8 @@ class Preferences(BaseDialog):
                 preferences.get('hide-completed', False))
         self.filter_projects.set_active(
                 preferences.get('filter-projects', False))
-
+        self.filter_contexts.set_active(
+            preferences.get('filter-contexts', False))
 
     def save(self):
         configuration = Configuration()
@@ -280,6 +288,7 @@ class Preferences(BaseDialog):
         preferences['tags'] = self.tags.get_items()
         preferences['hide-completed'] = self.hide_completed.get_active()
         preferences['filter-projects'] = self.filter_projects.get_active()
+        preferences['filter-contexts'] = self.filter_contexts.get_active()
         preferences['keybindings'] = [
             {'name': 'new_task',
              'keybind': self.new_task_keybinding.get_text()},
