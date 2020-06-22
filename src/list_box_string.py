@@ -25,12 +25,14 @@
 
 
 import gi
+from gi.repository import Gtk
+
 try:
-    gi.require_version('Gtk', '3.0')
+    gi.require_version("Gtk", "3.0")
 except Exception as e:
     print(e)
     exit(-1)
-from gi.repository import Gtk
+
 
 class ListBoxRowString(Gtk.ListBoxRow):
 
@@ -52,7 +54,7 @@ class ListBoxRowString(Gtk.ListBoxRow):
     def set_name(self, text):
         self.get_children()[0].set_text(text)
 
-        
+
 class ListBoxString(Gtk.ListBox):
 
     """Docstring for ListBoxString. """
@@ -63,7 +65,7 @@ class ListBoxString(Gtk.ListBox):
         self.set_sort_func(self.sort_list)
         if len(items) > 0:
             self.add_all(items)
-    
+
     def sort_list(self, row1, row2):
         """TODO: Docstring for sort_list.
 
@@ -77,7 +79,7 @@ class ListBoxString(Gtk.ListBox):
     def add_all(self, items):
         for item in items:
             self.add_item(item)
-            
+
     def add_item(self, text):
         for item in self.get_children():
             if item.get_name() == text:
@@ -93,7 +95,7 @@ class ListBoxString(Gtk.ListBox):
                 return
 
     def clear(self):
-        for index in range(len(self.get_children()) -1, -1):
+        for index in range(len(self.get_children()) - 1, -1):
             self.remove(self.get_children()[index])
 
     def get_items(self):
@@ -101,6 +103,3 @@ class ListBoxString(Gtk.ListBox):
         for child in self.get_children():
             items.append(child.get_name())
         return items
-                
-
-        

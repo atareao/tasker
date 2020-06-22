@@ -24,22 +24,30 @@
 # SOFTWARE.
 
 import os
-import dbus
 import sys
 
-if __name__ == '__main__':
-    if dbus.SessionBus().request_name('es.atareao.tasker') !=\
-            dbus.bus.REQUEST_NAME_REPLY_PRIMARY_OWNER:
+import dbus
+
+if __name__ == "__main__":
+    if (
+        dbus.SessionBus().request_name("es.atareao.tasker")
+        != dbus.bus.REQUEST_NAME_REPLY_PRIMARY_OWNER
+    ):
         print("application already running")
         exit(0)
-    if __file__.startswith('/opt/extras.ubuntu.com/tasker') or\
-            os.getcwd().startswith(
-                '/opt/extras.ubuntu.com/tasker'):
-        sys.path.insert(1, '/opt/extras.ubuntu.com/tasker/share/tasker')
+    if __file__.startswith(
+        "/opt/extras.ubuntu.com/tasker"
+    ) or os.getcwd().startswith("/opt/extras.ubuntu.com/tasker"):
+        sys.path.insert(1, "/opt/extras.ubuntu.com/tasker/share/tasker")
     else:
-        sys.path.insert(1, os.path.normpath(
-            os.path.join(os.path.dirname(__file__), '../src')))
+        sys.path.insert(
+            1,
+            os.path.normpath(
+                os.path.join(os.path.dirname(__file__), "../src")
+            ),
+        )
     from indicator import main
+
     try:
         """
         This remove the  message warning:
@@ -48,7 +56,7 @@ if __name__ == '__main__':
         the message bus security policy blocked the reply, the reply timeout
         expired, or the network connection was broken.
         """
-        os.environ['NO_AT_BRIDGE'] = '1'
+        os.environ["NO_AT_BRIDGE"] = "1"
         main()
     except KeyboardInterrupt as exception:
         print(exception)

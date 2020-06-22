@@ -1,5 +1,7 @@
 import pluggy
+
 indicatorspec = pluggy.HookspecMarker("indicator")
+
 
 class IndicatorSpec(object):
     """
@@ -11,13 +13,13 @@ class IndicatorSpec(object):
     """
 
     @indicatorspec
-    def get_hook_menu(self, ):
+    def get_hook_menu(self,):
         """Return a Gtk.MenuItem() array to be showed on App indicator (System tray)
 
         :return: new Menu Gtk.MenuItem
         """
 
     @indicatorspec
-    def after_init_indicator(self, ):
+    def after_init_indicator(self,):
         """Event fired after init
         """

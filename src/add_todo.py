@@ -23,25 +23,29 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import datetime
+
 import gi
+from basedialog import BaseDialog
+from check_calendar import CheckCalendar
+from config import _
+from configurator import Configuration
+from gi.repository import Gtk
+from list_box_check import ListBoxCheck
+from todotxtio import todotxtio
+
 try:
-    gi.require_version('Gtk', '3.0')
+    gi.require_version("Gtk", "3.0")
 except Exception as e:
     print(e)
     exit(-1)
-from gi.repository import Gtk
-from config import _
-from basedialog import BaseDialog
-import datetime
-from configurator import Configuration
-from list_box_check import ListBoxCheck
-from check_calendar import CheckCalendar
-from todotxtio import todotxtio
+
 
 def string2bool(value):
-    if value.lower() in ['true', 'yes', 'y', '1']:
+    if value.lower() in ["true", "yes", "y", "1"]:
         return True
     return False
+
 
 def select_value_in_combo(combo, value):
     model = combo.get_model()
@@ -62,13 +66,16 @@ class AddTodoDialog(BaseDialog):
 
     def __init__(self, title, todo_item=None):
         """TODO: to be defined. """
-        BaseDialog.__init__(self, title, None, ok_button=True,
-                            cancel_button=True)
+        BaseDialog.__init__(
+            self, title, None, ok_button=True, cancel_button=True
+        )
         self.todo_item = todo_item
         if todo_item:
             self.text.set_text(todo_item.text)
             if todo_item.priority:
-                select_value_in_combo(self.priority, ord(todo_item.priority) - 65)
+                select_value_in_combo(
+                    self.priority, ord(todo_item.priority) - 65
+                )
             else:
                 select_value_in_combo(self.priority, -1)
             if todo_item.projects:
@@ -81,7 +88,9 @@ class AddTodoDialog(BaseDialog):
                         if type(tag_widget) == CheckCalendar:
                             tag_widget.set_date(todo_item.tags[key])
                         elif type(tag_widget) == Gtk.CheckButton:
-                            tag_widget.set_active(string2bool(todo_item.tags[key]))
+                            tag_widget.set_active(
+                                string2bool(todo_item.tags[key])
+                            )
                         else:
                             tag_widget.set_text(todo_item.tags[key])
                         break
@@ -91,34 +100,34 @@ class AddTodoDialog(BaseDialog):
     def init_ui(self):
         BaseDialog.init_ui(self)
 
-        label = Gtk.Label.new(_('Text:'))
-        label.set_property('halign', Gtk.Align.START)
+        label = Gtk.Label.new(_("Text:"))
+        label.set_property("halign", Gtk.Align.START)
         self.grid.attach(label, 0, 0, 1, 1)
 
         self.text = Gtk.Entry.new()
         self.text.set_hexpand(True)
         self.grid.attach(self.text, 1, 0, 1, 1)
 
-        label = Gtk.Label.new(_('Priority'))
-        label.set_property('halign', Gtk.Align.START)
+        label = Gtk.Label.new(_("Priority"))
+        label.set_property("halign", Gtk.Align.START)
         self.grid.attach(label, 0, 1, 1, 1)
 
         priority_store = Gtk.ListStore(str, int)
-        priority_store.append(['-', -1])
+        priority_store.append(["-", -1])
         for i in range(0, 26):
             priority_store.append([chr(i + 65), i])
         self.priority = Gtk.ComboBox.new()
         self.priority.set_model(priority_store)
         cell1 = Gtk.CellRendererText()
         self.priority.pack_start(cell1, True)
-        self.priority.add_attribute(cell1, 'text', 0)
+        self.priority.add_attribute(cell1, "text", 0)
         self.grid.attach(self.priority, 1, 1, 1, 1)
 
         configuration = Configuration()
-        preferences = configuration.get('preferences')
-        projects = preferences['projects']
-        contexts = preferences['contexts']
-        tags = preferences['tags']
+        preferences = configuration.get("preferences")
+        projects = preferences["projects"]
+        contexts = preferences["contexts"]
+        tags = preferences["tags"]
 
         posv = 1
         self.projects = None
@@ -126,7 +135,7 @@ class AddTodoDialog(BaseDialog):
         self.tags = []
         if projects:
             posv += 1
-            label = Gtk.Label.new(_('Select project(s):'))
+            label = Gtk.Label.new(_("Select project(s):"))
             label.set_halign(Gtk.Align.START)
             label.set_valign(Gtk.Align.START)
             self.grid.attach(label, 0, posv, 1, 1)
@@ -137,7 +146,7 @@ class AddTodoDialog(BaseDialog):
             self.grid.attach(self.projects, 1, posv, 1, 1)
         if contexts:
             posv += 1
-            label = Gtk.Label.new(_('Select context(s):'))
+            label = Gtk.Label.new(_("Select context(s):"))
             label.set_halign(Gtk.Align.START)
             label.set_valign(Gtk.Align.START)
             self.grid.attach(label, 0, posv, 1, 1)
@@ -147,23 +156,23 @@ class AddTodoDialog(BaseDialog):
             self.contexts.set_min_content_height(75)
             self.grid.attach(self.contexts, 1, posv, 1, 1)
         for tag in tags:
-            if tag['name'] in ('started_at', 'total_time'):
+            if tag["name"] in ("started_at", "total_time"):
                 continue
             posv += 1
-            label = Gtk.Label.new(tag['name'] + ': ')
+            label = Gtk.Label.new(tag["name"] + ": ")
             label.set_halign(Gtk.Align.START)
             self.grid.attach(label, 0, posv, 1, 1)
 
-            if tag['type'] == 'date':
+            if tag["type"] == "date":
                 label.set_valign(Gtk.Align.START)
                 tag_widget = CheckCalendar()
-            elif tag['type'] == 'boolean':
+            elif tag["type"] == "boolean":
                 tag_widget = Gtk.CheckButton.new()
             else:
                 tag_widget = Gtk.Entry.new()
-            tag_widget.name = tag['name']
+            tag_widget.name = tag["name"]
             self.tags.append(tag_widget)
-            self.grid.attach(self.tags[len(self.tags) -1], 1, posv, 1, 1)
+            self.grid.attach(self.tags[len(self.tags) - 1], 1, posv, 1, 1)
 
     def get_task(self):
         """TODO: Docstring for get_task.
@@ -172,10 +181,12 @@ class AddTodoDialog(BaseDialog):
         """
         text = self.text.get_text()
         if not text:
-            text = _('Empty')
+            text = _("Empty")
         if not self.todo_item:
-            creation_date = datetime.datetime.now().strftime('%Y-%m-%d')
-            self.todo_item = todotxtio.Todo(text=text, creation_date=creation_date)
+            creation_date = datetime.datetime.now().strftime("%Y-%m-%d")
+            self.todo_item = todotxtio.Todo(
+                text=text, creation_date=creation_date
+            )
         else:
             self.todo_item.text = text
         priority = get_selected_value_in_combo(self.priority)
@@ -198,14 +209,14 @@ class AddTodoDialog(BaseDialog):
                     value = tag.get_text()
                 if value:
                     tags[name] = value
-        tags['started_at'] = self.todo_item.tags.get('started_at', '0')
-        tags['total_time'] = self.todo_item.tags.get('total_time', '0')
+        tags["started_at"] = self.todo_item.tags.get("started_at", "0")
+        tags["total_time"] = self.todo_item.tags.get("total_time", "0")
         self.todo_item.tags = tags
         return self.todo_item
 
-        
-if __name__ == '__main__':
-    addTodoDialog = AddTodoDialog('Sample')
+
+if __name__ == "__main__":
+    addTodoDialog = AddTodoDialog("Sample")
     response = addTodoDialog.run()
     if response == Gtk.ResponseType.ACCEPT:
         task = addTodoDialog.get_task()
@@ -218,4 +229,3 @@ if __name__ == '__main__':
         if response == Gtk.ResponseType.ACCEPT:
             task = addTodoDialog.get_task()
         addTodoDialog.destroy()
-        

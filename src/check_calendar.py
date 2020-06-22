@@ -25,12 +25,14 @@
 
 
 import gi
+from gi.repository import Gtk
+
 try:
-    gi.require_version('Gtk', '3.0')
+    gi.require_version("Gtk", "3.0")
 except Exception as e:
     print(e)
     exit(-1)
-from gi.repository import Gtk
+
 
 class CheckCalendar(Gtk.Grid):
     """Docstring for CheckCalendar. """
@@ -39,7 +41,7 @@ class CheckCalendar(Gtk.Grid):
         """TODO: to be defined. """
         Gtk.Grid.__init__(self)
 
-        self.expander = Gtk.Expander.new('')
+        self.expander = Gtk.Expander.new("")
         self.calendar = Gtk.Calendar()
         self.expander.add(self.calendar)
         self.attach(self.expander, 0, 0, 1, 1)
@@ -60,7 +62,9 @@ class CheckCalendar(Gtk.Grid):
     def get_date(self):
         if self.expander.get_expanded():
             date = self.calendar.get_date()
-            return '{:04d}-{:02d}-{:02d}'.format(date.year, date.month + 1, date.day)
+            return "{:04d}-{:02d}-{:02d}".format(
+                date.year, date.month + 1, date.day
+            )
         return None
 
     def set_active(self, active):

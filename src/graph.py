@@ -28,13 +28,13 @@ from config import _
 
 
 class Graph(BaseGraph):
-    def __init__(self, title='', by_project=True):
+    def __init__(self, title="", by_project=True):
         if by_project:
-            self.group_by = 'projects'
-            subtitle = 'By project'
+            self.group_by = "projects"
+            subtitle = "By project"
         else:
-            self.group_by = 'contexts'
-            subtitle = 'By context'
+            self.group_by = "contexts"
+            subtitle = "By context"
         BaseGraph.__init__(self, title, subtitle)
 
     def get_keys(self, list_of_todos):
@@ -48,7 +48,7 @@ class Graph(BaseGraph):
             else:
                 empty = True
         if empty:
-            keys.append(_('None'))
+            keys.append(_("None"))
         keys.sort()
         return keys
 
@@ -58,15 +58,19 @@ class Graph(BaseGraph):
             data = []
             for key in keys:
                 if key in getattr(todo, self.group_by):
-                    data.append(float(todo.tags.get('total_time', '0')) / 3600.0)
-                elif not getattr(todo, self.group_by) and key == _('None'):
-                    data.append(float(todo.tags.get('total_time', '0')) / 3600.0)
+                    data.append(
+                        float(todo.tags.get("total_time", "0")) / 3600.0
+                    )
+                elif not getattr(todo, self.group_by) and key == _("None"):
+                    data.append(
+                        float(todo.tags.get("total_time", "0")) / 3600.0
+                    )
                 else:
                     data.append(0)
-            values.append({'name': todo.text, 'data': data})
+            values.append({"name": todo.text, "data": data})
         return values
 
 
-if __name__ == '__main__':
-    graph = Graph('Testing graph')
+if __name__ == "__main__":
+    graph = Graph("Testing graph")
     graph.run()

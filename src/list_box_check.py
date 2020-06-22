@@ -25,18 +25,20 @@
 
 
 import gi
+from gi.repository import GObject, Gtk
+
 try:
-    gi.require_version('Gtk', '3.0')
+    gi.require_version("Gtk", "3.0")
 except Exception as e:
     print(e)
     exit(-1)
-from gi.repository import Gtk
-from gi.repository import GObject
+
 
 class ListBoxRowCheck(Gtk.ListBoxRow):
     """Docstring for ListBoxRowCheck. """
+
     __gsignals__ = {
-        'toggled': (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, ()),
+        "toggled": (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, ()),
     }
 
     def __init__(self, text):
@@ -46,7 +48,7 @@ class ListBoxRowCheck(Gtk.ListBoxRow):
         self.add(box)
 
         self.switch = Gtk.CheckButton.new()
-        self.switch.connect('toggled', self.on_toggled)
+        self.switch.connect("toggled", self.on_toggled)
         box.add(self.switch)
 
         self.label = Gtk.Label.new(text)
@@ -55,7 +57,7 @@ class ListBoxRowCheck(Gtk.ListBoxRow):
         box.add(self.label)
 
     def on_toggled(self, widget):
-        self.emit('toggled')
+        self.emit("toggled")
 
     def get_name(self):
         return self.label.get_text()
@@ -72,10 +74,10 @@ class ListBoxRowCheck(Gtk.ListBoxRow):
 
 class ListBoxCheck(Gtk.ScrolledWindow):
     """Docstring for ListBoxCheck. """
-    __gsignals__ = {
-        'toggled': (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, ()),
-    }
 
+    __gsignals__ = {
+        "toggled": (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, ()),
+    }
 
     def __init__(self, items=[]):
         """TODO: to be defined. """
@@ -106,11 +108,11 @@ class ListBoxCheck(Gtk.ScrolledWindow):
                 return
         newListBoxRowCheck = ListBoxRowCheck(text)
         newListBoxRowCheck.show_all()
-        newListBoxRowCheck.connect('toggled', self.on_toggled)
+        newListBoxRowCheck.connect("toggled", self.on_toggled)
         self.listBox.add(newListBoxRowCheck)
 
     def on_toggled(self, widget):
-        self.emit('toggled')
+        self.emit("toggled")
 
     def remove_item(self, text):
         for index, item in enumerate(self.listBox.get_children()):
@@ -119,7 +121,7 @@ class ListBoxCheck(Gtk.ScrolledWindow):
                 return
 
     def clear(self):
-        for index in range(len(self.listBox.get_children()) -1, -1):
+        for index in range(len(self.listBox.get_children()) - 1, -1):
             self.remove(self.listBox.get_children()[index])
 
     def get_items(self):
@@ -127,7 +129,6 @@ class ListBoxCheck(Gtk.ScrolledWindow):
         for child in self.listBox.get_children():
             items.append(child.get_name())
         return items
-                
 
     def get_active_items(self):
         items = []
