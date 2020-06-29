@@ -65,6 +65,7 @@ class ListTodos(BaseDialog):
 
     def __init__(self, hook):
         self.hook = hook
+        self.changed = False
         BaseDialog.__init__(
             self, _("List of tasks"), None, ok_button=True, cancel_button=True
         )
@@ -183,6 +184,7 @@ class ListTodos(BaseDialog):
         self.todos.filter(priority, project, context)
 
     def on_button_clear_clicked(self, widget):
+        self.changed = True
         self.todos.clear()
 
     def on_button_add_clicked(self, widget):
@@ -195,6 +197,7 @@ class ListTodos(BaseDialog):
                     _("You must specify a text for the task"),
                 )
             else:
+                self.changed = True
                 self.todos.add_item(todo)
         addTodoDialog.destroy()
 
@@ -205,13 +208,16 @@ class ListTodos(BaseDialog):
             addTodoDialog = AddTodoDialog(_("Edit task"), todo)
             if addTodoDialog.run() == Gtk.ResponseType.ACCEPT:
                 todo = addTodoDialog.get_task()
+                self.changed = True
                 self.todos.set_selected(todo)
             addTodoDialog.destroy()
 
     def on_button_remove_clicked(self, widget):
+        self.changed = True
         selected = self.todos.get_selected()
         if selected:
             todo = selected.get_todo()
+            self.changed = True
             self.todos.remove_item(todo)
 
     def load(self):
@@ -250,7 +256,12 @@ class ListTodos(BaseDialog):
         self.todos.add_all(list_of_todos)
 
     def save(self):
-        todotxtio.to_file(self.todo_file, self.todos.get_items())
+        items = self.todos.get_items()
+        self.changed = self.changed or list(
+            filter(lambda todo: todo.time_tracked, items)
+        )
+        if self.changed:
+            todotxtio.to_file(self.todo_file, items)
 
     def filter(self):
         active_projects = self.projects.get_active_items()

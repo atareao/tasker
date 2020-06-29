@@ -63,6 +63,7 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
     def __init__(self, todo, hook):
         """TODO: to be defined. """
         self.hook = hook
+        self.time_tracked = False
         Gtk.ListBoxRow.__init__(self)
         self.box = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
         self.add(self.box)
@@ -139,6 +140,7 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
         return started_icon
 
     def track_time(self,):
+        self.time_tracked = True
         started_at = self.get_started_at()
         just_now = time.time()
         if started_at:
@@ -212,6 +214,7 @@ class ListBoxRowTodo(Gtk.ListBoxRow):
 
     def get_todo(self):
         self.todo.completed = self.switch.get_active()
+        self.todo.time_tracked = self.time_tracked
         return self.todo
 
     def set_todo(self, todo):
