@@ -256,8 +256,12 @@ class ListTodos(BaseDialog):
         self.todos.add_all(list_of_todos)
 
     def save(self):
+        items = self.todos.get_items()
+        self.changed = self.changed or list(
+            filter(lambda todo: todo.time_tracked, items)
+        )
         if self.changed:
-            todotxtio.to_file(self.todo_file, self.todos.get_items())
+            todotxtio.to_file(self.todo_file, items)
 
     def filter(self):
         active_projects = self.projects.get_active_items()
