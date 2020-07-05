@@ -55,7 +55,7 @@ CONFIG_DIR = os.path.join(os.path.expanduser("~"), ".config/tasker")
 CONFIG_FILE = os.path.join(CONFIG_DIR, "tasker.conf")
 DATA_FILE = os.path.join(CONFIG_DIR, "tasker.data")
 PLUGINS_DIR = os.path.join(CONFIG_DIR, "plugins")
-PLUGINS_ACTIVED_DIR = os.path.join(os.path.dirname(__file__), "plugins")
+PLUGINS_INSTALLED_DIR = os.path.join(CONFIG_DIR, "installed_plugins")
 
 
 def is_package():
