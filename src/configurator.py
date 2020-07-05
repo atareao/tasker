@@ -31,8 +31,8 @@ from config import (
     CONFIG_DIR,
     CONFIG_FILE,
     PARAMS,
-    PLUGINS_ACTIVED_DIR,
     PLUGINS_DIR,
+    PLUGINS_INSTALLED_DIR,
 )
 
 
@@ -104,13 +104,13 @@ class Configuration(object):
     def load_plugins(self):
         if not os.path.exists(PLUGINS_DIR):
             os.makedirs(PLUGINS_DIR, 0o700)
-        if not os.path.exists(PLUGINS_ACTIVED_DIR):
-            os.makedirs(PLUGINS_ACTIVED_DIR, 0o700)
+        if not os.path.exists(PLUGINS_INSTALLED_DIR):
+            os.makedirs(PLUGINS_INSTALLED_DIR, 0o700)
 
         self._plugins = [
             name
-            for name in os.listdir(PLUGINS_ACTIVED_DIR)
-            if os.path.isdir(os.path.join(PLUGINS_ACTIVED_DIR, name))
+            for name in os.listdir(PLUGINS_INSTALLED_DIR)
+            if os.path.isdir(os.path.join(PLUGINS_INSTALLED_DIR, name))
             and "pycache" not in name
             and ".git" not in name
         ]
@@ -132,7 +132,7 @@ class Configuration(object):
         return result
 
     def get_plugin_dir(self):
-        return PLUGINS_ACTIVED_DIR
+        return PLUGINS_INSTALLED_DIR
 
     def get_plugin_to_load_dir(self):
         return PLUGINS_DIR

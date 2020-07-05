@@ -25,12 +25,15 @@
 
 import os
 import shutil
+import zipfile
 from pathlib import Path
 
 import config
 import gi
+import requests
 from add_context import AddContextDialog
 from add_project import AddProjectDialog
+from add_repository import AddRepositoryDialog
 from add_tag import AddTagDialog
 from alert import Alert
 from basedialog import BaseDialog
@@ -72,6 +75,7 @@ class Preferences(BaseDialog):
         self.load()
 
     def init_ui(self):
+        self.configuration = Configuration()
         BaseDialog.init_ui(self)
 
         self.notebook = Gtk.Notebook.new()
@@ -86,14 +90,54 @@ class Preferences(BaseDialog):
         self._build_plugins()
 
     def _build_plugins(self,):
-        page06 = self._new_page("Plugins")
+        page06 = self._new_page("Addons")
+        self.notebook_plugins = Gtk.Notebook.new()
+        self.notebook_plugins.set_hexpand(True)
 
+        page_plugins = self._new_page("Plugins", self.notebook_plugins)
         plugins = ListBoxPlugins()
-        configuration = Configuration()
-        plugins.add_all(configuration.get_plugins())
-        plugins.set_size_request(300, 300)
+        plugins.add_all(self.configuration.get_plugins())
+        plugins.set_size_request(250, 250)
         self.plugins = plugins
-        page06.attach(plugins, 0, 0, 1, 1)
+        page_plugins.attach(plugins, 0, 0, 3, 3)
+        box_plugins = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
+        page_plugins.attach(box_plugins, 3, 0, 1, 2)
+        button_reload_plugins = Gtk.Button.new_with_label(_("Reload plugins"))
+        button_reload_plugins.connect(
+            "clicked", self.on_button_reload_plugins_clicked
+        )
+        box_plugins.add(button_reload_plugins)
+        label = Gtk.Label.new(_("Reload Tasker after activate plugins"))
+        label.set_halign(Gtk.Align.CENTER)
+        label.set_width_chars(20)
+        label.set_margin_top(5)
+        label.set_margin_bottom(5)
+        box_plugins.add(label)
+
+        page_repositories = self._new_page(
+            "Repositories", self.notebook_plugins
+        )
+        repositories = ListBoxString()
+        repositories.set_size_request(250, 250)
+        self.repositories = repositories
+        self.repositories.set_hexpand(True)
+        page_repositories.attach(repositories, 0, 0, 3, 3)
+        box_repositories = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
+        page_repositories.attach(box_repositories, 3, 0, 1, 2)
+        button_add_repository = Gtk.Button.new_with_label(_("Add repository"))
+        button_add_repository.connect(
+            "clicked", self.on_button_add_repository_clicked
+        )
+        box_repositories.add(button_add_repository)
+        button_remove_repository = Gtk.Button.new_with_label(
+            _("Remove repository")
+        )
+        button_remove_repository.connect(
+            "clicked", self.on_button_remove_repository_clicked
+        )
+        box_repositories.add(button_remove_repository)
+
+        page06.attach(self.notebook_plugins, 0, 0, 1, 1)
 
     def _build_keybinding(self,):
         page_keybinding = self._new_page("Keybinding")
@@ -160,6 +204,7 @@ class Preferences(BaseDialog):
         page04 = self._new_page("Tags")
         self.tags = ListBoxStringType()
         self.tags.set_size_request(250, 250)
+        self.tags.set_hexpand(True)
         page04.attach(self.tags, 0, 0, 3, 3)
         box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
         page04.attach(box, 3, 0, 1, 2)
@@ -174,6 +219,7 @@ class Preferences(BaseDialog):
         page03 = self._new_page("Contexts")
         self.contexts = ListBoxString()
         self.contexts.set_size_request(250, 250)
+        self.contexts.set_hexpand(True)
         page03.attach(self.contexts, 0, 0, 3, 3)
         box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
         page03.attach(box, 3, 0, 1, 2)
@@ -192,6 +238,7 @@ class Preferences(BaseDialog):
         page02 = self._new_page("Projects")
         self.projects = ListBoxString()
         self.projects.set_size_request(250, 250)
+        self.projects.set_hexpand(True)
         page02.attach(self.projects, 0, 0, 3, 3)
         box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
         page02.attach(box, 3, 0, 1, 2)
@@ -239,7 +286,7 @@ class Preferences(BaseDialog):
         self.todo_file.add_filter(todofilter)
         page01.attach(self.todo_file, 1, 5, 1, 1)
 
-    def _new_page(self, label):
+    def _new_page(self, label, notebook=None):
         newPage = Gtk.Grid.new()
         newPage.set_row_spacing(10)
         newPage.set_column_spacing(10)
@@ -247,12 +294,13 @@ class Preferences(BaseDialog):
         newPage.set_margin_start(10)
         newPage.set_margin_end(10)
         newPage.set_margin_top(10)
-        self.notebook.append_page(newPage, Gtk.Label.new(_(label)))
+        if not notebook:
+            notebook = self.notebook
+        notebook.append_page(newPage, Gtk.Label.new(_(label)))
         return newPage
 
     def load(self):
-        configuration = Configuration()
-        preferences = configuration.get("preferences")
+        preferences = self.configuration.get("preferences")
         self.theme_light.set_active(preferences.get("theme-light", False))
         autostart_file = "todotxt-indicator-autostart.desktop"
         if os.path.exists(
@@ -263,11 +311,12 @@ class Preferences(BaseDialog):
             self.autostart.set_active(True)
         else:
             self.autostart.set_active(False)
-        self.todos.set_value(preferences["todos"])
+        self.todos.set_value(preferences.get("todos"))
 
-        self.projects.add_all(preferences["projects"])
-        self.contexts.add_all(preferences["contexts"])
-        self.tags.add_all(preferences["tags"])
+        self.projects.add_all(preferences.get("projects", []))
+        self.contexts.add_all(preferences.get("contexts", []))
+        self.tags.add_all(preferences.get("tags", []))
+        self.repositories.add_all(preferences.get("repositories", []))
         keybindings = preferences.get("keybindings", [])
         if keybindings:
             self.new_task_keybinding.set_text(
@@ -307,14 +356,14 @@ class Preferences(BaseDialog):
         )
 
     def save(self):
-        configuration = Configuration()
-        preferences = configuration.get("preferences")
+        preferences = self.configuration.get("preferences")
         preferences["theme-light"] = self.theme_light.get_active()
         preferences["todos"] = int(self.todos.get_value())
         preferences["todo-file"] = self.todo_file.get_file().get_path()
         preferences["projects"] = self.projects.get_items()
         preferences["contexts"] = self.contexts.get_items()
         preferences["tags"] = self.tags.get_items()
+        preferences["repositories"] = self.repositories.get_items()
         preferences["hide-completed"] = self.hide_completed.get_active()
         preferences["filter-projects"] = self.filter_projects.get_active()
         preferences["filter-contexts"] = self.filter_contexts.get_active()
@@ -329,8 +378,8 @@ class Preferences(BaseDialog):
                 "keybind": self.show_tasks_keybinding.get_text(),
             },
         ]
-        configuration.set("preferences", preferences)
-        configuration.save()
+        self.configuration.set("preferences", preferences)
+        self.configuration.save()
         autostart_file = "todotxt-indicator-autostart.desktop"
         autostart_file = os.path.join(
             os.getenv("HOME"), ".config/autostart", autostart_file
@@ -347,15 +396,17 @@ class Preferences(BaseDialog):
             try:
                 if plugin["installed"]:
                     shutil.move(
-                        configuration.get_plugin_to_load_dir()
+                        self.configuration.get_plugin_to_load_dir()
                         + "/"
                         + plugin["name"],
-                        configuration.get_plugin_dir(),
+                        self.configuration.get_plugin_dir(),
                     )
                 else:
                     shutil.move(
-                        configuration.get_plugin_dir() + "/" + plugin["name"],
-                        configuration.get_plugin_to_load_dir(),
+                        self.configuration.get_plugin_dir()
+                        + "/"
+                        + plugin["name"],
+                        self.configuration.get_plugin_to_load_dir(),
                     )
             except Exception as e:
                 print("Ignore error. Maybe no operation needed. %s" % e)
@@ -456,6 +507,86 @@ class Preferences(BaseDialog):
             else:
                 self.tags.remove_item(selected_row.get_name())
                 self.tags.show_all()
+
+    def on_button_reload_plugins_clicked(self, widget):
+        self.plugins.clear()
+        self.download_plugins()
+        self.configuration.load_plugins()
+        self.plugins.add_all(self.configuration.get_plugins())
+
+    def download_plugins(self):
+        for repository in self.repositories.get_items():
+            try:
+                r = requests.get(repository + "/archive/master.zip")
+                repository_arr = repository.split("/")
+                zipname = repository_arr[-2] + "-" + repository_arr[-1]
+                repozip = (
+                    self.configuration.get_plugin_to_load_dir()
+                    + os.sep
+                    + zipname
+                    + ".zip"
+                )
+                with open(repozip, "wb",) as f:
+                    f.write(r.content)
+                os.remove(repozip)
+                if r.status_code == 404:
+                    print("{} not found".format(repository))
+                else:
+                    print("{} donwloaded".format(repository))
+                    zip_dest = (
+                        self.configuration.get_plugin_to_load_dir()
+                        + os.sep
+                        + "temp"
+                    )
+                    with zipfile.ZipFile(repozip, "r") as zip_ref:
+                        zip_ref.extractall(zip_dest)
+
+                    destination = self.configuration.get_plugin_to_load_dir()
+                    origin = [
+                        x[0]
+                        for x in os.walk(
+                            self.configuration.get_plugin_to_load_dir()
+                        )
+                    ][2]
+                    repo_name = ""
+                    for src_dir, dirs, files in os.walk(origin):
+                        dst_dir = src_dir.replace(origin, destination)
+                        if repo_name == "":
+                            repo_name = (
+                                self.configuration.get_plugin_to_load_dir()
+                                + os.sep
+                                + dirs[0]
+                            )
+                        if not os.path.exists(dst_dir):
+                            os.mkdir(dst_dir)
+                        for file_ in files:
+                            src_file = os.path.join(src_dir, file_)
+                            dst_file = os.path.join(dst_dir, file_)
+                            if os.path.exists(dst_file):
+                                os.remove(dst_file)
+                            shutil.move(src_file, dst_dir)
+            except BaseException:
+                pass
+
+        try:
+            shutil.rmtree(zip_dest)
+            shutil.rmtree(repo_name)
+        except BaseException:
+            pass
+
+    def on_button_add_repository_clicked(self, widget):
+        addRepositoryDialog = AddRepositoryDialog()
+        if addRepositoryDialog.run() == Gtk.ResponseType.ACCEPT:
+            repository_name = addRepositoryDialog.get_name()
+            self.repositories.add_item(repository_name)
+            self.repositories.show()
+        addRepositoryDialog.destroy()
+
+    def on_button_remove_repository_clicked(self, widget):
+        selected_row = self.repositories.get_selected_row()
+        if selected_row:
+            self.repositories.remove_item(selected_row.get_name())
+            self.repositories.show_all()
 
 
 if __name__ == "__main__":
