@@ -2,3 +2,4 @@ pycairo==1.19.1
 PyGObject==3.36.0
 PyGObject-stubs==0.0.2
 pre-commit==2.5.1
+requests>=2.24.0

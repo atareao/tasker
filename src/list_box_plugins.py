@@ -45,6 +45,7 @@ class ListBoxRowPlugins(Gtk.ListBoxRow):
         """TODO: to be defined. """
         Gtk.ListBoxRow.__init__(self)
         self.box = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
+        self.box.set_hexpand(True)
         self.add(self.box)
 
         self.plugin = plugin
@@ -115,3 +116,7 @@ class ListBoxPlugins(Gtk.ScrolledWindow):
         selected_row = self.listBox.get_selected_row()
         if selected_row:
             selected_row.set_plugin(plugin)
+
+    def clear(self):
+        for index in range(len(self.listBox.get_children()) - 1, -1, -1):
+            self.listBox.remove(self.listBox.get_children()[index])
