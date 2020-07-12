@@ -528,7 +528,6 @@ class Preferences(BaseDialog):
                 )
                 with open(repozip, "wb",) as f:
                     f.write(r.content)
-                os.remove(repozip)
                 if r.status_code == 404:
                     print("{} not found".format(repository))
                 else:
@@ -540,7 +539,7 @@ class Preferences(BaseDialog):
                     )
                     with zipfile.ZipFile(repozip, "r") as zip_ref:
                         zip_ref.extractall(zip_dest)
-
+                    os.remove(repozip)
                     destination = self.configuration.get_plugin_to_load_dir()
                     origin = [
                         x[0]
