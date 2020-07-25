@@ -91,4 +91,5 @@ debian/files
 .idea
 
 # Plugins directory
-src/plugins/*/
+src/plugins/*/appimage/
+appimage
