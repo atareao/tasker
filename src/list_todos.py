@@ -28,7 +28,7 @@ import os
 from pathlib import Path
 
 import gi
-import todotxtio.todotxtio as todotxtio
+import todotxtio
 from add_todo import AddTodoDialog
 from alert import Alert
 from basedialog import BaseDialog

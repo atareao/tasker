@@ -33,7 +33,7 @@ from pathlib import Path
 
 import config
 import gi
-import todotxtio.todotxtio as todotxtio
+import todotxtio
 from add_todo import AddTodoDialog
 from config import _
 from configurator import Configuration

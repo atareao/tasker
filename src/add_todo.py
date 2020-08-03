@@ -32,7 +32,7 @@ from config import _
 from configurator import Configuration
 from gi.repository import Gtk
 from list_box_check import ListBoxCheck
-from todotxtio import todotxtio
+import todotxtio
 
 try:
     gi.require_version("Gtk", "3.0")

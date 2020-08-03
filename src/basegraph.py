@@ -31,7 +31,7 @@ import gi
 from basedialog import BaseDialog
 from config import _
 from configurator import Configuration
-from todotxtio import todotxtio
+import todotxtio
 
 try:
     gi.require_version("Gtk", "3.0")
