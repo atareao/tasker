@@ -393,23 +393,30 @@ class Preferences(BaseDialog):
                 os.remove(autostart_file)
 
         for plugin in self.plugins.get_items():
-            try:
-                if plugin["installed"]:
+            if plugin["installed"]:
+                if not os.path.exists(
+                    self.configuration.get_plugin_dir()
+                    + os.sep
+                    + plugin["name"]
+                ):
                     shutil.move(
                         self.configuration.get_plugin_to_load_dir()
-                        + "/"
+                        + os.sep
                         + plugin["name"],
                         self.configuration.get_plugin_dir(),
                     )
-                else:
+            else:
+                if not os.path.exists(
+                    self.configuration.get_plugin_to_load_dir()
+                    + os.sep
+                    + plugin["name"]
+                ):
                     shutil.move(
                         self.configuration.get_plugin_dir()
-                        + "/"
+                        + os.sep
                         + plugin["name"],
                         self.configuration.get_plugin_to_load_dir(),
                     )
-            except Exception as e:
-                print("Ignore error. Maybe no operation needed. %s" % e)
 
     def on_new_task_keybinding(self, widget, *event, **user_data):
         widget.set_sensitive(False)
@@ -509,10 +516,23 @@ class Preferences(BaseDialog):
                 self.tags.show_all()
 
     def on_button_reload_plugins_clicked(self, widget):
+        installed_plugin_list = list(
+            filter(lambda pg: pg["installed"], self.plugins.get_items())
+        )
+        shutil.rmtree(self.configuration.get_plugin_dir())
+        shutil.rmtree(self.configuration.get_plugin_to_load_dir())
+        os.mkdir(self.configuration.get_plugin_dir())
+        os.mkdir(self.configuration.get_plugin_to_load_dir())
+
         self.plugins.clear()
         self.download_plugins()
         self.configuration.load_plugins()
+
         self.plugins.add_all(self.configuration.get_plugins())
+        for row in self.plugins.listBox.get_children():
+            for plugin in installed_plugin_list:
+                if row.get_plugin()["name"] == plugin["name"]:
+                    row.switch.set_active(True)
 
     def download_plugins(self):
         for repository in self.repositories.get_items():
@@ -541,12 +561,7 @@ class Preferences(BaseDialog):
                         zip_ref.extractall(zip_dest)
                     os.remove(repozip)
                     destination = self.configuration.get_plugin_to_load_dir()
-                    origin = [
-                        x[0]
-                        for x in os.walk(
-                            self.configuration.get_plugin_to_load_dir()
-                        )
-                    ][2]
+                    origin = [x[0] for x in os.walk(zip_dest)][1]
                     repo_name = ""
                     for src_dir, dirs, files in os.walk(origin):
                         dst_dir = src_dir.replace(origin, destination)
@@ -564,8 +579,8 @@ class Preferences(BaseDialog):
                             if os.path.exists(dst_file):
                                 os.remove(dst_file)
                             shutil.move(src_file, dst_dir)
-            except BaseException:
-                pass
+            except Exception as ex:
+                print(ex)
 
         try:
             shutil.rmtree(zip_dest)
