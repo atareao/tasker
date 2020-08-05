@@ -3,3 +3,6 @@ PyGObject==3.36.0
 PyGObject-stubs==0.0.2
 pre-commit==2.5.1
 requests>=2.24.0
+dbus-python>=1.2.16
+pluggy>=0.13.1
+todotxtio>=0.2.3
