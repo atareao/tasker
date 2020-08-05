@@ -1,3 +1,9 @@
+tasker (0.4.3-0extras20.04.9) focal; urgency=medium
+
+  * Add improvements
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Wed, 05 Aug 2020 19:51:02 +0200
+
 tasker (0.4.3-0extras20.04.8) focal; urgency=medium
 
   * Add todoxtio as dependecy
